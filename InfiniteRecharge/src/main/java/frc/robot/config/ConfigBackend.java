@@ -5,11 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.config;
 
 /**
  * Add your docs here.
  */
-public class Constants {
-    
+public class ConfigBackend {
 }
