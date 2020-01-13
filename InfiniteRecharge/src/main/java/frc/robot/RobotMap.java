@@ -7,8 +7,30 @@
 
 package frc.robot;
 
+import com.revrobotics.AlternateEncoderType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import frc.util.PbSparkMax;
+import frc.util.SensoredSystem;
+
 /**
- * Add your docs here.
+ * Contains and constructs all of the devices on the robot.
+ * This should be kept separate from Robot and the Subsystems so that:
+ * - none of their code must change if there is a change in devices used
+ * - we can run tests on each subsystem's logic using simulated devices
  */
 public class RobotMap {
+    public static SensoredSystem getRobotWranglerSystem() {
+        PbSparkMax robotWranglerMotor;
+
+        if (Constants.kUseRobotWranglerNeoEncoder) {
+            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless);
+        } else {
+            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless, AlternateEncoderType.kQuadrature, 2048); 
+            // if using alternate encoder with neo
+        }
+        
+        SensoredSystem system = new SensoredSystem(robotWranglerMotor);
+        return system;
+    }
 }
