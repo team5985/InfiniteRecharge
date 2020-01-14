@@ -154,18 +154,22 @@ public class Drive extends Subsystem{
     
     // Initialise motor controllers
 		leftDriveA = new CANSparkMax(Constants.kLeftDriveACanId, MotorType.kBrushless);
-		leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanId, MotorType.kBrushless);
+        leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanId, MotorType.kBrushless);
+        leftDriveC = new CANSparkMax(Constants.kLeftDriveCCanId, MotorType.kBrushless);
 		
 		rightDriveA = new CANSparkMax(Constants.kRightDriveACanId, MotorType.kBrushless);
-		rightDriveB = new CANSparkMax(Constants.kRightDriveBCanId, MotorType.kBrushless);
+        rightDriveB = new CANSparkMax(Constants.kRightDriveBCanId, MotorType.kBrushless);
+        rightDriveC = new CANSparkMax(Constants.kRightDriveCCanId, MotorType.kBrushless);
 		
 		// Set brake/coast
 		leftDriveA.setIdleMode(Constants.kDriveIdleMode);
-		leftDriveB.setIdleMode(Constants.kDriveIdleMode);
+        leftDriveB.setIdleMode(Constants.kDriveIdleMode);
+        leftDriveC.setIdleMode(Constants.kDriveIdleMode);
 		
 		rightDriveA.setIdleMode(Constants.kDriveIdleMode);
 		rightDriveB.setIdleMode(Constants.kDriveIdleMode);
-		
+        rightDriveC.setIdleMode(Constants.kDriveIdleMode);
+        
 		// Invert right side
 		leftDriveA.setInverted(Constants.kLeftDriveMotorPhase);
 		leftDriveB.setInverted(Constants.kLeftDriveMotorPhase);
