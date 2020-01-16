@@ -5,42 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util;
-
-import com.revrobotics.CANEncoder;
+package frc.util;
 
 import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class EncoderAdapter implements PbEncoder {
-    
+public class PbEncoder implements EncoderAdapter {
+    CounterBase encoder;
 
-    public EncoderAdapter(CounterBase dioEncoder) {
+    public PbEncoder(CounterBase dioEncoder) {
+        encoder = dioEncoder;
+    }
+
+    public int getCounts() {
+        return encoder.get();
+    }
+
+    public void reset() {
+        encoder.reset();
+    }
+
+    @Override
+    public void setCounts(int counts) {
         
     }
-
-    public EncoderAdapter(CANEncoder canEncoder) {
-
-    }
-
-    @Override
-    public int getCounts() {
-        return 0;
-    }
-
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-
-    }
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return null;
-    }
-
-    @Override
-    public double pidGet() {
-        return 0;
-    }
-
 }
