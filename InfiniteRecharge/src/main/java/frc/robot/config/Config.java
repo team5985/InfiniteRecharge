@@ -7,6 +7,9 @@
 
 package frc.robot.config;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
+
 /**
  * This is the class for quickly changing values.
  */
@@ -14,6 +17,29 @@ public class Config {
 
     //1 = normal, -1 = inverted
     public static final double kInvertDir = 1;
+
+    //Motor phases - false = not inverted
+    public static final boolean kLeftDrivePhase = false;
+    public static final boolean kRightDrivePhase = false;
+
+    /*
+     * Motor currents:
+     * 
+     * (In amps)
+     * 
+     * Drive defult: 40A
+     * Shooter defult: 40A
+    */
+
+    public static final double kDriveCurrentLimit = 40.0;
+
+    /* 
+     *  Motor modes
+     * 
+     * Break/Coast
+    */
+
+    public static final IdleMode kDriveIdleMode = IdleMode.kCoast;
 
     //Tip threshold , -180 to 180
     public static final double kTipThreshold = 25;

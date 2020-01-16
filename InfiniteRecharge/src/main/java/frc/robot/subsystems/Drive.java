@@ -8,11 +8,9 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.SPI;
-import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
 
@@ -24,13 +22,7 @@ import frc.robot.config.Config;
  */
 public class Drive extends Subsystem{
 
-    private CANSparkMax leftDriveA; //Master
-    private CANSparkMax leftDriveB; //Slave
-    private CANSparkMax leftDriveC; //Slave
 
-    private CANSparkMax rightDriveA; //Master
-    private CANSparkMax rightDriveB; //Slave
-    private CANSparkMax rightDriveC; //Slave
 
     public static Drive driveInstance;
     
@@ -152,33 +144,5 @@ public class Drive extends Subsystem{
 		return (leftDriveEncoder.getDistance() + rightDriveEncoder.getDistance()) / 2;
     } */
     
-    // Initialise motor controllers
-		leftDriveA = new CANSparkMax(Constants.kLeftDriveACanId, MotorType.kBrushless);
-        leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanId, MotorType.kBrushless);
-        leftDriveC = new CANSparkMax(Constants.kLeftDriveCCanId, MotorType.kBrushless);
-		
-		rightDriveA = new CANSparkMax(Constants.kRightDriveACanId, MotorType.kBrushless);
-        rightDriveB = new CANSparkMax(Constants.kRightDriveBCanId, MotorType.kBrushless);
-        rightDriveC = new CANSparkMax(Constants.kRightDriveCCanId, MotorType.kBrushless);
-		
-		// Set brake/coast
-		leftDriveA.setIdleMode(Constants.kDriveIdleMode);
-        leftDriveB.setIdleMode(Constants.kDriveIdleMode);
-        leftDriveC.setIdleMode(Constants.kDriveIdleMode);
-		
-		rightDriveA.setIdleMode(Constants.kDriveIdleMode);
-		rightDriveB.setIdleMode(Constants.kDriveIdleMode);
-        rightDriveC.setIdleMode(Constants.kDriveIdleMode);
-        
-		// Invert right side
-		leftDriveA.setInverted(Constants.kLeftDriveMotorPhase);
-		leftDriveB.setInverted(Constants.kLeftDriveMotorPhase);
-		rightDriveA.setInverted(!Constants.kLeftDriveMotorPhase);
-		rightDriveB.setInverted(!Constants.kLeftDriveMotorPhase);
-
-		// Set current limit to PDP fuses
-		leftDriveA.setSmartCurrentLimit(40.0);
-		leftDriveB.setSmartCurrentLimit(40.0);
-		rightDriveA.setSmartCurrentLimit(40.0);
-        rightDriveB.setSmartCurrentLimit(40.0);
+   
 }

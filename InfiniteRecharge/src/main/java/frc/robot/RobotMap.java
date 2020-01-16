@@ -17,6 +17,8 @@
 	import frc.robot.util.EncoderAdapter;
 	import frc.robot.util.PbEncoder;
 	import frc.robot.util.SensoredSystem;
+
+	import frc.robot.config.Config;
 	
 	public class RobotMap {
 		/**
@@ -94,9 +96,47 @@
 			
 			rightDrive = new SensoredSystem(rightDriveMotors, rightEncoder);
 			return rightDrive;
-		}
+			}
 	
+		 // Initialise motor controllers
+		 leftDriveA = new CANSparkMax(kLeftDriveACanId, MotorType.kBrushless);
+		 leftDriveB = new CANSparkMax(kLeftDriveBCanId, MotorType.kBrushless);
+		 leftDriveC = new CANSparkMax(kLeftDriveCCanId, MotorType.kBrushless);
+		 
+		 rightDriveA = new CANSparkMax(kRightDriveACanId, MotorType.kBrushless);
+		 rightDriveB = new CANSparkMax(kRightDriveBCanId, MotorType.kBrushless);
+		 rightDriveC = new CANSparkMax(kRightDriveCCanId, MotorType.kBrushless);
+		 
+		 // Set brake/coast
+		 leftDriveA.setIdleMode(Config.kDriveIdleMode);
+		 leftDriveB.setIdleMode(Config.kDriveIdleMode);
+		 leftDriveC.setIdleMode(Config.kDriveIdleMode);
+		 
+		 rightDriveA.setIdleMode(Config.kDriveIdleMode);
+		 rightDriveB.setIdleMode(Config.kDriveIdleMode);
+		 rightDriveC.setIdleMode(Config.kDriveIdleMode);
+		 
+		 // Invert right side
+		 leftDriveA.setInverted(Config.kLeftDrivePhase);
+		 leftDriveB.setInverted(Config.kLeftDrivePhase);
+		 leftDriveC.setInverted(Config.kLeftDrivePhase);
+
+		 rightDriveA.setInverted(Config.kRightDrivePhase);
+		 rightDriveB.setInverted(Config.kRightDrivePhase);
+		 rightDriveB.setInverted(Config.kRightDrivePhase);
+		 
+ 
+		 // Set current limit to PDP fuses
+		 leftDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 leftDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 leftDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+
+		 rightDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 rightDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
         
 }
+
+
 
 
