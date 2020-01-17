@@ -60,6 +60,9 @@ public class Config {
 
     //Xbox
     public static final int kXboxPort = 1;
+
+    //Use neo encoders
+    public static final boolean useNeoEncoders = true;
         
     
 

@@ -14,65 +14,67 @@
 	
 	import edu.wpi.first.wpilibj.Encoder;
 	import edu.wpi.first.wpilibj.SpeedControllerGroup;
+	import frc.robot.config.Config;
 	import frc.robot.util.EncoderAdapter;
 	import frc.robot.util.PbEncoder;
 	import frc.robot.util.SensoredSystem;
+	
 
-	import frc.robot.config.Config;
-	
-	public class RobotMap {
-		/**
-		 * Robot Configuration
-		 */
-		static final boolean useNeoEncoders = true;
-	
-		/**
-		 * CAN IDs
-		 */
-		public static final int kLeftACanID = 1;
-		public static final int kLeftBCanID = 2;
-		public static final int kLeftCCanID = 3;
+//import frc.robot.config.Config;
 
-		public static final int kRightACanID = 4;
-		public static final int kRightBCanID = 5;
-		public static final int kRightCCanID = 6;
-		
-		/**
-		 * DIO Ports
-		 */
-		static final int leftDriveEncADioPort = 0;
-		static final int leftDriveEncBDioPort = 1;
-	
-		static final int rightDriveEncADioPort = 2;
-		static final int rightDriveEncBDioPort = 3;
-	
-		/**
-		 * Drivetrain
-		 */
-		// Left
-		static CANSparkMax leftDriveA = new CANSparkMax(kLeftACanID, MotorType.kBrushless);
-		static CANSparkMax leftDriveB = new CANSparkMax(kLeftBCanID, MotorType.kBrushless);
-		static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
-		static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB, leftDriveC);
-	
-		// Right
-		static CANSparkMax rightDriveA = new CANSparkMax(kRightACanID, MotorType.kBrushless);
-		static CANSparkMax rightDriveB = new CANSparkMax(kRightBCanID, MotorType.kBrushless);
-		static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
-		static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB, rightDriveC);
-	
-		// Encoders
-		static EncoderAdapter leftEncoder;
-		static EncoderAdapter rightEncoder;
-	
-		public static SensoredSystem leftDrive;
-		public static SensoredSystem rightDrive;
-	
-		/**
-		 * @return the leftDrive
-		 */
-		public static SensoredSystem getLeftDrive() {
-			if (useNeoEncoders) {
+public class RobotMap {
+	/**
+	 * Robot Configuration
+	 */
+	// static final boolean useNeoEncoders = true;
+
+	/**
+	 * CAN IDs
+	 */
+	public static final int kLeftACanID = 1;
+	public static final int kLeftBCanID = 2;
+	public static final int kLeftCCanID = 3;
+
+	public static final int kRightACanID = 4;
+	public static final int kRightBCanID = 5;
+	public static final int kRightCCanID = 6;
+
+	/**
+	 * DIO Ports
+	 */
+	static final int leftDriveEncADioPort = 0;
+	static final int leftDriveEncBDioPort = 1;
+
+	static final int rightDriveEncADioPort = 2;
+	static final int rightDriveEncBDioPort = 3;
+
+	/**
+	 * Drivetrain
+	 */
+	// Left
+	static CANSparkMax leftDriveA = new CANSparkMax(kLeftACanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveB = new CANSparkMax(kLeftBCanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
+	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB, leftDriveC);
+
+	// Right
+	static CANSparkMax rightDriveA = new CANSparkMax(kRightACanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveB = new CANSparkMax(kRightBCanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
+	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB, rightDriveC);
+
+	// Encoders
+	static EncoderAdapter leftEncoder;
+	static EncoderAdapter rightEncoder;
+
+	public static SensoredSystem leftDrive;
+	public static SensoredSystem rightDrive;
+
+	/**
+	 * @return the leftDrive
+	 */
+	public static SensoredSystem getLeftDrive() {
+		if (Config.useNeoEncoders) {
 				leftEncoder = new EncoderAdapter(leftDriveA.getEncoder());
 	
 			} else {
@@ -81,13 +83,13 @@
 			
 			leftDrive = new SensoredSystem(leftDriveMotors, leftEncoder);
 			return leftDrive;
-		}
+		} 
 	
 		/**
 		 * @return the rightDrive
 		 */
 		public static SensoredSystem getRightDrive() {
-			if (useNeoEncoders) {
+			if (Config.useNeoEncoders) {
 				rightEncoder = new EncoderAdapter(rightDriveA.getEncoder());
 	
 			} else {
@@ -96,7 +98,7 @@
 			
 			rightDrive = new SensoredSystem(rightDriveMotors, rightEncoder);
 			return rightDrive;
-			}
+			} 
 	
 		 // Initialise motor controllers
 		 leftDriveA = new CANSparkMax(kLeftDriveACanId, MotorType.kBrushless);
