@@ -14,6 +14,10 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
 import frc.robot.util.SensoredSystem;
+<<<<<<< Updated upstream
+=======
+import frc.robot.RobotMap;
+>>>>>>> Stashed changes
 
 
 
@@ -45,6 +49,11 @@ public class Drive extends Subsystem{
     }
 
     public static AHRS _imu;
+
+    public Drive (SensoredSystem leftDrive, SensoredSystem rightDrive) {
+
+
+    }
 
 
     Joystick stick;
@@ -84,7 +93,7 @@ public class Drive extends Subsystem{
     }
 
    /**
-    * Drives the robot, calculating other setings
+    * Drives the robot, calculating other settings
     *Stall detection disabled currently
     * @param throttle
     * @param steering
