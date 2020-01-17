@@ -10,6 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.VictorSP;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +29,13 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  CANSparkMax m_dl1 = new CANSparkMax(1, MotorType.kBrushless);
+  CANSparkMax m_dl2 = new CANSparkMax(2, MotorType.kBrushless);
+  CANSparkMax m_dr1 = new CANSparkMax(3, MotorType.kBrushless);
+  CANSparkMax m_dr2 = new CANSparkMax(4, MotorType.kBrushless);
+
+  Joystick joy0 = new Joystick(0);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -86,7 +99,42 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-  }
+    //get joystick position
+    double vAxis = -joy0.getRawAxis(1);
+    double hAxis = joy0.getRawAxis(0);
+    double throttle = ((-joy0.getThrottle() + 1) / 2 * -1);
+    double speed = vAxis * throttle;
+    double turn = hAxis * throttle * -3;
+    if(vAxis <= 0.05 && vAxis >= -0.05){
+      speed = 0;
+    }
+    if(hAxis <= 0.05 &&  hAxis>= -0.05){
+      turn = 0;
+    }
+    //calcualte speed/turn
+    double left = (speed+turn);
+    double right = -((speed-turn));
+    m_dl1.set(left);
+    m_dl2.set(left);
+    m_dr1.set(right);
+    m_dr2.set(right);
+
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+
+    if(joy0.getRawButton(2) == true) {
+
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
+
+      boolean targetAquired = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false);
+      double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
+      double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
+
+      double kP = -0.1f;  // Proportional control constant
+      double heading_error = tx;
+      double steering_adjust = kP * tx;
+    }}
+      
+     
 
   /**
    * This function is called periodically during test mode.
