@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
+import frc.robot.util.SensoredSystem;
 
 
 
@@ -22,10 +23,22 @@ import frc.robot.config.Config;
  */
 public class Drive extends Subsystem{
 
-
+    SensoredSystem mLeftDrive;
+    SensoredSystem mRightDrive;
 
     public static Drive driveInstance;
     
+    public getDriveInstance() {
+        if (driveInstance == null) {
+            driveInstance = new Drive
+        }
+    }
+    
+    private Drive(SensoredSystem leftDrive, SensoredSystem rightDrive) {
+        mLeftDrive = leftDrive;
+        mRightDrive = rightDrive;
+    }
+
     public static AHRS _imu;
 
 
