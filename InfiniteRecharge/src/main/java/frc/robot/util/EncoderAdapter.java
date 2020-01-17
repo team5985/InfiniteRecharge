@@ -25,22 +25,22 @@ public class EncoderAdapter implements PbEncoder {
 
     @Override
     public int getCounts() {
-        return 0;
+        return this.getCounts();
     }
 
     @Override
     public void setPIDSourceType(PIDSourceType pidSource) {
-
+        this.setPIDSourceType(pidSource);
     }
 
     @Override
     public PIDSourceType getPIDSourceType() {
-        return null;
+        return this.getPIDSourceType();
     }
 
     @Override
     public double pidGet() {
-        return 0;
+        return this.pidGet();
     }
 
 }

@@ -28,13 +28,18 @@ public class Drive extends Subsystem{
 
     public static Drive driveInstance;
     
-    public getDriveInstance() {
+    public static Drive getInstance() {
         if (driveInstance == null) {
-            driveInstance = new Drive
+            driveInstance = new Drive();
         }
+        return driveInstance;
     }
     
-    private Drive(SensoredSystem leftDrive, SensoredSystem rightDrive) {
+    private Drive() {
+        
+    }
+
+    public void setSystem(SensoredSystem leftDrive, SensoredSystem rightDrive) {
         mLeftDrive = leftDrive;
         mRightDrive = rightDrive;
     }

@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.*;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /**
@@ -35,6 +36,9 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     CameraServer.getInstance().startAutomaticCapture();
+
+    Drive drivetrain = Drive.getInstance();
+    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
   }
 
   /**
