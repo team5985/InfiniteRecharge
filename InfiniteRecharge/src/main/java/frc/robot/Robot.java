@@ -10,10 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -34,7 +36,7 @@ public class Robot extends TimedRobot {
   CANSparkMax m_dl2 = new CANSparkMax(2, MotorType.kBrushless);
   CANSparkMax m_dr1 = new CANSparkMax(3, MotorType.kBrushless);
   CANSparkMax m_dr2 = new CANSparkMax(4, MotorType.kBrushless);
-
+  
   Joystick joy0 = new Joystick(0);
 
   /**
@@ -46,6 +48,14 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    SmartDashboard.setDefaultNumber("turn_kP", 0.006);
+    SmartDashboard.setDefaultNumber("distance_kP", 0.006);
+
+    m_dl1.setOpenLoopRampRate(120);
+    m_dl2.setOpenLoopRampRate(120);
+    m_dr1.setOpenLoopRampRate(120);
+    m_dr2.setOpenLoopRampRate(120);
   }
 
   /**
@@ -99,28 +109,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    double steeringAdjust = 0.0;
+
     //get joystick position
     double vAxis = -joy0.getRawAxis(1);
     double hAxis = joy0.getRawAxis(0);
     double throttle = ((-joy0.getThrottle() + 1) / 2 * -1);
     double speed = vAxis * throttle;
-    double turn = hAxis * throttle * -3;
+    double turn = hAxis * throttle * -1;
+    
+    // motor speeds
     if(vAxis <= 0.05 && vAxis >= -0.05){
       speed = 0;
     }
     if(hAxis <= 0.05 &&  hAxis>= -0.05){
       turn = 0;
     }
-    //calcualte speed/turn
-    double left = (speed+turn);
-    double right = -((speed-turn));
-    m_dl1.set(left);
-    m_dl2.set(left);
-    m_dr1.set(right);
-    m_dr2.set(right);
 
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
-
+    // vision
     if(joy0.getRawButton(2) == true) {
 
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
@@ -129,11 +135,32 @@ public class Robot extends TimedRobot {
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
       double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
 
-      double kP = -0.1f;  // Proportional control constant
-      double heading_error = tx;
-      double steering_adjust = kP * tx;
-    }}
-      
+      double turn_kP = 0.003;  // Proportional control constant
+      turn_kP = SmartDashboard.getNumber("turn_kP", 0.006);
+      turn = turn_kP * tx;
+
+      double distance_kP = 0.003;
+      distance_kP = SmartDashboard.getNumber("distance_kP", 0.003);
+      double ty_goal = -2.0;
+      speed = (ty_goal - ty) * distance_kP;
+
+    } else {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+    }
+    
+    //calcualte speed/turn
+    double left = (speed+turn);
+    double right = -((speed-turn));
+    m_dl1.set(left);
+    m_dl2.set(left);
+    m_dr1.set(right);
+    m_dr2.set(right);
+
+    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+
+    
+
+  }
      
 
   /**
