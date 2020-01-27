@@ -10,6 +10,15 @@ package frc.robot;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+
+
 import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
 
@@ -19,7 +28,14 @@ import frc.util.SensoredSystem;
  * - none of their code must change if there is a change in devices used
  * - we can run tests on each subsystem's logic using simulated devices
  */
+
 public class RobotMap {
+
+
+
+    public static final int kIntakeCanID = 9;
+    public static final int kItntakeActuatorCanID = 10;
+
     public static SensoredSystem getRobotWranglerSystem() {
         PbSparkMax robotWranglerMotor;
 
@@ -33,4 +49,17 @@ public class RobotMap {
         SensoredSystem system = new SensoredSystem(robotWranglerMotor);
         return system;
     }
+
+    public static SensoredSystem getIntakeActuationSystem() {
+        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(kItntakeActuatorCanID);
+        SensoredSystem system = new SensoredSystem(intakeActuation, null);
+        return system;
+    }
+    public static SensoredSystem getIntakeSystem() {
+        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(kIntakeCanID);
+        SensoredSystem system = new SensoredSystem(intakeMotor, null);
+        return system;
+    }
+
+    
 }
