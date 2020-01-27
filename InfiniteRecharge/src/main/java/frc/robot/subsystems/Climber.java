@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
 import frc.util.LimitSwitchAdapter;
 import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
+import frc.util.SolenoidAdapter;
 
 public class Climber extends Subsystem {
     public static Climber m_instance;
@@ -19,11 +19,11 @@ public class Climber extends Subsystem {
         return m_instance;
     }
 
-    private SensoredSystem m_elevator;
-    private SensoredSystem m_winchMaster;
-    private SpeedControllerGroup m_winchSlaves;
-    private LimitSwitchAdapter m_upperLimit;
-    private LimitSwitchAdapter m_lowerLimit;
+    private static SensoredSystem m_elevator;
+    private static SensoredSystem m_winchMaster;
+    private static SolenoidAdapter m_buddyLock;
+    private static LimitSwitchAdapter m_upperLimit;
+    private static LimitSwitchAdapter m_lowerLimit;
 
     private ElevatorState currentElevatorState;
     private ElevatorState desiredElevatorState;
@@ -43,10 +43,10 @@ public class Climber extends Subsystem {
         winchPidController.reset(0.0);
     }
 
-    public void setSystem(SensoredSystem elevator, SensoredSystem winchMaster, SpeedControllerGroup winchSlaves, LimitSwitchGroup limitGroup) {
+    public static void setSystem(SensoredSystem elevator, SensoredSystem winch, SolenoidAdapter buddyLock, LimitSwitchGroup limitGroup) {
         m_elevator = elevator;
-        m_winchMaster = winchMaster;
-        m_winchSlaves = winchSlaves;
+        m_winchMaster = winch;
+        m_buddyLock = buddyLock;  // dont @ me ic this idea is original
         m_upperLimit = limitGroup.getInstance(0);
         m_lowerLimit = limitGroup.getInstance(1);
     }
@@ -103,13 +103,14 @@ public class Climber extends Subsystem {
             m_winchMaster.stopMotor();
         }
         
-        switch(buddyState) {  //TODO
+        switch(buddyState) {
             case BUDDY:
-            // make a friend
+            m_buddyLock.setForward();  // As this solenoid must be normally extended, "Forward" in this case means releasing the lock
             break;
 
             case NO_BUDDY:
             // be sad :(
+            m_buddyLock.setReverse();  // As this solenoid must be normally extended, "Off" or "Reverse" in this case means locked
             break;
 
             default:
