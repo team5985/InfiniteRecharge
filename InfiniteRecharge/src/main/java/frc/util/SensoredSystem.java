@@ -76,4 +76,9 @@ public class SensoredSystem implements SpeedController, EncoderAdapter {
     public void reset() {
         encoder.reset();
     }
+
+    @Override
+    public void setVoltage(double outputVolts) {
+        motor.setVoltage(outputVolts);
+    }
 }
