@@ -23,6 +23,11 @@ public class SensoredSystem implements SpeedController, EncoderAdapter {
         this.encoder = sparkMax;
     }
 
+    public SensoredSystem(PbTalonSrx canTalon) {
+        this.motor = canTalon;
+        this.encoder = canTalon;
+    }
+
     @Override
     public void pidWrite(double output) {
         motor.set(output);
