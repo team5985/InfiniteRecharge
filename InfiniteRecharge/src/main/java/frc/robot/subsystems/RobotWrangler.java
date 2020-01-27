@@ -5,8 +5,8 @@ import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
 
 public class RobotWrangler extends Subsystem {
-    static SensoredSystem m_controlSystem;
-    static LimitSwitchAdapter m_robotSensor; // Subsystem classes should never access the HAL (Hardware Abstraction Layer), which DigitalInput does
+    private static SensoredSystem m_controlSystem;
+    private static LimitSwitchAdapter m_robotSensor; // Subsystem classes should never access the HAL (Hardware Abstraction Layer), which DigitalInput does
     private WranglerState desiredState;
     private WranglerState currentState;
     
