@@ -14,5 +14,5 @@ jobs:
       with:
         java-version: 11.0.1
     - name: Build with Gradle
-      run: ./gradlew build --debug
+      run: ./gradlew build
       working-directory: ./InfiniteRecharge
