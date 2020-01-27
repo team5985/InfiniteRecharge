@@ -7,16 +7,12 @@
 
 package frc.util;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class SensoredSystem implements SpeedController, EncoderAdapter {
     SpeedController motor;
     EncoderAdapter encoder;
-
-    // DigitalInput dioA;
-    // DigitalInput dioB;
-
+    
     public SensoredSystem(SpeedController motor, EncoderAdapter encoder) {
         this.motor = motor;
         this.encoder = encoder;
@@ -27,12 +23,9 @@ public class SensoredSystem implements SpeedController, EncoderAdapter {
         this.encoder = sparkMax;
     }
 
-    // public SensoredSystem(SpeedController motor, PbEncoder encoder, DigitalInput dioA, DigitalInput dioB) {
-    // }
-
     @Override
     public void pidWrite(double output) {
-        this.set(output);
+        motor.set(output);
     }
 
     @Override

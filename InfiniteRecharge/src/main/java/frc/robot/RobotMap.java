@@ -10,6 +10,8 @@ package frc.robot;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.util.LimitSwitchGroup;
+import frc.util.PbDioSwitch;
 import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
 
@@ -32,5 +34,12 @@ public class RobotMap {
         
         SensoredSystem system = new SensoredSystem(robotWranglerMotor);
         return system;
+    }
+
+    public static LimitSwitchGroup getRobotWranglerLimits() {
+        PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
+        PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
+        LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
+        return limitSwitchGroup;
     }
 }
