@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
 import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
 
@@ -49,19 +50,31 @@ public class Climber extends Subsystem {
         NO_BUDDIES,  // Robot does not have a friend
     }
 
+    @Override
     public void update() {
         
     }
 
+    /**
+     * Don't use.
+     */
     @Override
     public double getPosition() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
 	public boolean zeroPosition() {
-		// TODO Auto-generated method stub
+		
 		return false;
-	}
+    }
+    
+    void elevatorMoveTo(double position) {
+        double speed = 
+        m_elevator.set(speed);
+    }
+
+    private int metresToCounts(double position) {
+        return Math.round(Constants.kElevatorCountsPerMetre * position);
+    }
 }

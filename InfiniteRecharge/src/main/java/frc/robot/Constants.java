@@ -11,9 +11,14 @@ package frc.robot;
  * Add your docs here.
  */
 public class Constants {
-
+	// CAN IDs
 	public static final int kRobotWranglerSparkCanId = 148;
+
+	// Robot Wrangler
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
+
+	// Climber
+	public static final double kElevatorCountsPerMetre = (42*25) / (2*0.0254*Math.PI);
 }
