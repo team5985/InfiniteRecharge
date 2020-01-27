@@ -20,5 +20,22 @@ public class Constants {
 	public static final int kRobotWranglerForwardLimitDio = 2056;
 
 	// Climber
-	public static final double kElevatorCountsPerMetre = (42*25) / (2*0.0254*Math.PI);
+	public static final int kElevatorEncoderCountsPerRev = 42;
+	public static final double kElevatorCountsPerMetre = (kElevatorEncoderCountsPerRev*25) / (2*0.0254*Math.PI);  //FIXME
+	public static final double kElevatorKp = 1.0;  //FIXME
+	public static final double kElevatorMaxHeight = 1.3; //FIXME
+
+	public static final double kWinchCountsPerMetre = 0;  //FIXME
+
+	public static final double kWinchMaxVelocity = 0;  //FIXME
+
+	public static final double kWinchMaxAccel = 0;  //FIXME
+
+	public static final double kWinchKp = 0;  //FIXME
+
+	public static final double kElevatorDownwardsGain = 0.2;  //FIXME
+
+	public static final double kWinchLoClimbHeight = 0;  //FIXME
+
+	public static final double kWinchHiClimbHeight = 0;  //FIXME
 }
