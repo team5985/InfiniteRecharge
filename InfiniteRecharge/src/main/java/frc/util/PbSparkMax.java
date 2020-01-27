@@ -32,7 +32,7 @@ public class PbSparkMax extends CANSparkMax implements SpeedController, EncoderA
      */
     public PbSparkMax(int deviceID, MotorType motorType) {
         super(deviceID, motorType);
-        encoder = this.getEncoder();
+        encoder = super.getEncoder();
     }
 
     /**
@@ -44,7 +44,7 @@ public class PbSparkMax extends CANSparkMax implements SpeedController, EncoderA
      */
     public PbSparkMax(int deviceID, MotorType motorType, EncoderType encoderType, int counts_per_rev) {
         super(deviceID, motorType);
-        encoder = this.getEncoder(encoderType, counts_per_rev);
+        encoder = super.getEncoder(encoderType, counts_per_rev);
     }
 
     /**
@@ -62,48 +62,48 @@ public class PbSparkMax extends CANSparkMax implements SpeedController, EncoderA
      */
     public PbSparkMax(int deviceID, MotorType motorType, AlternateEncoderType altEncoderType, int counts_per_rev) {
         super(deviceID, motorType);
-        encoder = this.getAlternateEncoder(altEncoderType, counts_per_rev);
+        encoder = super.getAlternateEncoder(altEncoderType, counts_per_rev);
     }
 
     @Override
     @Deprecated
     public void pidWrite(double output) {
-        this.pidWrite(output);
+        super.pidWrite(output);
     }
 
     @Override
     public void set(double speed) {
-        this.set(speed);
+        super.pidWrite(speed);
     }
 
     @Override
     public double get() {
-        return this.get();
+        return super.get();
     }
 
     @Override
     public void setInverted(boolean isInverted) {
-        this.setInverted(isInverted);
+        super.setInverted(isInverted);
     }
 
     @Override
     public boolean getInverted() {
-        return this.getInverted();
+        return super.getInverted();
     }
 
     @Override
     public void disable() {
-        this.disable();
+        super.disable();
     }
 
     @Override
     public void stopMotor() {
-        this.stopMotor();
+        super.stopMotor();
     }
 
     @Override
     public int getCounts() {
-        return this.getCounts();
+        return (int) Math.round(encoder.getPosition() * encoder.getCountsPerRevolution());
     }
 
     @Override
