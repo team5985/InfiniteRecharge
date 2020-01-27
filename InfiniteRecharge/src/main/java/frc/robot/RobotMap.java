@@ -9,16 +9,14 @@ package frc.robot;
 
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-
-
-
+import frc.util.LimitSwitchGroup;
+import frc.util.PbDioSwitch;
 import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
 
@@ -30,9 +28,6 @@ import frc.util.SensoredSystem;
  */
 
 public class RobotMap {
-
-
-
     public static final int kIntakeCanID = 9;
     public static final int kItntakeActuatorCanID = 10;
 
@@ -50,6 +45,13 @@ public class RobotMap {
         return system;
     }
 
+    public static LimitSwitchGroup getRobotWranglerLimits() {
+        PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
+        PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
+        LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
+        return limitSwitchGroup;
+    }
+  
     public static SensoredSystem getIntakeActuationSystem() {
         WPI_TalonSRX intakeActuation = new WPI_TalonSRX(kItntakeActuatorCanID);
         SensoredSystem system = new SensoredSystem(intakeActuation, null);
@@ -60,6 +62,4 @@ public class RobotMap {
         SensoredSystem system = new SensoredSystem(intakeMotor, null);
         return system;
     }
-
-    
 }

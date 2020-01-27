@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
     teleopController = new TeleopController();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
-    RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
+    RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
   }
 
   @Override
