@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
-import frc.robot.util.SensoredSystem;
+import frc.util.SensoredSystem;
 import frc.robot.RobotMap;
 
 
@@ -164,6 +164,10 @@ public class Drive extends Subsystem{
 /*	public double getAvgEncoderDistance() {
 		return (leftDriveEncoder.getDistance() + rightDriveEncoder.getDistance()) / 2;
     } */
+
+    public void update() {
+
+    }
     
    
 }

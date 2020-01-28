@@ -20,10 +20,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-    CameraServer.getInstance().startAutomaticCapture();
+    /* autoController.setDefaultOption("WIN", kDefaultAuto);
+    autoController.addOption("Loose :(", kCustomAuto);
+    SmartDashboard.putData("Auto choices", autoController);
+    CameraServer.getInstance().startAutomaticCapture(); */
 
     Drive drivetrain = Drive.getInstance();
     drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());

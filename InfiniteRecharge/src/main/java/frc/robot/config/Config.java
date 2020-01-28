@@ -31,7 +31,7 @@ public class Config {
      * Shooter defult: 40A
     */
 
-    public static final double kDriveCurrentLimit = 40.0;
+    public static final int kDriveCurrentLimit = 40;
 
     /* 
      *  Motor modes

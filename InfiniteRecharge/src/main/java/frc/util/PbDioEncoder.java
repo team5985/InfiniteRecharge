@@ -19,24 +19,6 @@ public class PbDioEncoder implements EncoderAdapter {
     }
 
     public int getCounts() {
-        return this.getCounts();
-    }
-
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-        this.setPIDSourceType(pidSource);
-    }
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return this.getPIDSourceType();
-    }
-
-    @Override
-    public double pidGet() {
-        return this.pidGet();
-    }
-
         return encoder.get() + countOffset;
     }
 

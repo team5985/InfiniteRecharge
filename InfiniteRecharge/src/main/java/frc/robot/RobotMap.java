@@ -15,9 +15,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.config.Config;
-import frc.robot.util.EncoderAdapter;
-import frc.robot.util.PbEncoder;
-import frc.robot.util.SensoredSystem;
+import frc.util.EncoderAdapter;
+import frc.util.SensoredSystem;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.util.LimitSwitchGroup;
@@ -36,16 +35,8 @@ public class RobotMap {
 	 */
 	// static final boolean useNeoEncoders = true;
 
-	/**
-	 * CAN IDs
-	 */
-	public static final int kLeftACanID = 1;
-	public static final int kLeftBCanID = 2;
-	public static final int kLeftCCanID = 3;
-
-	public static final int kRightACanID = 4;
-	public static final int kRightBCanID = 5;
-	public static final int kRightCCanID = 6;
+	
+	
 
 	/**
 	 * DIO Ports
@@ -60,18 +51,20 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static CANSparkMax leftDriveA = new CANSparkMax(kLeftACanID, MotorType.kBrushless);
-	static CANSparkMax leftDriveB = new CANSparkMax(kLeftBCanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
 
 	// Right
-	static CANSparkMax rightDriveA = new CANSparkMax(kRightACanID, MotorType.kBrushless);
-	static CANSparkMax rightDriveB = new CANSparkMax(kRightBCanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
 
-	// Encodersa
+	
+	
+	// Encoders
 	static EncoderAdapter leftEncoder;
 	static EncoderAdapter rightEncoder;
 
@@ -106,12 +99,12 @@ public class RobotMap {
 		return rightDrive;
 	
 		 // Initialise motor controllers
-		 leftDriveA = new CANSparkMax(Constants.kLeftDriveACanId, MotorType.kBrushless);
-		 leftDriveB = new CANSparkMax(kLeftDriveBCanId, MotorType.kBrushless);
+		 leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+		 leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 		 //leftDriveC = new CANSparkMax(kLeftDriveCCanId, MotorType.kBrushless);
 		 
-		 rightDriveA = new CANSparkMax(kRightDriveACanId, MotorType.kBrushless);
-		 rightDriveB = new CANSparkMax(kRightDriveBCanId, MotorType.kBrushless);
+		 rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+		 rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 		 //rightDriveC = new CANSparkMax(kRightDriveCCanId, MotorType.kBrushless);
 		 
 		 // Set brake/coast
