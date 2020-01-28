@@ -5,14 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.config;
 
 /**
  * Add your docs here.
  */
-public class Constants {
-
-	public static final int kRobotWranglerSparkCanId = 148;
-	public static final boolean kUseRobotWranglerNeoEncoder = true;
-	public static final double kIndexerSpeed = 1;
+public class Config {
+    //Minimum speed before shooting balls (RPM)
+    public static final double kShooterMinSpeed = 100;
 }
