@@ -5,12 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util.sim;
+package frc.util.sim;
 
-import edu.wpi.first.wpilibj.PIDSourceType;
-import frc.robot.util.PbEncoder;
+import frc.util.EncoderAdapter;
 
-public class MockEncoder implements PbEncoder {
+public class MockEncoder implements EncoderAdapter {
     int countsPerRev;
     double gearboxRatio;
 
@@ -35,23 +34,13 @@ public class MockEncoder implements PbEncoder {
         pos += posDifference;
     }
 
-    void reset() {
+    public void reset() {
         counts = 0;
         pos = 0.0;
     }
 
     @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-
-    }
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return null;
-    }
-
-    @Override
-    public double pidGet() {
-        return this.getCounts();
+    public void setCounts(int counts) {
+        this.counts = counts;
     }
 }

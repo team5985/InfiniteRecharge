@@ -18,9 +18,18 @@ import frc.robot.config.Config;
 import frc.robot.util.EncoderAdapter;
 import frc.robot.util.PbEncoder;
 import frc.robot.util.SensoredSystem;
-	
-//import frc.robot.config.Config;
+import com.revrobotics.AlternateEncoderType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.util.LimitSwitchGroup;
+import frc.util.PbDioSwitch;
+import frc.util.PbSparkMax;
 
+/**
+ * Contains and constructs all of the devices on the robot.
+ * This should be kept separate from Robot and the Subsystems so that:
+ * - none of their code must change if there is a change in devices used
+ * - we can run tests on each subsystem's logic using simulated devices
+ */
 public class RobotMap {
 	/**
 	 * Robot Configuration
@@ -133,4 +142,27 @@ public class RobotMap {
 		 rightDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
 		 //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
 	}
+
+
+
+    public static SensoredSystem getRobotWranglerSystem() {
+        PbSparkMax robotWranglerMotor;
+
+        if (Constants.kUseRobotWranglerNeoEncoder) {
+            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless);
+        } else {
+            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless, AlternateEncoderType.kQuadrature, 2048); 
+            // if using alternate encoder with neo
+        }
+        
+        SensoredSystem system = new SensoredSystem(robotWranglerMotor);
+        return system;
+    }
+
+    public static LimitSwitchGroup getRobotWranglerLimits() {
+        PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
+        PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
+        LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
+        return limitSwitchGroup;
+    }
 }
