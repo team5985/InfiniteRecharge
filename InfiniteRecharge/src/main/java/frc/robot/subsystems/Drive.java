@@ -14,10 +14,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
 import frc.robot.util.SensoredSystem;
-<<<<<<< Updated upstream
-=======
 import frc.robot.RobotMap;
->>>>>>> Stashed changes
 
 
 
@@ -73,13 +70,10 @@ public class Drive extends Subsystem{
 
     public void setMotors(double leftPower, double rightPower) {
         //set motors
-        leftDriveA.set(leftPower * Config.kInvertDir);
-        leftDriveB.set(leftPower * Config.kInvertDir);
-        leftDriveC.set(leftPower * Config.kInvertDir);
+        mLeftDrive.set(leftPower * Config.kInvertDir);
 
-        rightDriveA.set(rightPower * Config.kInvertDir);
-        rightDriveB.set(rightPower * Config.kInvertDir);
-        rightDriveC.set(rightPower * Config.kInvertDir);
+        mRightDrive.set(rightPower * Config.kInvertDir);
+      
     }
 
     public void arcadeDrive(double throttle, double steering, double power) {
