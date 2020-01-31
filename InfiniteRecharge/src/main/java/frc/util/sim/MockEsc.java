@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util.sim;
+package frc.util.sim;
 
 import edu.wpi.first.wpilibj.SpeedController;
-import frc.robot.util.sim.physics.MotorModel;
+import frc.util.sim.physics.MotorModel;
 
 public class MockEsc implements SpeedController {
     MotorModel motorModel = null;

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util.sim.physics;
+package frc.util.sim.physics;
 
 public class ForceCalcs {
 

@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util;
+package frc.robot;
 
-import edu.wpi.first.wpilibj.PIDSource;
-
-public interface PbEncoder extends PIDSource {
-    public int getCounts();
+/**
+ * Add your docs here.
+ */
+public class AutoController {
 }

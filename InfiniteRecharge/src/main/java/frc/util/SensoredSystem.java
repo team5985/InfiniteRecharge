@@ -5,35 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.util;
+package frc.util;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class SensoredSystem implements SpeedController, PbEncoder {
+public class SensoredSystem implements SpeedController, EncoderAdapter {
     SpeedController motor;
-    PbEncoder encoder;
-
-    // DigitalInput dioA;
-    // DigitalInput dioB;
-
-    public SensoredSystem(SpeedController motor, PbEncoder encoder) {
+    EncoderAdapter encoder;
+    
+    public SensoredSystem(SpeedController motor, EncoderAdapter encoder) {
         this.motor = motor;
         this.encoder = encoder;
     }
 
-    // public SensoredSystem(SpeedController motor, PbEncoder encoder, DigitalInput dioA, DigitalInput dioB) {
-    // }
+    public SensoredSystem(PbSparkMax sparkMax) {
+        this.motor = sparkMax;
+        this.encoder = sparkMax;
+    }
+
+    public SensoredSystem(PbTalonSrx canTalon) {
+        this.motor = canTalon;
+        this.encoder = canTalon;
+    }
 
     @Override
     public void pidWrite(double output) {
-        this.set(output);
+        motor.set(output);
     }
 
     @Override
     public int getCounts() {
         return encoder.getCounts();
+    }
+
+    public void setCounts(int counts) {
+        encoder.setCounts(counts);
     }
 
     @Override
@@ -65,19 +71,14 @@ public class SensoredSystem implements SpeedController, PbEncoder {
     public void stopMotor() {
         motor.stopMotor();
     }
-
+    
     @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-
+    public void reset() {
+        encoder.reset();
     }
 
     @Override
-    public PIDSourceType getPIDSourceType() {
-        return null;
-    }
-
-    @Override
-    public double pidGet() {
-        return encoder.getCounts();
+    public void setVoltage(double outputVolts) {
+        motor.setVoltage(outputVolts);
     }
 }
