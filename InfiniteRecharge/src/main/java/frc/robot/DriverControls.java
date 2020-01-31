@@ -7,8 +7,27 @@
 
 package frc.robot;
 
+<<<<<<< Updated upstream
+=======
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+
+>>>>>>> Stashed changes
 /**
  * Add your docs here.
  */
 public class DriverControls {
+<<<<<<< Updated upstream
+=======
+
+    Joystick stick;
+    XboxController xbox;
+
+    
+
+    public DriverControls() {
+         stick = new Joystick(Constants.kJoystickPort);
+         xbox = new XboxController(Constants.kXboxPort);
+    }
+>>>>>>> Stashed changes
 }
