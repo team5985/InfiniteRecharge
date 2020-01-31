@@ -25,4 +25,5 @@ public class PbTalonSrx extends WPI_TalonSRX implements SpeedController, Encoder
     public void reset() {
         super.setSelectedSensorPosition(0);
     }
+    
 }

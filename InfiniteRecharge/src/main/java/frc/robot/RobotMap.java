@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
 import frc.util.PbSparkMax;
+import frc.util.PbTalonSrx;
 import frc.util.SensoredSystem;
 
 /**
@@ -52,14 +53,18 @@ public class RobotMap {
         return limitSwitchGroup;
     }
   
-    public static SensoredSystem getIntakeActuationSystem() {
+    public static WPI_TalonSRX getIntakeActuationSystem() {
         WPI_TalonSRX intakeActuation = new WPI_TalonSRX(kItntakeActuatorCanID);
-        SensoredSystem system = new SensoredSystem(intakeActuation, null);
-        return system;
-    }
+       
+        return intakeActuation;
+	}
+	
+	
     public static SensoredSystem getIntakeSystem() {
         WPI_VictorSPX intakeMotor = new WPI_VictorSPX(kIntakeCanID);
         SensoredSystem system = new SensoredSystem(intakeMotor, null);
         return system;
-    }
+	}
+
+	
 }
