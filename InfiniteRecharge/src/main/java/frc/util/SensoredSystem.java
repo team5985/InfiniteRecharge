@@ -81,4 +81,5 @@ public class SensoredSystem implements SpeedController, EncoderAdapter {
     public void setVoltage(double outputVolts) {
         motor.setVoltage(outputVolts);
     }
+    
 }

@@ -50,12 +50,12 @@ public class Intake extends Subsystem {
                 break;
 
             case INTAKING:
-                RobotMap.getIntakeSystem().set(ControlMode.PercentOutput, Constants.kIntakeIntakingSpeed);
+                RobotMap.getIntakeSystem().set(Constants.kIntakeIntakingSpeed);
                 currentState = desiredState;
                 break;
 
             case UNINTAKING:
-                RobotMap.getIntakeSystem().set(ControlMode.PercentOutput, Constants.kIntakeUnintakingSpeed);
+                RobotMap.getIntakeSystem().set(Constants.kIntakeUnintakingSpeed);
                 currentState = desiredState;
             break;
             

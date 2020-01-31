@@ -64,7 +64,11 @@ public class RobotMap {
         WPI_VictorSPX intakeMotor = new WPI_VictorSPX(kIntakeCanID);
         SensoredSystem system = new SensoredSystem(intakeMotor, null);
         return system;
-	}
+    }
+    
+    //Set Idle mode
+
+    
 
 	
 }
