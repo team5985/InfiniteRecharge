@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.Timer;
  * Add your docs here.
  */
 public class TeleopController {
+    private static Timer _timer;
+    private static DriverControls _Controls;
+
 
     private RobotState currentState;
     private RobotState desiredState;
@@ -30,15 +33,27 @@ public class TeleopController {
         switch (currentState) {
             case TELEOP:
                 stTeleop();
+                trVision();
+                trEnd();
             break;
             case ENDGAME:
                 stEndGame();
+                trVision();
+                trClimb();
+                trVictory();
             break;
             case VISION:
                 stVision();
+                trTeleop();
+                trVision();
+                trEnd();
+
             break;
             case CLIMB:
                 stClimb(); 
+                trVision();
+                trEnd();
+                trVictory();
             break;
             case VICTORY:
                 stVictory();
@@ -53,7 +68,7 @@ public class TeleopController {
     //States
 
     private void stTeleop() {
-
+        
     }
 
     private void stEndGame() {
@@ -73,7 +88,32 @@ public class TeleopController {
     }
 
     //Transitions
+    private void trEnd() {
+        if(_timer.getMatchTime() <=30) {
+            desiredState = RobotState.ENDGAME;
+        }
+    }
 
+    private void trClimb() {
+        if(_Controls.getAutoclimb()) {
+            desiredState = RobotState.CLIMB;
+        }
+    }
+
+    private void trVictory() {
+        if(_timer.getFPGATimestamp() <=0) {
+            desiredState = RobotState.VICTORY;
+        }
+    }
+
+    private void trVision() {
+        if(_Controls.getVisionCommand()) 
+            desiredState = RobotState.VISION;
+    }
+
+    private void trTeleop() {
+        desiredState = RobotState.TELEOP;
+    }
 
     
 
