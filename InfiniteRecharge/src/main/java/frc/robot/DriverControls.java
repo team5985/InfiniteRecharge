@@ -9,7 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.config.*;
+import frc.robot.Constants;
 
 /**
  * Add your docs here.
@@ -17,7 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriverControls {
 
     Joystick stick;
-    XboxController xbox;
+	XboxController xBox;
+	
+	boolean end = false;
+	boolean mode = false;
+	double shooterSpeedOffset = 0;
     public static DriverControls mDriverControlsInstance;
 
     public static DriverControls getDriverControlsInstance() {
@@ -31,7 +38,7 @@ public class DriverControls {
 
     public DriverControls() {
          stick = new Joystick(Constants.kJoystickPort);
-         xbox = new XboxController(Constants.kXboxPort);
+         xBox = new XboxController(Constants.kXboxPort);
 
          SmartDashboard.setDefaultNumber("Power Gain", 2.0);
          SmartDashboard.setDefaultNumber("Steering Gain", 2.0);
@@ -54,23 +61,157 @@ public class DriverControls {
 			end = true;
 		} else if(stick.getZ() <= -0.7) {
 			end = true;
-		} else if(xBox.getX(Hand.kLeft) < -0.7){
-			end = true;
-		} else if(xBox.getX(Hand.kLeft) > 0.7){
-			end = true;
-		} else if(xBox.getX(Hand.kRight) < -0.7){
-			end = true;
-		} else if(xBox.getX(Hand.kRight) > 0.7){
-			end = true;
-		} else if(xBox.getY(Hand.kLeft) < -0.7){
-			end = true;
-		} else if(xBox.getY(Hand.kLeft) > 0.7){
-			end = true;
-		} else if(xBox.getY(Hand.kRight) < -0.7){
-			end = true;
-		} else if(xBox.getY(Hand.kRight) > 0.7){
-			end = true;
 		}
-	    return end;
+		return end;
+		
 	}
+
+	/**
+	 * Get driver power command.
+	 * @return Y from -1 to 1.
+	 */
+	public double getDrivePower() {
+		double power = -stick.getY();
+		Constants.kDriveSquaredPowerInputsExponent = SmartDashboard.getNumber("Power Gain", 2.0);
+		return Math.pow(Math.abs(power), Constants.kDriveSquaredPowerInputsExponent) * Math.signum(power);
+	}
+
+	/**
+	 * Get driver steering command.
+	 * @return X from -1 to 1.
+	 */
+	public double getDriveSteering() {
+		double steering = stick.getX();
+		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 2.0);
+		return Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
+	}
+
+	/**
+	 * Get driver throttle command.
+	 * @return Throttle from 0 to 1.
+	 */
+	public double getDriveThrottle() {
+		return (-stick.getThrottle() + 1) / 2;
+	}
+
+	//Button presses
+
+	//Intake/Shooter mode
+	public boolean getMechanismMode() {
+	if(stick.getRawButton(3)) {
+		mode = false;
+	} else if(stick.getRawButton(4)) {
+		mode = true;
+	}
+	return mode;
+}
+
+	public boolean getActionCommand() {
+		if(stick.getTrigger()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean getVisionCommand() {
+		if(stick.getRawButton(2)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean getTrenchRunCommand() {
+		if(stick.getRawButton(5)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean getAutoclimb() {
+		if(Config.kPreventAccidentalClimb) {
+			if(stick.getRawButton(7) && stick.getRawButton(8) == true) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if(stick.getRawButton(7)) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
+
+	public boolean getSpinnyUp() {
+		if(stick.getRawButton(12)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public boolean getControlPanelCommand() {
+		if(stick.getRawButton(11)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public double getShooterSpeedOffset() {
+		if(xBox.getBumper(Hand.kLeft)) {
+			shooterSpeedOffset = shooterSpeedOffset - Constants.kShooterSpeedOffsetOffset;
+		}else if(xBox.getBumper(Hand.kRight)) {
+			shooterSpeedOffset = shooterSpeedOffset + Constants.kShooterSpeedOffsetOffset;
+		}
+		return shooterSpeedOffset;
+		
+	}
+
+	public boolean getHoodUpCommand() {
+		if(xBox.getYButton()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getHoodDownCommand() {
+		if(xBox.getAButton()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getIntakeOut() {
+		if(xBox.getXButton()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean getIntakeIn() {
+		if(xBox.getBButton()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	//AntiJam 2000
+	public boolean getAntiJam() {
+		if(stick.getRawButton(6)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+
+	
 }

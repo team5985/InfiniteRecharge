@@ -10,14 +10,18 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
+  public static Timer _timer;
 
   @Override
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture(0);
+    _timer.reset();
+    
     autoController = new AutoController();
     teleopController = new TeleopController();
 

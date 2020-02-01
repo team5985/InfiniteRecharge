@@ -14,9 +14,14 @@ public class Constants {
 
 	public static final int kXboxPort = 1;
 	public static final int kJoystickPort = 0;
+	public static final double kShooterSpeedOffsetOffset = 0.1;
 
 	public static final int kRobotWranglerSparkCanId = 148;
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
+
+
+	public static double kDriveSquaredSteeringInputsExponent = 2.0;
+    public static double kDriveSquaredPowerInputsExponent = 2.0;
 }
