@@ -54,5 +54,7 @@ public class ControlPanel extends Subsystem {
         MANUAL_CLOCKWISE,
         MANUAL_ANTICLOCKWISE,
     }
+
+    
     
 }

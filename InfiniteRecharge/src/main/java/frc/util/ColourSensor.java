@@ -34,5 +34,16 @@ public class ColourSensor {
     public boolean getControlPanelDirection() {
         return false; //Put direction the wheel is traveling in
     }
+    
+    /**
+     * @return colour value:
+     */
+    public int getFmsColour() {
+        try {
+            return 0; //colour
+        } catch(Exception e) {
+            return 0; //no colour
+        }
+    }
 
 }
