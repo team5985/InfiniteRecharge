@@ -13,4 +13,7 @@ package frc.robot.config;
 public class Config {
     //Minimum speed before shooting balls (RPM)
     public static final double kShooterMinSpeed = 100;
+
+    //Shooter idle mode
+    public static final boolean kShooterIdleMode = false;
 }

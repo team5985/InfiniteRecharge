@@ -11,6 +11,7 @@ import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;  
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
@@ -41,17 +42,28 @@ public class RobotMap {
     public static final int kShooterBCanID = 13;
     public static final int kIndexerCanID = 22;
 
+    //Set up motor controllers - Declaration
 
     //Shooter
     static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
-    static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
-    static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB);
+	static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
+     static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB);
+    
 
     //Indexer
     static WPI_VictorSPX indexerMotor = new WPI_VictorSPX(kIndexerCanID);
 
     //Encoders
-    static EncoderAdapter shooterVelocityEncoder;
+    //static EncoderAdapter shooterVelocityEncoder;
+
+    //Init controllers
+    shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
+	shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
+    
+    shooterMotorA.setIdleMode(Config.kShooterIdleMode);
+    shooterMotorB.setIdleMode(Config.kShooterIdleMode); 
+
+    leftDriveA.setIdleMode(Config.kDriveIdleMode);
 
 
     public static SensoredSystem getRobotWranglerSystem() {
@@ -80,12 +92,14 @@ public class RobotMap {
     }
     
 
-    public static SensoredSystem getShooter() {
+    /*public static SensoredSystem getShooter() {
         shooterVelocityEncoder = new EncoderAdapter(shooterMotorA.getEncoder());
         
         SensoredSystem system = new SensoredSystem(shooterMotors, shooterVelocityEncoder);
         return system;
-    }
+    } */
+
+    
 
     public static SensoredSystem getIndexer() {
         SensoredSystem system = new SensoredSystem(indexerMotor, null);
