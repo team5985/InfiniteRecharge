@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
+  static Timer _timer = new Timer();
   
 
   @Override
