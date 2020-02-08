@@ -28,6 +28,8 @@ public class Robot extends TimedRobot {
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
+
+    Climber.setSystem(RobotMap.getElevatorSystem(), RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
   }
 
   @Override
