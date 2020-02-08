@@ -47,7 +47,7 @@ public class RobotMap {
     //Shooter
     static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
 	static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
-     static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB);
+     static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB); 
     
 
     //Indexer
@@ -57,13 +57,11 @@ public class RobotMap {
     //static EncoderAdapter shooterVelocityEncoder;
 
     //Init controllers
-    shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
-	shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
     
     shooterMotorA.setIdleMode(Config.kShooterIdleMode);
-    shooterMotorB.setIdleMode(Config.kShooterIdleMode); 
+	shooterMotorB.setIdleMode(Config.kShooterIdleMode); 
 
-    leftDriveA.setIdleMode(Config.kDriveIdleMode);
+    
 
 
     public static SensoredSystem getRobotWranglerSystem() {

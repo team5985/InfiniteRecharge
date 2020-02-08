@@ -9,6 +9,11 @@ package frc.robot.subsystems;
 
 import frc.robot.*;
 import frc.robot.config.*;
+import com.revrobotics.AlternateEncoderType;
+import com.revrobotics.EncoderType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder; 
 
 /**
  * Add your docs here.
@@ -44,6 +49,9 @@ public class Shooter extends Subsystem {
         RobotMap.getShooter().set(-1);
         //Set indexer -1;
         RobotMap.getIndexer().set(-1);
+    }
+    public double getShooterRPM() {
+        return RobotMap.shooterMotorA.getVelocity()
     }
 
 
