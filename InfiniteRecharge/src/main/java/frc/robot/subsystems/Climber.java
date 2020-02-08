@@ -188,6 +188,9 @@ public class Climber extends Subsystem {
     public void setBuddyState(BuddyState buddyState) {
         this.buddyState = buddyState;
     }
+    public BuddyState getBuddyState() {
+        return buddyState;
+    }
 
     @Override
 	public boolean zeroPosition() {

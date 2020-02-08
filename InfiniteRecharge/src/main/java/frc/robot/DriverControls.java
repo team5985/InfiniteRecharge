@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.*;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Climber.BuddyState;
 import frc.robot.Constants;
 
 /**
@@ -41,7 +43,9 @@ public class DriverControls {
          xBox = new XboxController(Constants.kXboxPort);
 
          SmartDashboard.setDefaultNumber("Power Gain", 2.0);
-         SmartDashboard.setDefaultNumber("Steering Gain", 2.0);
+		 SmartDashboard.setDefaultNumber("Steering Gain", 2.0);
+		 SmartDashboard.setDefaultBoolean("Buddy Climb", getBuddyState());
+		 updateBuddyState();
     }
     /**
      * Returns true if the joystick has been jerked beyond 0.7.
@@ -208,6 +212,22 @@ public class DriverControls {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	private boolean getBoolBuddyState() {
+		if(Cimber.getBuddyState() == BuddyState.BUDDY) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void updateBuddyState() {
+		if(SmartDashboard.getBoolean("Buddy Climb", false)) {
+			Climber.setBuddyState(BuddyState.BUDDY);
+		} else {
+			Climber.setBuddyState(BuddyState.NO_BUDDY)
 		}
 	}
 

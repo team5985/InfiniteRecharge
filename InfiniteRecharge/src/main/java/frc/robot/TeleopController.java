@@ -8,12 +8,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climber.ElevatorState;
 /**
  * Add your docs here.
  */
 public class TeleopController {
     private static Timer _timer;
     private static DriverControls _Controls;
+    ElevatorState _ElevatorState;
 
 
     private RobotState currentState;
@@ -80,7 +83,11 @@ public class TeleopController {
     }
 
     private void stClimb() {
-
+        if(_Controls.getAutoclimb()) {
+            Climber.setDesiredElevatorState(ElevatorState.PREPARING);
+        }else if(Climber.getPosition() = Constants.kWinchHiClimbHeight) {
+            Climber.setDesiredElevatorState(ElevatorState.CLIMB_LO);
+        }else if(Climber.getPosition() = ConstantskWinchHiClimbHeight)
     }
 
     private void stVictory() {
