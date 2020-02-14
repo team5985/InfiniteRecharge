@@ -24,9 +24,9 @@ public class Robot extends TimedRobot {
     autoController.addOption("Loose :(", kCustomAuto);
     SmartDashboard.putData("Auto choices", autoController);
     CameraServer.getInstance().startAutomaticCapture(); */
-
+    /*
     Drive drivetrain = Drive.getInstance();
-    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
+    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive()); */
     CameraServer.getInstance().startAutomaticCapture(0);
     autoController = new AutoController();
     teleopController = new TeleopController();

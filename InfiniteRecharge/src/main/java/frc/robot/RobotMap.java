@@ -74,30 +74,20 @@ public class RobotMap {
 	/**
 	 * @return the leftDrive
 	 */
-	public static SensoredSystem getLeftDrive() {
-		if (Config.useNeoEncoders) {
-			leftEncoder = new EncoderAdapter(leftDriveA.getEncoder());
-		} else {
-			leftEncoder = new EncoderAdapter( new Encoder(leftDriveEncADioPort, leftDriveEncBDioPort) );
-		}
+	public static SpeedControllerGroup getLeftDrive() {
+		
 			
-		leftDrive = new SensoredSystem(leftDriveMotors, leftEncoder);
-		return leftDrive;
+		
+		return leftDriveMotors;
 	} 
 	
 	/**
 	 * @return the Right Drive
 	 */
-	public static SensoredSystem getRightDrive() {
-		if (Config.useNeoEncoders) {
-			rightEncoder = new EncoderAdapter(rightDriveA.getEncoder());
-		} else {
-			rightEncoder = new EncoderAdapter( new Encoder(leftDriveEncADioPort, leftDriveEncBDioPort) );
-		}
-			
-		rightDrive = new SensoredSystem(rightDriveMotors, rightEncoder);
-		return rightDrive;
-	
+	public static SpeedControllerGroup getRightDrive() {
+
+		return rightDriveMotors;
+	} /*
 		 // Initialise motor controllers
 		 leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
 		 leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
@@ -133,8 +123,8 @@ public class RobotMap {
 
 		 rightDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
 		 rightDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-		 //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-	}
+		 //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit); */
+	
 
 
 
