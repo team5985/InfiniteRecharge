@@ -58,7 +58,13 @@ public class Shooter extends Subsystem {
     public double getShooterRPM() {
         return RobotMap.getShooterVelocityEncoder().getVelocity();
     }
-    public void shooterPIDControl(double targetVelocity) {
+
+    /**
+     * @param targetVelocity the target velocity for the shooter
+     * @return If shooter is at target velocity
+     */
+
+    public boolean shooterPIDControl(double targetVelocity) {
         /*
         *Based of the spark max example
         */
@@ -88,7 +94,7 @@ public class Shooter extends Subsystem {
         
         RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
         RobotMap.getShooterAPIDController().setReference(targetVelocity * -1, ControlType.kVelocity);
-
+        return getShooterTargetSpeed();
     }
 
 
