@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 
+import frc.util.LimitSwitchAdapter;
+import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
 
 public class RobotWrangler extends Subsystem {
-    static SensoredSystem m_controlSystem;
-    // static DigitalInput m_robotSensor; // Subsystem classes should never access the HAL (Hardware Abstraction Layer), which DigitalInput does
+    private static SensoredSystem m_controlSystem;
+    private static LimitSwitchAdapter m_robotSensor; // Subsystem classes should never access the HAL (Hardware Abstraction Layer), which DigitalInput does
     private WranglerState desiredState;
     private WranglerState currentState;
     
@@ -22,14 +24,10 @@ public class RobotWrangler extends Subsystem {
         currentState = WranglerState.TOOTIN;
     }
 
-    public static void setSystem(SensoredSystem controlSystem) {
+    public static void setSystem(SensoredSystem controlSystem, LimitSwitchGroup limitGroup) {
         m_controlSystem = controlSystem;
+        m_robotSensor = limitGroup.getInstance(0);
     }
-
-    // public static void setSystem(SensoredSystem controlSystem, DigitalInput robotSensor) {
-    //     m_controlSystem = controlSystem;
-    //     m_robotSensor = robotSensor;
-    // }
 
     public enum WranglerState {
         WRANGLIN,

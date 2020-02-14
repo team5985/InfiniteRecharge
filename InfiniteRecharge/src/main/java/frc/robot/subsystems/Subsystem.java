@@ -12,6 +12,12 @@ package frc.robot.subsystems;
  */
 public abstract class Subsystem {
 	/**
+	 * Run the subsystem state machine / logic / magic / etc. iteratively. Should be called iteratively 
+	 * by TeleopController / AutoController (and nobody else! unless there is a test somewhere)
+	 */
+	public abstract void update();
+
+	/**
 	 * Get the position of the mechanism's axis.
 	 * @return Current position. Units will be in metres or degrees.
 	 */
