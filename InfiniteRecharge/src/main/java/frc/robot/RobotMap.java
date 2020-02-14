@@ -11,7 +11,8 @@ import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANEncoder;  
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
@@ -45,7 +46,7 @@ public class RobotMap {
     //Set up motor controllers - Declaration
 
     //Shooter
-    static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
+    public static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
 	static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
      static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB); 
     
@@ -57,9 +58,9 @@ public class RobotMap {
     //static EncoderAdapter shooterVelocityEncoder;
 
     //Init controllers
-    
+    /*
     shooterMotorA.setIdleMode(Config.kShooterIdleMode);
-	shooterMotorB.setIdleMode(Config.kShooterIdleMode); 
+	shooterMotorB.setIdleMode(Config.kShooterIdleMode); */
 
     
 
@@ -90,12 +91,17 @@ public class RobotMap {
     }
     
 
-    /*public static SensoredSystem getShooter() {
-        shooterVelocityEncoder = new EncoderAdapter(shooterMotorA.getEncoder());
+    public static SpeedControllerGroup getShooter() {
         
-        SensoredSystem system = new SensoredSystem(shooterMotors, shooterVelocityEncoder);
-        return system;
-    } */
+        return shooterMotors;
+	
+	public static CANPIDController getShooterAPIDController() {
+		return shooterMotorA.getPIDController();
+	}
+	public static CANPIDController getShooterBPIDController() {
+		return shooterMotorA.getPIDController();
+	}
+	
 
     
 

@@ -12,7 +12,11 @@ import frc.robot.config.*;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder; 
 
 /**
@@ -28,8 +32,8 @@ public class Shooter extends Subsystem {
         return false;
     }
 
-    public booolean shoot(double targetPower) {
-        RobotMap.getShooterSystem.set(targetPower);
+    public boolean shoot(double targetPower) {
+        RobotMap.getShooter().set(targetPower);
         return getShooterTargetSpeed();
     }
 
@@ -51,7 +55,39 @@ public class Shooter extends Subsystem {
         RobotMap.getIndexer().set(-1);
     }
     public double getShooterRPM() {
-        return RobotMap.shooterMotorA.getVelocity()
+        return RobotMap.shooterMotorA.getVelocity();
+    }
+    public void shooterPIDControl(double targetVelocity) {
+        /*
+        *Based of the spark max example
+        */
+
+        //Set motor PID constants
+        RobotMap.getShooterAPIDController().setP(p);
+        RobotMap.getShooterAPIDController().setI(Constants.kShooterI);
+        RobotMap.getShooterAPIDController().setD(Constants.kShooterD);
+        RobotMap.getShooterAPIDController().setIZone(Constants.kShooterIz);
+        RobotMap.getShooterAPIDController().setFF(Constants.kShooterFF);
+        RobotMap.getShooterAPIDController().setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
+
+        RobotMap.getShooterBPIDController().setP(Constants.kShooterP);
+        RobotMap.getShooterBPIDController().setI(Constants.kShooterI);
+        RobotMap.getShooterBPIDController().setD(Constants.kShooterD);
+        RobotMap.getShooterBPIDController().setIZone(Constants.kShooterIz);
+        RobotMap.getShooterBPIDController().setFF(Constants.kShooterFF);
+        RobotMap.getShooterBPIDController().setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
+        
+        double p = SmartDashboard.getNumber("P Gain", 0);
+        double i = SmartDashboard.getNumber("I Gain", 0);
+        double d = SmartDashboard.getNumber("D Gain", 0);
+        double iz = SmartDashboard.getNumber("I Zone", 0);
+        double ff = SmartDashboard.getNumber("Feed Forward", 0);
+        double max = SmartDashboard.getNumber("Max Output", 0);
+        double min = SmartDashboard.getNumber("Min Output", 0);
+        
+        RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
+        RobotMap.getShooterAPIDController().setReference(targetVelocity * -1, ControlType.kVelocity);
+
     }
 
 

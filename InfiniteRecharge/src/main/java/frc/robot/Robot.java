@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -23,6 +24,12 @@ public class Robot extends TimedRobot {
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
+
+    SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
+        SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
+        SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
+        SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
+        SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
   }
 
   @Override
