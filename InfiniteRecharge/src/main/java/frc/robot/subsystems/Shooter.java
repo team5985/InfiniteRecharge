@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.*;
 import frc.robot.config.*;
+
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -43,7 +44,7 @@ public class Shooter extends Subsystem {
         return fouls;
     }
     public boolean getShooterTargetSpeed() {
-        return (velocity >= Config.kShooterMinSpeed);
+        return (getShooterRPM() >= Config.kShooterMinSpeed);
     }
     public void powerIndexer() {
         //set indexer speed.
@@ -55,7 +56,7 @@ public class Shooter extends Subsystem {
         RobotMap.getIndexer().set(-1);
     }
     public double getShooterRPM() {
-        return RobotMap.shooterMotorA.getVelocity();
+        return RobotMap.getShooterVelocityEncoder().getVelocity();
     }
     public void shooterPIDControl(double targetVelocity) {
         /*
@@ -63,7 +64,7 @@ public class Shooter extends Subsystem {
         */
 
         //Set motor PID constants
-        RobotMap.getShooterAPIDController().setP(p);
+        RobotMap.getShooterAPIDController().setP(Constants.kShooterP);
         RobotMap.getShooterAPIDController().setI(Constants.kShooterI);
         RobotMap.getShooterAPIDController().setD(Constants.kShooterD);
         RobotMap.getShooterAPIDController().setIZone(Constants.kShooterIz);

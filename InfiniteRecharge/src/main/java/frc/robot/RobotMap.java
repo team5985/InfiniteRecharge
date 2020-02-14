@@ -48,7 +48,8 @@ public class RobotMap {
     //Shooter
     public static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
 	static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
-     static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB); 
+	 static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB); 
+	 static CANEncoder shooterVelocityEncoder = new CANEncoder(shooterMotorA);
     
 
     //Indexer
@@ -93,7 +94,11 @@ public class RobotMap {
 
     public static SpeedControllerGroup getShooter() {
         
-        return shooterMotors;
+		return shooterMotors;
+	}
+	public static CANEncoder getShooterVelocityEncoder() {
+		return shooterVelocityEncoder;
+	}
 	
 	public static CANPIDController getShooterAPIDController() {
 		return shooterMotorA.getPIDController();
