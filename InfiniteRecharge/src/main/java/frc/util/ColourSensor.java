@@ -16,7 +16,7 @@ import frc.robot.Constants;
 public class ColourSensor {
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
-    private final ColorMatch colorMatcher = new ColorMatch();
+    public final ColorMatch colorMatcher = new ColorMatch();
 
     private int oldColour = 0;
     private int newColour = 1;
