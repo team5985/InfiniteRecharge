@@ -63,7 +63,14 @@ public class RobotMap {
     shooterMotorA.setIdleMode(Config.kShooterIdleMode);
 	shooterMotorB.setIdleMode(Config.kShooterIdleMode); */
 
+   /* 
+    shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
+	shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
     
+    shooterMotorA.setIdleMode(Config.kShooterIdleMode);
+    shooterMotorB.setIdleMode(Config.kShooterIdleMode); 
+
+    leftDriveA.setIdleMode(Config.kDriveIdleMode); */
 
 
     public static SensoredSystem getRobotWranglerSystem() {
