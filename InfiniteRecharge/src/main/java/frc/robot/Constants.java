@@ -16,4 +16,8 @@ public class Constants {
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
+
+	public static final int kIndexerCanID = 22;
+	public static final double kIndexerSpeed = 1; //FIXME
+	public static final double kIndexerAntijam = -0.5; //FIXME
 }

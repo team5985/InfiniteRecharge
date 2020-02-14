@@ -7,12 +7,14 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
 import frc.util.PbSparkMax;
+import frc.util.PbTalonSrx;
 import frc.util.SensoredSystem;
 
 /**
@@ -42,4 +44,11 @@ public class RobotMap {
         LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
         return limitSwitchGroup;
     }
+
+
+	public static VictorSPX getIndexerSystem() {
+		VictorSPX indexerMotor = new VictorSPX(Constants.kIndexerCanID);
+		return indexerMotor;
+	}
+
 }
