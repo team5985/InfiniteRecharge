@@ -71,14 +71,10 @@ public class Intake extends Subsystem {
     }
 
     public boolean zeroPosition() {
+        RobotMap.getIntakeActuationSystem().setSelectedSensorPosition(0);
         return false;
 
     }
-
-    switch enum IntakeState {
-
-    }
-
    
 
 }
