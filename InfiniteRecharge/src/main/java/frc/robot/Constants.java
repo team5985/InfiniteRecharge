@@ -30,6 +30,11 @@ public class Constants {
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
 	public static final double kIntakeIntakingSpeed = -1;
 	public static final double kIntakeUnintakingSpeed = 0.8;
+	public static final int kLeftDriveACanID = 1;
+	public static final int kLeftDriveBCanID = 2;
+	public static final int kRightDriveACanID = 3;
+	public static final int kRightDriveBCanID = 4;
+
 	// Climber
 	// Elevator
 	public static final int kElevatorEncoderCountsPerRev = 42;
