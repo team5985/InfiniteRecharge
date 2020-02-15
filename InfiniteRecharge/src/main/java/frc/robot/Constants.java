@@ -51,8 +51,14 @@ public class Constants {
 	public static final int kRightDriveBCanID = 4;
 
 
+	public static final int kIndexerCanID = 22;
+	public static final double kIndexerSpeed = 1; //FIXME
+	public static final double kIndexerAntijam = -0.5; //FIXME
+
+
 	public static double kDriveSquaredSteeringInputsExponent = 2.0;
     public static double kDriveSquaredPowerInputsExponent = 2.0;
+
 	// Climber
 	// Elevator
 	public static final int kElevatorEncoderCountsPerRev = 42;
