@@ -83,11 +83,7 @@ public class TeleopController {
     }
 
     private void stClimb() {
-        if(_Controls.getAutoclimb()) {
-            Climber.setDesiredElevatorState(ElevatorState.PREPARING);
-        }else if(Climber.getPosition() = Constants.kWinchHiClimbHeight) {
-            Climber.setDesiredElevatorState(ElevatorState.CLIMB_LO);
-        }else if(Climber.getPosition() = ConstantskWinchHiClimbHeight)
+    
     }
 
     private void stVictory() {

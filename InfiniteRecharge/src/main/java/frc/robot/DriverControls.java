@@ -44,7 +44,7 @@ public class DriverControls {
 
          SmartDashboard.setDefaultNumber("Power Gain", 2.0);
 		 SmartDashboard.setDefaultNumber("Steering Gain", 2.0);
-		 SmartDashboard.setDefaultBoolean("Buddy Climb", getBuddyState());
+		 SmartDashboard.setDefaultBoolean("Buddy Climb", getBoolBuddyState());
 		 updateBuddyState();
     }
     /**
@@ -216,7 +216,7 @@ public class DriverControls {
 	}
 
 	private boolean getBoolBuddyState() {
-		if(Cimber.getBuddyState() == BuddyState.BUDDY) {
+		if(true == true) { //TODO
 			return true;
 		} else {
 			return false;
@@ -225,9 +225,9 @@ public class DriverControls {
 
 	private void updateBuddyState() {
 		if(SmartDashboard.getBoolean("Buddy Climb", false)) {
-			Climber.setBuddyState(BuddyState.BUDDY);
+			
 		} else {
-			Climber.setBuddyState(BuddyState.NO_BUDDY)
+			
 		}
 	}
 
