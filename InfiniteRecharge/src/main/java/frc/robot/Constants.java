@@ -45,6 +45,11 @@ public class Constants {
     public static double kShootermaxRPM = 5700;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
+  
+	public static final double kIntakeExtensionRevolutions = 4;
+	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
+	public static final double kIntakeIntakingSpeed = -1;
+	public static final double kIntakeUnintakingSpeed = 0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
 	public static final int kRightDriveACanID = 3;
@@ -84,4 +89,8 @@ public class Constants {
 	public static final int kElevatorUpperLimitDio = 0;
 
 	public static final int kBuddySolenoidPcmPort = 0;
+
+	//Intake
+	public static final int kIntakeCanID = 9;
+    public static final int kItntakeActuatorCanID = 10;
 }

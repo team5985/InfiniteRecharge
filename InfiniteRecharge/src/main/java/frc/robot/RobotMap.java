@@ -25,11 +25,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -39,6 +38,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.util.*;
+
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.LimitSwitchGroup;
@@ -254,6 +254,21 @@ public class RobotMap {
         LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
         return limitSwitchGroup;
     }
+  
+    public static WPI_TalonSRX getIntakeActuationSystem() {
+        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
+       
+        return intakeActuation;
+	}
+	
+	
+    public static SensoredSystem getIntakeSystem() {
+        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
+        SensoredSystem system = new SensoredSystem(intakeMotor, null);
+        return system;
+    }
+    
+    //Set Idle mode
 
 
 	public static VictorSPX getIndexerSystem() {
