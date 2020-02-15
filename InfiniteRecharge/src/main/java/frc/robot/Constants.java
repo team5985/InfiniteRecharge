@@ -28,9 +28,7 @@ public class Constants {
 
 	// Robot Wrangler
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
-	public static final double kIndexerSpeed = 1;
 
-	public static final int kIntakeCanID = 9;
 	public static final int kIntakeActuatorCanID = 10;
 
 	public static final int kDriveCurrentLimit = 40;

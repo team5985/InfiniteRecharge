@@ -206,17 +206,6 @@ public class RobotMap {
         SensoredSystem system = new SensoredSystem(robotWranglerMotor);
         return system;
     }
-
-    public static SensoredSystem getIntakeActuationSystem() {
-        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(kItntakeActuatorCanID);
-        SensoredSystem system = new SensoredSystem(intakeActuation, null);
-        return system;
-    }
-    public static SensoredSystem getIntakeSystem() {
-        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(kIntakeCanID);
-        SensoredSystem system = new SensoredSystem(intakeMotor, null);
-        return system;
-    }
     
 
     public static SpeedControllerGroup getShooter() {
