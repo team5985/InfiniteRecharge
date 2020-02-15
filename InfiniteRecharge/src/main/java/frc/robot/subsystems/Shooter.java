@@ -50,10 +50,7 @@ public class Shooter extends Subsystem {
     public boolean getShooterTargetSpeed() {
         return (getShooterRPM() >= Config.kShooterMinSpeed);
     }
-    public void powerIndexer() {
-        //set indexer speed.
-        RobotMap.getIndexer().set(Constants.kIndexerSpeed);
-    }
+   
     public void removeShooterJam() {
         RobotMap.getShooter().set(-1);
         //Set indexer -1;
