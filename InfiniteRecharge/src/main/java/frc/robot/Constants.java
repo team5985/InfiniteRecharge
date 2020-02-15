@@ -11,6 +11,11 @@ package frc.robot;
  * Add your docs here.
  */
 public class Constants {
+
+	public static final int kXboxPort = 1;
+	public static final int kJoystickPort = 0;
+	public static final double kShooterSpeedOffsetOffset = 0.1;
+
 	// CAN IDs
 	public static final int kPcmCanId = 0;
 	public static final int kRobotWranglerSparkCanId = 148;
@@ -23,6 +28,21 @@ public class Constants {
 
 	// Robot Wrangler
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
+	public static final double kIndexerSpeed = 1;
+
+	public static final int kIntakeCanID = 9;
+	public static final int kIntakeActuatorCanID = 10;
+
+	public static final int kDriveCurrentLimit = 40;
+
+	public static double kShooterP = 6e-5; 
+    public static double kShooterI = 0;
+    public static double kShooterD = 0; 
+    public static double kShooterIz = 0; 
+	public static double kShooterFF = 0.000015; 
+    public static double kShooterMaxOutput = 1; 
+    public static double kShooterMinOutput = -1;
+    public static double kShootermaxRPM = 5700;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
 	public static final int kLeftDriveACanID = 1;
@@ -30,9 +50,15 @@ public class Constants {
 	public static final int kRightDriveACanID = 3;
 	public static final int kRightDriveBCanID = 4;
 
+
 	public static final int kIndexerCanID = 22;
 	public static final double kIndexerSpeed = 1; //FIXME
 	public static final double kIndexerAntijam = -0.5; //FIXME
+
+
+	public static double kDriveSquaredSteeringInputsExponent = 2.0;
+    public static double kDriveSquaredPowerInputsExponent = 2.0;
+
 	// Climber
 	// Elevator
 	public static final int kElevatorEncoderCountsPerRev = 42;

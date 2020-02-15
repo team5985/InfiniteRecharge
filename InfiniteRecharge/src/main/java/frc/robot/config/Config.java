@@ -15,12 +15,21 @@ import com.revrobotics.CANSparkMax.IdleMode;
  */
 public class Config {
 
+    //Safty feature prevents accidental climb
+    public static final boolean kPreventAccidentalClimb = true;
+
     //1 = normal, -1 = inverted
     public static final double kInvertDir = 1;
 
     //Motor phases - false = not inverted
     public static final boolean kLeftDrivePhase = false;
     public static final boolean kRightDrivePhase = false;
+
+        //Minimum speed before shooting balls (RPM)
+        public static final double kShooterMinSpeed = 100;
+
+        //Shooter idle mode
+        public static final boolean kShooterIdleMode = false;
 
     /*
      * Motor currents:
