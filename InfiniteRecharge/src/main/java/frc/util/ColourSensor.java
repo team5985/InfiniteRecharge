@@ -1,6 +1,6 @@
 package frc.util;
 
-import javax.crypto.Cipher;
+
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -244,7 +244,8 @@ public class ColourSensor
     
 
     /**
-     * @return colour value:
+     * 
+     * @return colour - 1 = red, 2 = yellow, 3 = green, 4 = blue, 0 = no colour/error
      */
     public int getFmsColour()
     {

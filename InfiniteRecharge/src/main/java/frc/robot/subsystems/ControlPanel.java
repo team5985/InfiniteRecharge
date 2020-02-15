@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+import frc.robot.RobotMap;
 import frc.util.ColourSensor;
 
 public class ControlPanel extends Subsystem {
@@ -12,25 +14,44 @@ public class ControlPanel extends Subsystem {
         switch(currentState) {
             case EXTENDED:
 
+            RobotMap.getControlPanelSolenoid().setForward();; //FIXME
+
             currentState = desiredState;
             break;
             case RETRACTED:
 
+            RobotMap.getControlPanelSolenoid().setReverse(); //FIXME
             currentState = desiredState;
             break;
             case ROTATION_CONTROL:
+
+                if(ColourSensor.getControlPanelRotations() > Constants.kControlPanelTargetRotations - Constants.kControlPanelHysteresis && 
+                ColourSensor.getControlPanelRotations() < Constants.kControlPanelTargetRotations + Constants.kControlPanelHysteresis) {
+                    ColourSensor.resetColourChange();
+                } else {
+                    RobotMap.getControlPanelSystem().set(Constants.kControlPanelRotationControlSpeed);
+                }
 
             currentState = desiredState;
             break;
             case POSITION_CONTROL:
 
+            if(ColourSensor.getPositionControlColourChanges == ColourSensor.getFmsColour()) {
+                ColourSensor.resetColourChange();
+            } else {
+                RobotMap.getControlPanelSystem().set(Constants.kControlPanelPoisitionControlSpeed);
+            }
+ 
             currentState = desiredState;
             break;
             case MANUAL_CLOCKWISE:
 
+            RobotMap.getControlPanelSystem().set(Constants.kControlPanelManualSpeed); //TODO direction check
+
             currentState = desiredState;
             break;
             case MANUAL_ANTICLOCKWISE:
+            RobotMap.getControlPanelSystem().set(Constants.kControlPanelManualSpeed * -1); //TODO direction check
 
             currentState = desiredState;
             break;
@@ -41,9 +62,16 @@ public class ControlPanel extends Subsystem {
 
         }
     }
-
+    /**
+     * @return 1 if extended, 0 if retracted
+     */
     public double getPosition() {
-        return 0.0; //Position
+        if(currentState == ControlPanelState.EXTENDED) {
+            return 1.0;
+        }else {
+            return 0.0; 
+        }
+        
     }
     public boolean zeroPosition() {
         return false;
@@ -57,6 +85,7 @@ public class ControlPanel extends Subsystem {
         MANUAL_CLOCKWISE,
         MANUAL_ANTICLOCKWISE,
     }
+    
 
     
     
