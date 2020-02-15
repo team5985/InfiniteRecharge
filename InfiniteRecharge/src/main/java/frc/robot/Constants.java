@@ -25,6 +25,10 @@ public class Constants {
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
+	public static final int kLeftDriveACanID = 1;
+	public static final int kLeftDriveBCanID = 2;
+	public static final int kRightDriveACanID = 3;
+	public static final int kRightDriveBCanID = 4;
 
 	// Climber
 	// Elevator
