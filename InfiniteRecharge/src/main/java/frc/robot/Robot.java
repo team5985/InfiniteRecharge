@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
-import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
+  static Timer _timer = new Timer();
+  
 
   @Override
   public void robotInit() {
@@ -28,6 +30,8 @@ public class Robot extends TimedRobot {
     Drive drivetrain = Drive.getInstance();
     drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive()); */
     CameraServer.getInstance().startAutomaticCapture(0);
+    _timer.reset();
+    
     autoController = new AutoController();
     teleopController = new TeleopController();
 

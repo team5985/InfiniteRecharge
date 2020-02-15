@@ -11,6 +11,11 @@ package frc.robot;
  * Add your docs here.
  */
 public class Constants {
+
+	public static final int kXboxPort = 1;
+	public static final int kJoystickPort = 0;
+	public static final double kShooterSpeedOffsetOffset = 0.1;
+
 	// CAN IDs
 	public static final int kPcmCanId = 0;
 	public static final int kRobotWranglerSparkCanId = 148;
@@ -45,6 +50,9 @@ public class Constants {
 	public static final int kRightDriveACanID = 3;
 	public static final int kRightDriveBCanID = 4;
 
+
+	public static double kDriveSquaredSteeringInputsExponent = 2.0;
+    public static double kDriveSquaredPowerInputsExponent = 2.0;
 	// Climber
 	// Elevator
 	public static final int kElevatorEncoderCountsPerRev = 42;
