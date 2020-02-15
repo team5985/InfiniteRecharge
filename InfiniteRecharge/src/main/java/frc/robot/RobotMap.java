@@ -57,8 +57,7 @@ public class RobotMap {
 		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel,
 		 Constants.kControlPanelSolenoidBChannel);
 		} else {
-		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
-		}
-		return controlPanelSolenoid;	 
+		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);}
+		return controlPanelSolenoid;
 	} 
 }

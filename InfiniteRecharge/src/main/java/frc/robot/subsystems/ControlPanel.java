@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.util.ColourSensor;
@@ -8,6 +9,8 @@ public class ControlPanel extends Subsystem {
 
     private ControlPanelState currentState;
     private ControlPanelState desiredState;
+    private boolean rotationalControlIsTriggered = false;
+    private boolean positionalControlIsTriggered = false;
     public void update() {
         ColourSensor.getInstance().runPeriodic();
         //state machine
@@ -24,34 +27,49 @@ public class ControlPanel extends Subsystem {
             currentState = desiredState;
             break;
             case ROTATION_CONTROL:
+            if(rotationalControlIsTriggered == true)
+            {
+                int controlPanelRotations = (int) ColourSensor.getControlPanelRotations();
+                if(controlPanelRotations  < Constants.kRotationalControlPhase1)    
+                {
+                    //spin  at a normal speed <60 rpm
 
-                if(ColourSensor.getControlPanelRotations() > Constants.kControlPanelTargetRotations - Constants.kControlPanelHysteresis && 
-                ColourSensor.getControlPanelRotations() < Constants.kControlPanelTargetRotations + Constants.kControlPanelHysteresis) {
-                    ColourSensor.resetColourChange();
-                } else {
-                    RobotMap.getControlPanelSystem().set(Constants.kControlPanelRotationControlSpeed);
                 }
+                if((controlPanelRotations  < Constants.kRotationalControlPhase2) && (controlPanelRotations >= Constants.kRotationalControlPhase1))    
+                {
+                    //spin  at a half speed
+                    
+                }
+                if((controlPanelRotations >= Constants.kRotationalControlPhase1) && (controlPanelRotations < Constants.kRotationalControlComplete)){
+                    //spin at quarter speed
+                }
+            }
 
+
+          
             currentState = desiredState;
             break;
             case POSITION_CONTROL:
+            if (positionalControlIsTriggered = true){
+                int FMSColour = ColourSensor.getInstance().getFmsColour();
+                int currentColour = ColourSensor.getInstance().getColour();
+                if(FMSColour != currentColour){
+                    //Spin slowly
+                }
 
-            if(ColourSensor.getPositionControlColourChanges == ColourSensor.getFmsColour()) {
-                ColourSensor.resetColourChange();
-            } else {
-                RobotMap.getControlPanelSystem().set(Constants.kControlPanelPoisitionControlSpeed);
             }
- 
+
+
             currentState = desiredState;
             break;
             case MANUAL_CLOCKWISE:
-
-            RobotMap.getControlPanelSystem().set(Constants.kControlPanelManualSpeed); //TODO direction check
-
+            // Spin manual not clockwise
+            
+            
             currentState = desiredState;
             break;
             case MANUAL_ANTICLOCKWISE:
-            RobotMap.getControlPanelSystem().set(Constants.kControlPanelManualSpeed * -1); //TODO direction check
+            // Spin manual clockwise
 
             currentState = desiredState;
             break;
