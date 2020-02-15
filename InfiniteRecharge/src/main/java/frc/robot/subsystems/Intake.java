@@ -66,7 +66,7 @@ public class Intake extends Subsystem {
 
 
     public double getPosition() {
-        return 0.0; //position
+        return RobotMap.getIntakeActuationSystem().getSelectedSensorPosition();
       
     }
 

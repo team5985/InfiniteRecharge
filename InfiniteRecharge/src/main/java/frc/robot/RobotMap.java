@@ -35,8 +35,7 @@ import frc.util.SolenoidAdapter;
  */
 
 public class RobotMap {
-    public static final int kIntakeCanID = 9;
-    public static final int kItntakeActuatorCanID = 10;
+    
 
     public static SensoredSystem getRobotWranglerSystem() {
         PbSparkMax robotWranglerMotor;
@@ -60,14 +59,14 @@ public class RobotMap {
     }
   
     public static WPI_TalonSRX getIntakeActuationSystem() {
-        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(kItntakeActuatorCanID);
+        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
        
         return intakeActuation;
 	}
 	
 	
     public static SensoredSystem getIntakeSystem() {
-        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(kIntakeCanID);
+        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
         SensoredSystem system = new SensoredSystem(intakeMotor, null);
         return system;
     }

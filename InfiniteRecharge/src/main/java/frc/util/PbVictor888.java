@@ -3,10 +3,11 @@ package frc.util;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Victor;
+/*
+public class PbVictor888 extends Victor implements SpeedController {
 
-public class PbVictorSpx extends WPI_VictorSPX implements SpeedController {
-
-    public PbVictorSpx(int deviceNumber) {
+    public Victor(int deviceNumber) {
         super(deviceNumber);
     }
 
@@ -14,4 +15,6 @@ public class PbVictorSpx extends WPI_VictorSPX implements SpeedController {
         super.set(power);
     }
 
-}
+} */
+
+//For all your victor 888 needs!

@@ -55,4 +55,8 @@ public class Constants {
 	public static final int kElevatorUpperLimitDio = 0;
 
 	public static final int kBuddySolenoidPcmPort = 0;
+
+	//Intake
+	public static final int kIntakeCanID = 9;
+    public static final int kItntakeActuatorCanID = 10;
 }
