@@ -25,6 +25,10 @@ import com.revrobotics.CANEncoder;
  */
 public class Shooter extends Subsystem {
 
+    public void update() {
+        
+    }
+
     public double getPosition() {
         return 0.0;
     }
