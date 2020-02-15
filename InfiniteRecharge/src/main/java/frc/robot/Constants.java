@@ -23,6 +23,21 @@ public class Constants {
 
 	// Robot Wrangler
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
+	public static final double kIndexerSpeed = 1;
+
+	public static final int kIntakeCanID = 9;
+	public static final int kIntakeActuatorCanID = 10;
+
+	public static final int kDriveCurrentLimit = 40;
+
+	public static double kShooterP = 6e-5; 
+    public static double kShooterI = 0;
+    public static double kShooterD = 0; 
+    public static double kShooterIz = 0; 
+	public static double kShooterFF = 0.000015; 
+    public static double kShooterMaxOutput = 1; 
+    public static double kShooterMinOutput = -1;
+    public static double kShootermaxRPM = 5700;
 	public static final int kRobotWranglerReverseLimitDio = 1114;
 	public static final int kRobotWranglerForwardLimitDio = 2056;
 	public static final int kLeftDriveACanID = 1;

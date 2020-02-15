@@ -22,6 +22,12 @@ public class Config {
     public static final boolean kLeftDrivePhase = false;
     public static final boolean kRightDrivePhase = false;
 
+        //Minimum speed before shooting balls (RPM)
+        public static final double kShooterMinSpeed = 100;
+
+        //Shooter idle mode
+        public static final boolean kShooterIdleMode = false;
+
     /*
      * Motor currents:
      * 
