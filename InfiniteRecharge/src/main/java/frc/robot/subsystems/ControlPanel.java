@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
 
+import frc.util.ColourSensor;
+
 public class ControlPanel extends Subsystem {
 
     private ControlPanelState currentState;
     private ControlPanelState desiredState;
     public void update() {
+        ColourSensor.getInstance().runPeriodic();
         //state machine
         switch(currentState) {
             case EXTENDED:
