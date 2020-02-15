@@ -52,4 +52,12 @@ public class Indexer extends Subsystem {
         UNINDEXING,
         IDLE,
     }
+
+    public IndexerStates getCurrentState() {
+        return currentState;
+    }
+    public IndexerStates setDesiredState(IndexerStates state) {
+        desiredState = state;
+        return currentState;
+    }
 }
