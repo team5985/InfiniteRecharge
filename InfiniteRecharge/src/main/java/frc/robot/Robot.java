@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 
+import frc.robot.TeleopController;
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    teleopController.callStateMachine();
   }
 
   @Override

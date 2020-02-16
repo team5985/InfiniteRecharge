@@ -17,7 +17,7 @@ public class Constants {
 	public static final double kShooterSpeedOffsetOffset = 0.1;
 
 	// CAN IDs
-	public static final int kPcmCanId = 0;
+	public static final int kPcmCanId = 60;
 	public static final int kRobotWranglerSparkCanId = 148;
 
 	public static final int kElevatorMotorCanId = 0;  //FIXME
@@ -40,9 +40,18 @@ public class Constants {
 	public static double kShooterFF = 0.000015; 
     public static double kShooterMaxOutput = 1; 
     public static double kShooterMinOutput = -1;
-    public static double kShootermaxRPM = 5700;
-	public static final int kRobotWranglerReverseLimitDio = 1114;
-	public static final int kRobotWranglerForwardLimitDio = 2056;
+	public static double kShootermaxRPM = 5700;
+	public static double kShooterDefaultRPM = 5600;
+	public static double kShooterMinRPM = 3000;
+	public static double kShooterHysteresis = 10;
+	public static double kShooterIdleSpeed = 0;
+	public static int kShooterHoodSolenoidAChannel = 1;
+	public static int kShooterHoodSolenoidBChannel = 2;
+
+
+	public static final int kRobotWranglerReverseLimitDio = 0; //1114
+	public static final int kRobotWranglerForwardLimitDio = 0; //2056
+	
   
 	public static final double kIntakeExtensionRevolutions = 4;
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
@@ -83,12 +92,16 @@ public class Constants {
 	public static final int kWinchCurrentLimit = 0;  //FIXME
 
 	// Sensors
-	public static final int kElevatorLowerLimitDio = 0;
-	public static final int kElevatorUpperLimitDio = 0;
+	public static final int kElevatorLowerLimitDio = 1;
+	public static final int kElevatorUpperLimitDio = 2;
 
 	public static final int kBuddySolenoidPcmPort = 0;
 
 	//Intake
 	public static final int kIntakeCanID = 9;
-    public static final int kItntakeActuatorCanID = 10;
+	public static final int kItntakeActuatorCanID = 10;
+	public static final int kControlPanelSolenoidAChannel = 0;
+	public static final int kControlPanelSolenoidBChannel = 0;
+	
+	//Shooter RPM
 }

@@ -25,9 +25,29 @@ import com.revrobotics.CANEncoder;
  */
 public class Shooter extends Subsystem {
 
+    private ShooterState currentState;
+    private ShooterState desiredState;
+    private double shooterTargetRPM = 0;
+
     public void update() {
+        switch(currentState) {
+            case SHOOTING: 
+                shooterPIDControl(shooterTargetRPM);
+            break;
+            case HOODUP: 
+                RobotMap.getShooterHoodSolenoid().setForward(); //FIXME
+            break;
+            case HOODDOWN: 
+                RobotMap.getShooterHoodSolenoid().setReverse(); //FIXME
+            break;
+            default:
+                shooterPIDControl(Constants.kShooterIdleSpeed);
+            break;
+            
+            }
+            }
         
-    }
+    
 
     public double getPosition() {
         return 0.0;
@@ -37,18 +57,15 @@ public class Shooter extends Subsystem {
         return false;
     }
 
-    public boolean shoot(double targetPower) {
-        RobotMap.getShooter().set(targetPower);
-        return getShooterTargetSpeed();
-    }
+
 
     public long boot(double distance, int team) {
         long fouls = 0; //Hopefully :/
         //Send robot flying to the other side of the field and beyond!
         return fouls;
     }
-    public boolean getShooterTargetSpeed() {
-        return (getShooterRPM() >= Config.kShooterMinSpeed);
+    public double getShooterTargetSpeed() {
+        return shooterTargetRPM;
     }
    
     public void removeShooterJam() {
@@ -95,7 +112,31 @@ public class Shooter extends Subsystem {
         
         RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
         RobotMap.getShooterAPIDController().setReference(targetVelocity * -1, ControlType.kVelocity);
-        return getShooterTargetSpeed();
+        return getShooterAcceptableSpeed(targetVelocity);
+    }
+
+    public boolean getShooterAcceptableSpeed(double targetRPM) {
+        if(getShooterRPM() >= getShooterRPM() - Constants.kShooterHysteresis || getShooterRPM() <= getShooterRPM() + Constants.kShooterHysteresis) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void setDesiredState(ShooterState state) {
+        desiredState = state;
+    }
+    public ShooterState getCurrentState() {
+        return currentState;
+    }
+    public enum ShooterState {
+        SHOOTING,
+        HOODUP,
+        HOODDOWN,
+        IDLE,
+    }
+    public void setShooterTargerSpeed(double rpm) {
+        shooterTargetRPM = rpm;
     }
 
 

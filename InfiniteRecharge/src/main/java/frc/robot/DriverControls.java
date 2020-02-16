@@ -95,12 +95,17 @@ public class DriverControls {
 	 * @return Throttle from 0 to 1.
 	 */
 	public double getDriveThrottle() {
-		return (-stick.getThrottle() + 1) / 2;
+		return ((-stick.getThrottle() + 1) / 2);
 	}
 
 	//Button presses
 
 	//Intake/Shooter mode
+
+	/**
+	 * 
+	 * @return true for intake, false for shooter
+	 */
 	public boolean getMechanismMode() {
 	if(stick.getRawButton(3)) {
 		mode = false;
@@ -214,6 +219,7 @@ public class DriverControls {
 			return false;
 		}
 	}
+	
 
 	private boolean getBoolBuddyState() {
 		if(true == true) { //TODO

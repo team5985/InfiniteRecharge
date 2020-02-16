@@ -72,6 +72,12 @@ public class Config {
 
     //Use neo encoders
     public static final boolean useNeoEncoders = true;
+
+    //Use stallSense with normal teleop drive
+    public static final boolean kUseStallSenseTeleopDrive = false;
+
+    //Shooter solenoid - true for a double solenoid
+    public static final boolean kShooterDoubleSolenoid = false;
         
     
 

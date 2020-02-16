@@ -60,4 +60,12 @@ public class Indexer extends Subsystem {
         desiredState = state;
         return currentState;
     }
+
+    public boolean checkSafeRetraction() {
+        if(true == true) { //FIXME
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

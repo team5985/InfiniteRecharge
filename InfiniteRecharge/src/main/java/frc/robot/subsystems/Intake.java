@@ -75,6 +75,14 @@ public class Intake extends Subsystem {
         return false;
 
     }
+
+    public void setDesiredState(IntakeState state) {
+        desiredState = state;
+    }
+
+    public IntakeState getCurrentState() {
+        return currentState;
+    }
    
 
 }

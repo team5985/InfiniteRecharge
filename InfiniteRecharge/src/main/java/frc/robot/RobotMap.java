@@ -222,6 +222,17 @@ public class RobotMap {
 	public static CANPIDController getShooterBPIDController() {
 		return shooterMotorA.getPIDController();
 	}
+
+	public static PbSolenoid getShooterHoodSolenoid() {
+		if(Config.kShooterDoubleSolenoid) {
+			PbSolenoid shooterSolenoid = new PbSolenoid(Constants.kPcmCanId,
+					Constants.kShooterHoodSolenoidAChannel, Constants.kShooterHoodSolenoidBChannel);
+		} else {
+			PbSolenoid shooterSolenoid = new PbSolenoid(Constants.kPcmCanId,
+					Constants.kShooterHoodSolenoidAChannel);
+		}
+		return shooterSolenoid;
+	} 
 	
 
     
