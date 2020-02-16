@@ -27,9 +27,9 @@ public class Robot extends TimedRobot {
     autoController.addOption("Loose :(", kCustomAuto);
     SmartDashboard.putData("Auto choices", autoController);
     CameraServer.getInstance().startAutomaticCapture(); */
-    /*
+    
     Drive drivetrain = Drive.getInstance();
-    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive()); */
+    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     
@@ -40,13 +40,12 @@ public class Robot extends TimedRobot {
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
 
     SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
-        SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
-        SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
-        SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
-        SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
-    RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
+    SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
+    SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
+    SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
+    SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
 
-    Climber.setSystem(RobotMap.getElevatorSystem(), RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+    Climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
   }
 
   @Override
@@ -63,7 +62,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopController.callStateMachine();
+    teleopController.callStateMachine();  // Also runs drivetrain
+    Shooter.getInstance().update();
   }
 
   @Override

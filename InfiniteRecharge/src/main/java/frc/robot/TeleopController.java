@@ -30,8 +30,6 @@ public class TeleopController {
     private static Intake _intake;
     private static Indexer _indexer;
 
-
-
     private RobotState currentState;
     private RobotState desiredState;
 
@@ -43,6 +41,23 @@ public class TeleopController {
         VISION,
         CLIMB,
         VICTORY,
+    }
+
+    public TeleopController() {
+        currentState = RobotState.TELEOP;
+        desiredState = RobotState.TELEOP;
+
+        _controls = new DriverControls();
+        _ElevatorState = ElevatorState.STOWED;
+        _IntakeState = IntakeState.RETRACTED;
+        _IndexerState = IndexerStates.IDLE;
+        _ShooterState = ShooterState.IDLE;
+
+        _drive = Drive.getInstance();
+        _config = new Config();
+        _shooter = Shooter.getInstance();
+        _intake = Intake.getInstance();
+        _indexer = Indexer.getInstance();
     }
 
     public void callStateMachine() {
@@ -85,6 +100,7 @@ public class TeleopController {
 
     private void stTeleop() {
         if(_controls.getActionCommand()) {
+            System.out.println("action command");
             if(_controls.getMechanismMode()) {
 
                 //Check if the intake is extended
@@ -107,6 +123,8 @@ public class TeleopController {
                     _shooter.setDesiredState(_ShooterState.SHOOTING);
                     _indexer.setDesiredState(_IndexerState.IDLE);
                 }
+
+                System.out.println("Shooting");
             }
 
         } else {
@@ -172,7 +190,8 @@ public class TeleopController {
     public void callDrive() {
        
         if ((currentState != RobotState.CLIMB) || (currentState != RobotState.VISION)){
-            _drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
+            // _drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
+            _drive.arcadeDrive(_controls.getDriveThrottle(), _controls.getDriveSteering(), _controls.getDrivePower());
         }
     }
 

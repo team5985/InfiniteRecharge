@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * A not too hacky way of getting working functionality for both Solenoid and DoubleSolenoid with a single class.
  */
+@Deprecated
 public class PbSolenoid extends DoubleSolenoid implements SolenoidAdapter {
     private enum SolenoidType {
         SINGLE,
@@ -19,7 +20,7 @@ public class PbSolenoid extends DoubleSolenoid implements SolenoidAdapter {
      * @param channel on the PCM
      */
     public PbSolenoid(int moduleNumber, int channel) {
-        super(moduleNumber, channel);
+        super(moduleNumber, channel, channel+1);
         solenoidType = SolenoidType.SINGLE;
     }
 

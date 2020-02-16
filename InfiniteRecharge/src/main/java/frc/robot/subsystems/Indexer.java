@@ -16,6 +16,15 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class Indexer extends Subsystem {
+    private static Indexer m_instance;
+
+    public static Indexer getInstance() {
+        if (m_instance == null) {
+            m_instance = new Indexer();
+        }
+
+        return m_instance;
+    }
 
     public boolean zeroPosition() {
         return false;
@@ -30,22 +39,21 @@ public class Indexer extends Subsystem {
     private IndexerStates desiredState;
 
     public void update() {
-
-    switch(currentState) {
-        case INDEXING:
-            RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
-            currentState = desiredState;
-        break;
-        case UNINDEXING:
-            RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
-            currentState = desiredState;
-        break;
-        default: 
-            RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, 0);
-            currentState = desiredState;
-        
+        switch(currentState) {
+            case INDEXING:
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
+                currentState = desiredState;
+            break;
+            case UNINDEXING:
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
+                currentState = desiredState;
+            break;
+            default: 
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, 0);
+                currentState = desiredState;
+            
+        }
     }
-}
 
     public enum IndexerStates {
         INDEXING,
@@ -59,13 +67,5 @@ public class Indexer extends Subsystem {
     public IndexerStates setDesiredState(IndexerStates state) {
         desiredState = state;
         return currentState;
-    }
-
-    public boolean checkSafeRetraction() {
-        if(true == true) { //FIXME
-            return true;
-        } else {
-            return false;
-        }
     }
 }

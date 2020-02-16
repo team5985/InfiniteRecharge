@@ -11,21 +11,19 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
 import frc.util.SensoredSystem;
 import frc.robot.RobotMap;
-
-
-
 
 /**
  * Add your docs here.
  */
 public class Drive extends Subsystem{
 
-    SensoredSystem mLeftDrive;
-    SensoredSystem mRightDrive;
+    SpeedControllerGroup mLeftDrive;
+    SpeedControllerGroup mRightDrive;
 
     public static Drive driveInstance;
     
@@ -37,10 +35,15 @@ public class Drive extends Subsystem{
     }
     
     private Drive() {
+        try {
+            _imu = new AHRS();
+        } catch (Exception e) {
+            System.out.println("NavX Not Connected!");
+        }
         
     }
 
-    public void setSystem(SensoredSystem leftDrive, SensoredSystem rightDrive) {
+    public void setSystem(SpeedControllerGroup leftDrive, SpeedControllerGroup rightDrive) {
         mLeftDrive = leftDrive;
         mRightDrive = rightDrive;
     }
@@ -82,7 +85,7 @@ public class Drive extends Subsystem{
         //Right
         double rightPower = (power - steering) * throttle;
         //Write to motors
-        setMotors(leftPower, rightPower);
+        setMotors(leftPower, -rightPower);
         
     }
 

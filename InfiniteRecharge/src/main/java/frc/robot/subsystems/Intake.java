@@ -84,5 +84,11 @@ public class Intake extends Subsystem {
         return currentState;
     }
    
-
+    public boolean checkSafeRetraction() {
+        if(true == true) { //FIXME
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

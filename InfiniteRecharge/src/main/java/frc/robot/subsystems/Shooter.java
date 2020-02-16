@@ -24,28 +24,42 @@ import com.revrobotics.CANEncoder;
  * Add your docs here.
  */
 public class Shooter extends Subsystem {
+    static private Shooter m_instance;
 
     private ShooterState currentState;
     private ShooterState desiredState;
-    private double shooterTargetRPM = 0;
+    private double shooterTargetRPM = 4000;
+
+    static public Shooter getInstance() {
+        if (m_instance == null) {
+            m_instance = new Shooter();
+        }
+
+        return m_instance;
+    }
+
+    private Shooter() {
+        currentState = ShooterState.IDLE;
+        desiredState = ShooterState.IDLE;
+    }
 
     public void update() {
-        switch(currentState) {
+        switch(desiredState) {
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
             break;
             case HOODUP: 
-                RobotMap.getShooterHoodSolenoid().setForward(); //FIXME
+                RobotMap.getShooterHoodSolenoid().set(true); //FIXME
             break;
             case HOODDOWN: 
-                RobotMap.getShooterHoodSolenoid().setReverse(); //FIXME
+                RobotMap.getShooterHoodSolenoid().set(false); //FIXME
             break;
             default:
                 shooterPIDControl(Constants.kShooterIdleSpeed);
             break;
             
-            }
-            }
+        }
+    }
         
     
 
@@ -57,13 +71,12 @@ public class Shooter extends Subsystem {
         return false;
     }
 
-
-
     public long boot(double distance, int team) {
         long fouls = 0; //Hopefully :/
         //Send robot flying to the other side of the field and beyond!
         return fouls;
     }
+
     public double getShooterTargetSpeed() {
         return shooterTargetRPM;
     }
@@ -111,7 +124,8 @@ public class Shooter extends Subsystem {
         double min = SmartDashboard.getNumber("Min Output", 0);
         
         RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
-        RobotMap.getShooterAPIDController().setReference(targetVelocity * -1, ControlType.kVelocity);
+        RobotMap.getShooterBPIDController().setReference(-targetVelocity, ControlType.kVelocity);
+        System.out.println(targetVelocity);
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
@@ -135,7 +149,8 @@ public class Shooter extends Subsystem {
         HOODDOWN,
         IDLE,
     }
-    public void setShooterTargerSpeed(double rpm) {
+
+    public void setShooterTargetSpeed(double rpm) {
         shooterTargetRPM = rpm;
     }
 

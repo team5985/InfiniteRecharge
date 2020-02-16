@@ -13,6 +13,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.config.Config;
 import frc.util.EncoderAdapter;
@@ -67,18 +68,6 @@ public class RobotMap {
     public static final int kShooterBCanID = 13;
     public static final int kIndexerCanID = 22;
 
-    //Set up motor controllers - Declaration
-
-    //Shooter
-    public static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
-	static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
-	 static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB); 
-	 static CANEncoder shooterVelocityEncoder = new CANEncoder(shooterMotorA);
-    
-
-    //Indexer
-    static WPI_VictorSPX indexerMotor = new WPI_VictorSPX(kIndexerCanID);
-
     //Encoders
     //static EncoderAdapter shooterVelocityEncoder;
 
@@ -100,9 +89,6 @@ public class RobotMap {
 	 */
 	// static final boolean useNeoEncoders = true;
 
-	
-	
-
 	/**
 	 * DIO Ports
 	 */
@@ -111,6 +97,15 @@ public class RobotMap {
 
 	static final int rightDriveEncADioPort = 2;
 	static final int rightDriveEncBDioPort = 3;
+
+	//Set up motor controllers - Declaration
+
+    //Shooter
+    public static CANSparkMax shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
+	static CANSparkMax shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
+	static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB); 
+	static CANEncoder shooterVelocityEncoder = new CANEncoder(shooterMotorA);
+	static Solenoid shooterSolenoid = new Solenoid(Constants.kPcmCanId, Constants.kShooterHoodSolenoidAChannel);
 
 	/**
 	 * Drivetrain
@@ -127,192 +122,129 @@ public class RobotMap {
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
 
-	
-	
-	// Encoders
-	static EncoderAdapter leftEncoder;
-	static EncoderAdapter rightEncoder;
+	/**
+	 * Indexer
+	 */
+	static WPI_VictorSPX indexerMotor = new WPI_VictorSPX(kIndexerCanID);
+	static SensoredSystem indexerSystem = new SensoredSystem(indexerMotor, null);
 
-	public static SensoredSystem leftDrive;
-	public static SensoredSystem rightDrive;
+	/**
+	 * Intake
+	 */
+	static WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
+	static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
+	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
+
+	/**
+	 * Climber
+	 */
+	static PbTalonSrx winchA = new PbTalonSrx(Constants.kWinchACanId);  // Master
+	static WPI_TalonSRX winchB = new WPI_TalonSRX(Constants.kWinchBCanId);
+	static WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
+	static  WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
+
+	// PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId, MotorType.kBrushless);
+	// SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
+
+	static SensoredSystem winchSystem = new SensoredSystem(winchA);
+
+	static PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
+	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
+	static LimitSwitchGroup elevatorLimitSwitchGroup = new LimitSwitchGroup(elevatorUpperLimit, elevatorLowerLimit);
+
+	static Solenoid buddySolenoid = new Solenoid(Constants.kPcmCanId, Constants.kBuddySolenoidPcmPort);
 
 	/**
 	 * @return the leftDrive
 	 */
 	public static SpeedControllerGroup getLeftDrive() {
-		
-			
-		
+
 		return leftDriveMotors;
-	} 
-	
+	}
+
 	/**
 	 * @return the Right Drive
 	 */
 	public static SpeedControllerGroup getRightDrive() {
 
 		return rightDriveMotors;
-	} /*
-		 // Initialise motor controllers
-		 leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
-		 leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
-		 //leftDriveC = new CANSparkMax(kLeftDriveCCanId, MotorType.kBrushless);
-		 
-		 rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
-		 rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
-		 //rightDriveC = new CANSparkMax(kRightDriveCCanId, MotorType.kBrushless);
-		 
-		 // Set brake/coast
-		 leftDriveA.setIdleMode(Config.kDriveIdleMode);
-		 leftDriveB.setIdleMode(Config.kDriveIdleMode);
-		 //leftDriveC.setIdleMode(Config.kDriveIdleMode);
-		 
-		 rightDriveA.setIdleMode(Config.kDriveIdleMode);
-		 rightDriveB.setIdleMode(Config.kDriveIdleMode);
-		 //rightDriveC.setIdleMode(Config.kDriveIdleMode);
-		 
-		 // Invert right side
-		 leftDriveA.setInverted(Config.kLeftDrivePhase);
-		 leftDriveB.setInverted(Config.kLeftDrivePhase);
-		 //leftDriveC.setInverted(Config.kLeftDrivePhase);
+	}
 
-		 rightDriveA.setInverted(Config.kRightDrivePhase);
-		 rightDriveB.setInverted(Config.kRightDrivePhase);
-		 //rightDriveB.setInverted(Config.kRightDrivePhase);
-		 
- 
-		 // Set current limit to PDP fuses
-		 leftDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-		 leftDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-		 //leftDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-
-		 rightDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-		 rightDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
-		 //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit); */
-	
-
-
-
-    public static SensoredSystem getRobotWranglerSystem() {
-        PbSparkMax robotWranglerMotor;
-
-        if (Constants.kUseRobotWranglerNeoEncoder) {
-            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless);
-        } else {
-            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless, AlternateEncoderType.kQuadrature, 2048); 
-            // if using alternate encoder with neo
-        }
-        
-        SensoredSystem system = new SensoredSystem(robotWranglerMotor);
-        return system;
-    }
-    
-
-    public static SpeedControllerGroup getShooter() {
-        
+	public static SpeedControllerGroup getShooter() {
+		// shooterMotorA.setInverted(false);
+		// shooterMotorB.setInverted(true);
 		return shooterMotors;
 	}
+
 	public static CANEncoder getShooterVelocityEncoder() {
 		return shooterVelocityEncoder;
 	}
-	
+
 	public static CANPIDController getShooterAPIDController() {
 		return shooterMotorA.getPIDController();
 	}
+
 	public static CANPIDController getShooterBPIDController() {
-		return shooterMotorA.getPIDController();
+		return shooterMotorB.getPIDController();
 	}
 
-	public static PbSolenoid getShooterHoodSolenoid() {
-		if(Config.kShooterDoubleSolenoid) {
-			PbSolenoid shooterSolenoid = new PbSolenoid(Constants.kPcmCanId,
-					Constants.kShooterHoodSolenoidAChannel, Constants.kShooterHoodSolenoidBChannel);
-		} else {
-			PbSolenoid shooterSolenoid = new PbSolenoid(Constants.kPcmCanId,
-					Constants.kShooterHoodSolenoidAChannel);
-		}
+	public static Solenoid getShooterHoodSolenoid() {
 		return shooterSolenoid;
-	} 
-	
-
-    
-
-    public static SensoredSystem getIndexer() {
-        SensoredSystem system = new SensoredSystem(indexerMotor, null);
-
-        return system;
-    }
-        
-    
-
-
-
-    
-    public static LimitSwitchGroup getRobotWranglerLimits() {
-        PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
-        PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
-        LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
-        return limitSwitchGroup;
-    }
-  
-    public static WPI_TalonSRX getIntakeActuationSystem() {
-        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
-       
-        return intakeActuation;
 	}
-	
-	
-    public static SensoredSystem getIntakeSystem() {
-        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
-        SensoredSystem system = new SensoredSystem(intakeMotor, null);
-        return system;
-    }
-    
-    //Set Idle mode
 
+	public static SensoredSystem getIndexer() {
+		return indexerSystem;
+	}
+
+	// public static LimitSwitchGroup getRobotWranglerLimits() {
+	// PbDioSwitch robotWranglerForwardLimit = new
+	// PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
+	// PbDioSwitch robotWranglerReverseLimit = new
+	// PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
+	// LimitSwitchGroup limitSwitchGroup = new
+	// LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
+	// return limitSwitchGroup;
+	// }
+
+	public static WPI_TalonSRX getIntakeActuationSystem() {
+		return intakeActuation;
+	}
+
+	public static SensoredSystem getIntakeSystem() {
+		return intakeSystem;
+	}
+
+	// Set Idle mode
 
 	public static VictorSPX getIndexerSystem() {
-		VictorSPX indexerMotor = new VictorSPX(Constants.kIndexerCanID);
 		return indexerMotor;
 	}
 
-    public static SensoredSystem getElevatorSystem() {
-        PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId, MotorType.kBrushless);
-        SensoredSystem system = new SensoredSystem(elevatorMotor);
-        return system;
-    }
-    
-    public static SensoredSystem getWinchSystem() {
-        PbTalonSrx winchA = new PbTalonSrx(Constants.kWinchACanId);  // Master
-        WPI_TalonSRX winchB = new WPI_TalonSRX(Constants.kWinchBCanId);
-        WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
-        WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
+	// public static SensoredSystem getElevatorSystem() {
+	// return elevatorSystem;
+	// }
 
-        winchA.configFactoryDefault();
-        winchA.configContinuousCurrentLimit(Constants.kWinchCurrentLimit);
-        winchA.configPeakCurrentLimit(0);
-        winchA.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, 0, 0);
+	public static SensoredSystem getWinchSystem() {
+		winchA.configFactoryDefault();
+		winchA.configContinuousCurrentLimit(Constants.kWinchCurrentLimit);
+		winchA.configPeakCurrentLimit(0);
+		winchA.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, 0, 0);
 
-        winchB.configFactoryDefault();
-        winchB.follow(winchA);
-        winchC.configFactoryDefault();
-        winchC.follow(winchA);
-        winchD.configFactoryDefault();
-        winchD.follow(winchA);
+		winchB.configFactoryDefault();
+		winchB.follow(winchA);
+		winchC.configFactoryDefault();
+		winchC.follow(winchA);
+		winchD.configFactoryDefault();
+		winchD.follow(winchA);
 
-        SensoredSystem system = new SensoredSystem(winchA);
-        return system;
+		return winchSystem;
+	}
+
+	public static LimitSwitchGroup getClimberLimits() {
+		return elevatorLimitSwitchGroup;
     }
 
-    public static LimitSwitchGroup getClimberLimits() {
-        PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
-        PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
-        LimitSwitchGroup elevatorLimitSwitchGroup = new LimitSwitchGroup(elevatorUpperLimit, elevatorLowerLimit);
-        return elevatorLimitSwitchGroup;
-    }
-
-    public static SolenoidAdapter getClimberSolenoid() {
-        SolenoidAdapter buddySolenoid = new PbSolenoid(Constants.kPcmCanId, Constants.kBuddySolenoidPcmPort);
+    public static Solenoid getClimberSolenoid() {
         return buddySolenoid;
     }
 }

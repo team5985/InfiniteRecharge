@@ -17,7 +17,7 @@ public class Constants {
 	public static final double kShooterSpeedOffsetOffset = 0.1;
 
 	// CAN IDs
-	public static final int kPcmCanId = 60;
+	public static final int kPcmCanId = 50;
 	public static final int kRobotWranglerSparkCanId = 148;
 
 	public static final int kElevatorMotorCanId = 0;  //FIXME
@@ -33,11 +33,6 @@ public class Constants {
 
 	public static final int kDriveCurrentLimit = 40;
 
-	public static double kShooterP = 6e-5; 
-    public static double kShooterI = 0;
-    public static double kShooterD = 0; 
-    public static double kShooterIz = 0; 
-	public static double kShooterFF = 0.000015; 
     public static double kShooterMaxOutput = 1; 
     public static double kShooterMinOutput = -1;
 	public static double kShootermaxRPM = 5700;
@@ -45,6 +40,11 @@ public class Constants {
 	public static double kShooterMinRPM = 3000;
 	public static double kShooterHysteresis = 10;
 	public static double kShooterIdleSpeed = 0;
+	public static double kShooterP = 6e-5; 
+    public static double kShooterI = 0;
+    public static double kShooterD = 0; 
+    public static double kShooterIz = 0; 
+	public static double kShooterFF = 1/kShootermaxRPM; 
 	public static int kShooterHoodSolenoidAChannel = 1;
 	public static int kShooterHoodSolenoidBChannel = 2;
 

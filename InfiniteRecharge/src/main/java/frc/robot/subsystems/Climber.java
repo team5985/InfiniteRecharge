@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
@@ -21,7 +22,7 @@ public class Climber extends Subsystem {
 
     private static SensoredSystem m_elevator;
     private static SensoredSystem m_winchMaster;
-    private static SolenoidAdapter m_buddyLock;
+    private static Solenoid m_buddyLock;
     private static LimitSwitchAdapter m_upperLimit;
     private static LimitSwitchAdapter m_lowerLimit;
 
@@ -43,8 +44,7 @@ public class Climber extends Subsystem {
         winchPidController.reset(0.0);
     }
 
-    public static void setSystem(SensoredSystem elevator, SensoredSystem winch, SolenoidAdapter buddyLock, LimitSwitchGroup limitGroup) {
-        m_elevator = elevator;
+    public static void setSystem(SensoredSystem winch, Solenoid buddyLock, LimitSwitchGroup limitGroup) {
         m_winchMaster = winch;
         m_buddyLock = buddyLock;  // dont @ me ic this idea is original
         m_upperLimit = limitGroup.getInstance(0);
@@ -105,12 +105,12 @@ public class Climber extends Subsystem {
         
         switch(buddyState) {
             case BUDDY:
-            m_buddyLock.setForward();  // As this solenoid must be normally extended, "Forward" in this case means releasing the lock
+            m_buddyLock.set(true);  // As this solenoid must be normally extended, "Forward" in this case means releasing the lock
             break;
 
             case NO_BUDDY:
             // be sad :(
-            m_buddyLock.setReverse();  // As this solenoid must be normally extended, "Off" or "Reverse" in this case means locked
+            m_buddyLock.set(false);  // As this solenoid must be normally extended, "Off" or "Reverse" in this case means locked
             break;
 
             default:
