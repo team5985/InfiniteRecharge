@@ -10,9 +10,12 @@ package frc.robot;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.subsystems.RobotWrangler;
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
+import frc.util.PbSolenoid;
 import frc.util.PbSparkMax;
+import frc.util.PbTalonSrx;
 import frc.util.SensoredSystem;
 
 /**
@@ -34,12 +37,27 @@ public class RobotMap {
         
         SensoredSystem system = new SensoredSystem(robotWranglerMotor);
         return system;
-    }
+	}
+	
+	public static SensoredSystem getControlPanelSystem() {
+		PbTalonSrx controlPanelMotor;
+		controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
+		SensoredSystem system = new SensoredSystem(controlPanelMotor);
+		return system;
+	}
 
     public static LimitSwitchGroup getRobotWranglerLimits() {
         PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
         PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
         LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
         return limitSwitchGroup;
-    }
+	}
+	public static PbSolenoid getControlPanelSolenoid() {
+		if(Constants.kControlPanelDoubleSolenoid) {
+		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel,
+		 Constants.kControlPanelSolenoidBChannel);
+		} else {
+		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);}
+		return getControlPanelSolenoid();
+	} 
 }
