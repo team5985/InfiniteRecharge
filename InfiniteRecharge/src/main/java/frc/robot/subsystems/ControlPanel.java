@@ -8,63 +8,55 @@ public class ControlPanel extends Subsystem {
 
     private ControlPanelState currentState;
     private ControlPanelState desiredState;
-
+    
     public void update() 
     {
+        boolean newState = false;
+        if (currentState != desiredState)
+        {
+            newState = true;
+            currentState = desiredState;
+        }
+
         ColourSensor.getInstance().runPeriodic();
         //state machine
         switch(currentState) {
             case EXTENDED:
-            RobotMap.getControlPanelSolenoid().setForward();; //FIXME
-            
-            /*
-            If button is pressed - trigger rotational control
-                Desired state = Rotationalcontrol
-            If button is pressed - trigger positional control
-                Desired state = postionalcontrol
-            If button is pressed - trigger manual clockwise control
-                Desired state = Manual clockwise
-            If button is pressed - trigger manual anticlockwise control
-                Desired state = Manual anticlockwise
-            If button is pressed - retract   (same button to extend?)
-            
-                DesiredState = retracted
+            setSpinnerSpeed(0);
 
-             */
-            desiredState = ControlPanelState.EXTENDED;
-            currentState = desiredState;
+            extendSpinner();
             break;
 
             case RETRACTED:
-            RobotMap.getControlPanelSolenoid().setReverse(); //FIXME
-            /*If button is pressed - extended   (same button to retract?)
-            
-            DesiredState = extended
-            */
-            desiredState = ControlPanelState.RETRACTED;
-            currentState = desiredState;
+            setSpinnerSpeed(0);
+            retractSpinner();
             break;
 
             case ROTATION_CONTROL:
-            double controlPanelRotations = ColourSensor.getInstance().getControlPanelRotations();
+            extendSpinner();
             
+            double controlPanelRotations = ColourSensor.getInstance().getControlPanelRotations();
+            if(newState = true){
+                ColourSensor.getInstance().resetColourChanges();
+                newState = false;
+            }
             if(controlPanelRotations < Constants.kRotationalControlTargetRotations)
             {
                 double rotationSpeed = Math.min(Math.sqrt(Math.max(controlPanelRotations, 0)),1);
-                //Spin at rotationSpeed
+                setSpinnerSpeed(rotationSpeed);
             }
             else
             {
-                //Stop spinning
-                desiredState = ControlPanelState.RETRACTED;
+                setSpinnerSpeed(0);
+                setDesiredState(ControlPanelState.RETRACTED);
             }   
-            currentState = desiredState;
             break;
 
             case POSITION_CONTROL:
+            extendSpinner();
             if (ColourSensor.getInstance().getFmsColour() == ColourSensor.CPANEL_COLOUR_INVALID)
             {
-                desiredState = ControlPanelState.EXTENDED;
+                setDesiredState(ControlPanelState.RETRACTED);
             }
             else
             {
@@ -72,40 +64,46 @@ public class ControlPanel extends Subsystem {
                 int currentColour = ColourSensor.getInstance().getColour();
                 if(FMSColour != currentColour)
                 {
-                    //Spin slowly
+                    setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
                 }
                 else
                 {
-                    // stop spinning
-                    desiredState = ControlPanelState.EXTENDED;
+                    setSpinnerSpeed(0);
+                   
+                    setDesiredState(ControlPanelState.RETRACTED);
                 }
             }
-            currentState = desiredState;
             break;
+
             case MANUAL_CLOCKWISE:
-            // Spin manual not clockwise
-            desiredState = ControlPanelState.EXTENDED;
-            
-            currentState = desiredState;
+            extendSpinner();
+            setSpinnerSpeed(Constants.kControlPanelManualSpeed);
             break;
 
 
             case MANUAL_ANTICLOCKWISE:
-            // Spin manual clockwise
-            desiredState = ControlPanelState.EXTENDED;
-
-            currentState = desiredState;
+            extendSpinner();
+            setSpinnerSpeed(-Constants.kControlPanelManualSpeed);
             break;
 
 
 
             default:
             desiredState = ControlPanelState.RETRACTED;
-
-            currentState = desiredState;
             break;
         }
     }
+
+    public void setDesiredState(ControlPanelState newState)
+    {
+        desiredState = newState;
+    }
+
+    public ControlPanelState getCurrentState()
+    {
+        return currentState;
+    }
+
     /**
      * @return 1 if extended, 0 if retracted
      */
@@ -134,8 +132,20 @@ public class ControlPanel extends Subsystem {
         MANUAL_CLOCKWISE,
         MANUAL_ANTICLOCKWISE,
     }
-    
 
+    private void extendSpinner()
+    {
+        RobotMap.getControlPanelSolenoid().setForward();
+    }
+
+    private void retractSpinner()
+    {
+        RobotMap.getControlPanelSolenoid().setReverse();
+    }
     
+    private void setSpinnerSpeed(double speed)
+    {
+        RobotMap.getControlPanelSystem().set(speed);
+    }
     
 }

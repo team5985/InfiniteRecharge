@@ -39,9 +39,8 @@ public class Constants {
 	public static final double kRotationalControlTargetRotations = 3.75;
 	//Depreciated if single solenoid
 
-	public static final double kControlPanelManualSpeed = 0.5; //FIXME
-	public static final double kControlPanelRotationControlSpeed = 0.5; //FIXME
-	public static final double kControlPanelPoisitionControlSpeed = 0.5; //FIXME
+	public static final double kControlPanelManualSpeed = 0.5; 
+	public static final double kControlPanelPoisitionControlSpeed = 0.1; 
 	public static final double kControlPanelTargetRotations = 4;
 	public static final double kControlPanelHysteresis = 0.5;
 
