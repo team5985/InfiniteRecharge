@@ -9,70 +9,23 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
-
+import frc.robot.Constants;
 public class ColourSensor
 {   
     /**
-     * Colour RED seen at the control panel.
-     */
-    public static final int CPANEL_COLOUR_RED = 0;
-
-    /**
-     * Colour GREEN seen at the control panel.
-     */
-    public static final int CPANEL_COLOUR_GREEN = 1;
-
-    /**
-     * Colour BLUE seen at the control panel.
-     */
-    public static final int CPANEL_COLOUR_CYAN = 2;
-
-    /**
-     * Colour YELLOW seen at the control panel.
-     */
-    public static final int CPANEL_COLOUR_YELLOW = 3;
-
-    /**
-     * The colour seen at the control panel  did not match any of the expected colours.
-     */
-    public static final int CPANEL_COLOUR_INVALID = -1;
-
-    /**
-     * The number of colour transitions per full rotation of the colour wheel.
-     */
-    public static final int CPANEL_COLOURS_PER_ROTATION = 8;
-  
-
-    // Values from test with sensor LED turned on.
-    public static final Color LIT_CYAN = ColorMatch.makeColor(0.14,0.42,0.43);
-    public static final Color LIT_GREEN = ColorMatch.makeColor(0.19,0.53,0.27);
-    public static final Color LIT_RED = ColorMatch.makeColor(0.48,0.36,0.16);
-    public static final Color LIT_YELLOW = ColorMatch.makeColor(0.32,0.53,0.14);
-
-    // Values from test with sensor LED turned off (ambient light).
-    public static final Color AMB_CYAN = ColorMatch.makeColor(0.14,0.39,0.45);
-    public static final Color AMB_GREEN = ColorMatch.makeColor(0.20,0.51,0.28);
-    public static final Color AMB_RED = ColorMatch.makeColor(0.59,0.29,0.12);
-    public static final Color AMB_YELLOW = ColorMatch.makeColor(0.38,0.49,0.13);
-
-    /**
      * The previous colour the color was.
      */
-    private int PreviousColour = CPANEL_COLOUR_INVALID;
+    private int PreviousColour = Constants.kCPANEL_COLOUR_INVALID;
+
     /** 
      * The colour since the last scan of the colour sensor.
      */
-    private int lastColour = CPANEL_COLOUR_INVALID;
+    private int lastColour = Constants.kCPANEL_COLOUR_INVALID;
+
     /**
      * A count of how many times the sensor has scammed the smae colour
      */
     private int scanCount = 0;
-
-    // FMS values for colours
-    public static final char FMS_CYAN = 'B';
-    public static final char FMS_RED = 'R';
-    public static final char FMS_YELLOW = 'Y';
-    public static final char FMS_GREEN = 'G';
 
     /**
      * The singleton instance of this class.
@@ -108,10 +61,10 @@ public class ColourSensor
         sensor = new ColorSensorV3(i2cPort);
 
         matcher = new ColorMatch();
-        matcher.addColorMatch(AMB_CYAN);
-        matcher.addColorMatch(AMB_RED);
-        matcher.addColorMatch(AMB_GREEN);
-        matcher.addColorMatch(AMB_YELLOW);
+        matcher.addColorMatch(Constants.kAMB_CYAN);
+        matcher.addColorMatch(Constants.kAMB_RED);
+        matcher.addColorMatch(Constants.kAMB_GREEN);
+        matcher.addColorMatch(Constants.kAMB_YELLOW);
         matcher.setConfidenceThreshold(0.8);
     }
 
@@ -139,15 +92,15 @@ public class ColourSensor
     public int getColour() {
         Color col = sensor.getColor();
         ColorMatchResult result = matcher.matchColor(col);
-        int forReturn = CPANEL_COLOUR_INVALID;
-        if (result.color == AMB_CYAN) {
-            forReturn = CPANEL_COLOUR_CYAN;
-        } else if (result.color == AMB_RED) {
-            forReturn = CPANEL_COLOUR_RED;
-        } else if (result.color == AMB_YELLOW) {
-            forReturn = CPANEL_COLOUR_YELLOW;
-        } else if (result.color == AMB_GREEN) {
-            forReturn = CPANEL_COLOUR_GREEN;
+        int forReturn = Constants.kCPANEL_COLOUR_INVALID;
+        if (result.color == Constants.kAMB_CYAN) {
+            forReturn = Constants.kCPANEL_COLOUR_CYAN;
+        } else if (result.color == Constants.kAMB_RED) {
+            forReturn = Constants.kCPANEL_COLOUR_RED;
+        } else if (result.color == Constants.kAMB_YELLOW) {
+            forReturn = Constants.kCPANEL_COLOUR_YELLOW;
+        } else if (result.color == Constants.kAMB_GREEN) {
+            forReturn = Constants.kCPANEL_COLOUR_GREEN;
         }
         return forReturn;
     }
@@ -176,7 +129,7 @@ public class ColourSensor
      * @return Full rotations
      */
     public double getControlPanelRotations() {
-        return (double) myColourChanges / CPANEL_COLOURS_PER_ROTATION;
+        return (double) myColourChanges / Constants.kCPANEL_COLOURS_PER_ROTATION;
     }
     
 
@@ -206,7 +159,7 @@ public class ColourSensor
         }
 
         //update count rotations
-        if ((CurrentColour != CPANEL_COLOUR_INVALID) &&
+        if ((CurrentColour != Constants.kCPANEL_COLOUR_INVALID) &&
             (CurrentColour != PreviousColour) &&
             (scanCount > 2))
         {
@@ -224,8 +177,6 @@ public class ColourSensor
         }
     }
 
-    
-
     /**
      * 
      * @return colour - 1 = red, 2 = yellow, 3 = green, 4 = blue, 0 = no colour/error
@@ -237,21 +188,21 @@ public class ColourSensor
         {
             switch (gameData.charAt(0))
             {
-                case FMS_CYAN :
-                return CPANEL_COLOUR_CYAN;
-                case FMS_GREEN :
-                return CPANEL_COLOUR_GREEN;
-                case FMS_RED :
-                return CPANEL_COLOUR_RED;
-                case FMS_YELLOW :
-                return CPANEL_COLOUR_YELLOW;
+                case Constants.kFMS_CYAN :
+                return Constants.kCPANEL_COLOUR_CYAN;
+                case Constants.kFMS_GREEN :
+                return Constants.kCPANEL_COLOUR_GREEN;
+                case Constants.kFMS_RED :
+                return Constants.kCPANEL_COLOUR_RED;
+                case Constants.kFMS_YELLOW :
+                return Constants.kCPANEL_COLOUR_YELLOW;
                 default :
-                return CPANEL_COLOUR_INVALID;
+                return Constants.kCPANEL_COLOUR_INVALID;
             }
         }
         else
         {
-            return CPANEL_COLOUR_INVALID;
+            return Constants.kCPANEL_COLOUR_INVALID;
         }
     }
 
