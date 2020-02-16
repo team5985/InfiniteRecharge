@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.*;
-import frc.util.ColourSensor;
 
 public class Robot extends TimedRobot {
   AutoController autoController;
@@ -24,10 +23,6 @@ public class Robot extends TimedRobot {
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
-    /*ColourSensor.colorMatcher.addColorMatch(kBlueTarget);
-    colorMatcher.addColorMatch(kGreenTarget);
-    colorMatcher.addColorMatch(kRedTarget);
-    colorMatcher.addColorMatch(kYellowTarget);  */
   }
 
   @Override
