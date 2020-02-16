@@ -92,20 +92,18 @@ public class ColourSensor
     /**
      * The number of colour change transitions that have been counted since this was last reset.
      */
-    private int myColourChanges = 0;
+    private static int myColourChanges = 0;
 
     /**
      * The direction of rotation for the last transition that was detected.
-     * <code>true</code> is Clockwise.
-     * <code>false</code> is AntiClockwise.
+     * <code>true</code> is Clockwise. <code>false</code> is AntiClockwise.
      */
     private boolean myLastTransitionDir = false;
 
     /**
      * Constructor for this class.
      */
-    private ColourSensor()
-    {
+    private ColourSensor() {
         I2C.Port i2cPort = I2C.Port.kOnboard;
         sensor = new ColorSensorV3(i2cPort);
 
@@ -118,82 +116,67 @@ public class ColourSensor
     }
 
     /**
-     * Creates (if necessary) and returns the one and only instance of the ColourSensor
-     * class.
+     * Creates (if necessary) and returns the one and only instance of the
+     * ColourSensor class.
      * 
      * @return the instance of {@link ColourSensor}
      */
-    public static synchronized ColourSensor getInstance()
-    {
-        if (theInstance == null)
-        {
+    public static synchronized ColourSensor getInstance() {
+        if (theInstance == null) {
             theInstance = new ColourSensor();
         }
         return theInstance;
     }
 
     /**
-     * Gets tyhe colour seen by the colour sensor.
-     *  Returns one of...
-     * {@link #CPANEL_COLOUR_CYAN}
-     * {@link #CPANEL_COLOUR_GREEN}
-     * {@link #CPANEL_COLOUR_RED}
-     * {@link #CPANEL_COLOUR_YELLOW}
+     * Gets tyhe colour seen by the colour sensor. Returns one of...
+     * {@link #CPANEL_COLOUR_CYAN} {@link #CPANEL_COLOUR_GREEN}
+     * {@link #CPANEL_COLOUR_RED} {@link #CPANEL_COLOUR_YELLOW}
      * {@link #CPANEL_COLOUR_INVALID}
      * 
      * @return the colour currently seen by the colour sensor.
      */
-    public int getColour()
-    {
+    public int getColour() {
         Color col = sensor.getColor();
         ColorMatchResult result = matcher.matchColor(col);
         int forReturn = CPANEL_COLOUR_INVALID;
-        if (result.color == AMB_CYAN)
-        {
+        if (result.color == AMB_CYAN) {
             forReturn = CPANEL_COLOUR_CYAN;
-        }
-        else if (result.color == AMB_RED)
-        {
+        } else if (result.color == AMB_RED) {
             forReturn = CPANEL_COLOUR_RED;
-        }
-        else if (result.color == AMB_YELLOW)
-        {
+        } else if (result.color == AMB_YELLOW) {
             forReturn = CPANEL_COLOUR_YELLOW;
-        }
-        else if (result.color == AMB_GREEN)
-        {
+        } else if (result.color == AMB_GREEN) {
             forReturn = CPANEL_COLOUR_GREEN;
         }
         return forReturn;
-    } 
+    }
 
     /**
      * Reset the colour change counter back to zero.
      */
-    public void resetColourChanges()
-    {
-        myColourChanges= 0;
+    public void resetColourChanges() {
+        myColourChanges = 0;
     }
 
     /**
-     * Returns the number of times that colour change transitions have been detected since the last
-     * reset.
+     * Returns the number of times that colour change transitions have been detected
+     * since the last reset.
      * 
      * @return colour change count
      */
-    public int getColourChange()
-    {
-        return myColourChanges; 
+    public int getColourChange() {
+        return myColourChanges;
     }
 
     /**
-     * Returns the number of full rotations, this will give values to the closest eighth of a rotation.
+     * Returns the number of full rotations, this will give values to the closest
+     * eighth of a rotation.
      * 
      * @return Full rotations
      */
-    public double getControlPanelRotations()
-    {
-        return (double)myColourChanges / CPANEL_COLOURS_PER_ROTATION;
+    public double getControlPanelRotations() {
+        return (double) myColourChanges / CPANEL_COLOURS_PER_ROTATION;
     }
     
 
