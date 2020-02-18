@@ -123,8 +123,8 @@ public class Shooter extends Subsystem {
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
         
-        RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
-        RobotMap.getShooterBPIDController().setReference(-targetVelocity, ControlType.kVelocity);
+        RobotMap.getShooterAPIDController().setReference(-targetVelocity, ControlType.kVelocity);
+        RobotMap.getShooterBPIDController().setReference(targetVelocity, ControlType.kVelocity);
         System.out.println(targetVelocity);
         return getShooterAcceptableSpeed(targetVelocity);
     }

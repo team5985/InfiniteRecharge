@@ -26,6 +26,11 @@ public class Indexer extends Subsystem {
         return m_instance;
     }
 
+    private Indexer() {
+        currentState = IndexerStates.IDLE;
+        desiredState = IndexerStates.IDLE;
+    }
+
     public boolean zeroPosition() {
         return false;
     }
