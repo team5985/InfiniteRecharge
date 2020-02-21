@@ -26,6 +26,14 @@ public class Indexer extends Subsystem {
         return m_instance;
     }
 
+    private IndexerStates currentState;
+    private IndexerStates desiredState;
+    
+    private Indexer() {
+        currentState = IndexerStates.IDLE;
+        desiredState = IndexerStates.IDLE;
+    }
+
     public boolean zeroPosition() {
         return false;
     }
@@ -34,9 +42,6 @@ public class Indexer extends Subsystem {
         //Somewhere over the rainbow - proably
         return 0;
     }
-
-    private IndexerStates currentState;
-    private IndexerStates desiredState;
 
     public void update() {
         switch(currentState) {
