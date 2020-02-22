@@ -8,13 +8,14 @@
 package frc.util;
 
 import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.Encoder;
 
-public class PbDioEncoder implements EncoderAdapter {
+public class PbDioEncoder extends Encoder implements EncoderAdapter {
     CounterBase encoder;
     int countOffset;
 
-    public PbDioEncoder(CounterBase dioEncoder) {
-        encoder = dioEncoder;
+    public PbDioEncoder(int channelA, int channelB) {
+        super(channelA, channelB);
         countOffset = 0;
     }
 

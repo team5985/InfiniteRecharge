@@ -38,6 +38,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 import frc.util.*;
 
@@ -139,15 +140,17 @@ public class RobotMap {
 	/**
 	 * Climber
 	 */
-	static PbTalonSrx winchA = new PbTalonSrx(Constants.kWinchACanId);  // Master
-	static WPI_TalonSRX winchB = new WPI_TalonSRX(Constants.kWinchBCanId);
+	static WPI_TalonSRX winchA = new WPI_TalonSRX(Constants.kWinchACanId);  // Master
+	static WPI_VictorSPX winchB = new WPI_VictorSPX(Constants.kWinchBCanId);
 	static WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
 	static  WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
+
+	static PbDioEncoder winchEncoder = new PbDioEncoder(Constants.kWinchEncoderDioA, Constants.kWinchEncoderDioB);
 
 	// PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId, MotorType.kBrushless);
 	// SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
 
-	static SensoredSystem winchSystem = new SensoredSystem(winchA);
+	static SensoredSystem winchSystem = new SensoredSystem(winchA, winchEncoder);
 
 	static PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
 	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
@@ -227,21 +230,23 @@ public class RobotMap {
 
 	public static SensoredSystem getWinchSystem() {
 		winchA.configFactoryDefault();
-		winchA.configContinuousCurrentLimit(Constants.kWinchCurrentLimit);
+		SupplyCurrentLimitConfiguration iConfig = new SupplyCurrentLimitConfiguration(true, Constants.kWinchCurrentLimit, 0, 0);
+		winchA.configSupplyCurrentLimit(iConfig);
 		winchA.configPeakCurrentLimit(0);
+		winchA.enableCurrentLimit(true);
 		// winchA.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, 0, 0);
-		winchA.configOpenloopRamp(250);
-		winchA.configClosedloopRamp(250);
+		winchA.configOpenloopRamp(0.25);
+		winchA.configClosedloopRamp(0.25);
 
 		winchB.configFactoryDefault();
 		winchB.follow(winchA);
-		winchB.setInverted(InvertType.FollowMaster);  // FIXME
+		winchB.setInverted(InvertType.FollowMaster);
 		winchC.configFactoryDefault();
 		winchC.follow(winchA);
-		winchC.setInverted(InvertType.FollowMaster);  // FIXME
+		winchC.setInverted(InvertType.OpposeMaster);
 		winchD.configFactoryDefault();
 		winchD.follow(winchA);
-		winchD.setInverted(InvertType.FollowMaster);  // FIXME
+		winchD.setInverted(InvertType.OpposeMaster);
 
 		return winchSystem;
 	}

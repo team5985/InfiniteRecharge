@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalSource;
+
 /**
  * Add your docs here.
  */
@@ -20,11 +22,15 @@ public class Constants {
 	public static final int kPcmCanId = 50;
 	public static final int kRobotWranglerSparkCanId = 148;
 
-	public static final int kElevatorMotorCanId = 0;  //FIXME
-	public static final int kWinchACanId = 0;  //FIXME
-	public static final int kWinchBCanId = 0;  //FIXME
-	public static final int kWinchCCanId = 0;  //FIXME
-	public static final int kWinchDCanId = 0;  //FIXME
+	// public static final int kElevatorMotorCanId = 0;  //FIXME
+	public static final int kWinchACanId = 16;
+	public static final int kWinchBCanId = 17;
+	public static final int kWinchCCanId = 18;
+	public static final int kWinchDCanId = 19;
+
+	// DIO ports
+	public static final int kWinchEncoderDioA = 8;
+	public static final int kWinchEncoderDioB = 9;
 
 	// Robot Wrangler
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
@@ -104,7 +110,6 @@ public class Constants {
 	public static final int kIntakeCanID = 9;
 	public static final int kItntakeActuatorCanID = 10;
 	public static final int kControlPanelSolenoidAChannel = 0;
-	public static final int kControlPanelSolenoidBChannel = 0;
-	
+	public static final int kControlPanelSolenoidBChannel = 0;	
 	//Shooter RPM
 }

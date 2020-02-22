@@ -30,6 +30,10 @@ public class Robot extends TimedRobot {
     
     Drive drivetrain = Drive.getInstance();
     drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
+
+    Climber climber = Climber.getInstance();
+    climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+    
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     
@@ -45,7 +49,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
     SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
 
-    Climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+    
   }
 
   @Override
@@ -66,6 +70,7 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
+    Climber.getInstance().update();
   }
 
   @Override

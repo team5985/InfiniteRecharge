@@ -42,7 +42,7 @@ public class Climber extends Subsystem {
         winchPidController.reset(0.0);
     }
 
-    public static void setSystem(SensoredSystem winch, Solenoid buddyLock, LimitSwitchGroup limitGroup) {
+    public void setSystem(SensoredSystem winch, Solenoid buddyLock, LimitSwitchGroup limitGroup) {
         m_winchMaster = winch;
         m_buddyLock = buddyLock;
         m_upperLimit = limitGroup.getInstance(0);
@@ -191,7 +191,7 @@ public class Climber extends Subsystem {
      * Move the winch manually, with protection for completely disallowing reversing and travelling past the lower limit switch.
      * @param speed from -1.0 to 1.0
      */
-    private void winchMove(double speed) {
+    public void winchMove(double speed) {
         if (m_lowerLimit.get() && speed < 0) {
             speed = 0;
         }
