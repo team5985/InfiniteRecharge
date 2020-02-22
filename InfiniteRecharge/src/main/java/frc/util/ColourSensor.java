@@ -1,8 +1,5 @@
 package frc.util;
 
-
-
-
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -132,6 +129,7 @@ public class ColourSensor
     public double getControlPanelRotations() {
         return (double) myColourChanges / Constants.kCPANEL_COLOURS_PER_ROTATION;
 
+
     }
     
 
@@ -206,8 +204,8 @@ public class ColourSensor
         else
         {
             return Constants.kControlPanelColourInvalid;
+
         }
     }
 
 }
-
