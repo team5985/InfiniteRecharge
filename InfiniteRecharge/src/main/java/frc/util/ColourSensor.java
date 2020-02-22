@@ -83,24 +83,24 @@ public class ColourSensor
 
     /**
      * Gets tyhe colour seen by the colour sensor. Returns one of...
-     * {@link #CPANEL_COLOUR_CYAN} {@link #CPANEL_COLOUR_GREEN}
-     * {@link #CPANEL_COLOUR_RED} {@link #CPANEL_COLOUR_YELLOW}
-     * {@link #CPANEL_COLOUR_INVALID}
+     * {@link #kControlPanelColourBlue} {@link #kControlPanelColourGreen}
+     * {@link #kControlPanelColourRed} {@link #CkControlPanelColourYellow}
+     * {@link #kControlPanelColourInvalid}
      * 
      * @return the colour currently seen by the colour sensor.
      */
     public int getColour() {
         Color col = sensor.getColor();
         ColorMatchResult result = matcher.matchColor(col);
-        int forReturn = Constants.kCPANEL_COLOUR_INVALID;
+        int forReturn = Constants.kControlPanelColourInvalid;
         if (result.color == Constants.kAMB_CYAN) {
-            forReturn = Constants.kCPANEL_COLOUR_CYAN;
+            forReturn = Constants.kControlPanelColourBlue;
         } else if (result.color == Constants.kAMB_RED) {
-            forReturn = Constants.kCPANEL_COLOUR_RED;
+            forReturn = Constants.kControlPanelColourRed;
         } else if (result.color == Constants.kAMB_YELLOW) {
-            forReturn = Constants.kCPANEL_COLOUR_YELLOW;
+            forReturn = Constants.kControlPanelColourYellow;
         } else if (result.color == Constants.kAMB_GREEN) {
-            forReturn = Constants.kCPANEL_COLOUR_GREEN;
+            forReturn = Constants.kControlPanelColourGreen;
         }
         return forReturn;
     }
@@ -145,7 +145,7 @@ public class ColourSensor
 
 
 
-    public void runPeriodic()
+    public void update()
     {
         int CurrentColour = getColour();
         if (CurrentColour == lastColour)
@@ -159,7 +159,7 @@ public class ColourSensor
         }
 
         //update count rotations
-        if ((CurrentColour != Constants.kCPANEL_COLOUR_INVALID) &&
+        if ((CurrentColour != Constants.kControlPanelColourInvalid) &&
             (CurrentColour != PreviousColour) &&
             (scanCount > 2))
         {
@@ -189,20 +189,20 @@ public class ColourSensor
             switch (gameData.charAt(0))
             {
                 case Constants.kFMS_CYAN :
-                return Constants.kCPANEL_COLOUR_CYAN;
+                return Constants.kControlPanelColourBlue;
                 case Constants.kFMS_GREEN :
-                return Constants.kCPANEL_COLOUR_GREEN;
+                return Constants.kControlPanelColourGreen;
                 case Constants.kFMS_RED :
-                return Constants.kCPANEL_COLOUR_RED;
+                return Constants.kControlPanelColourRed;
                 case Constants.kFMS_YELLOW :
-                return Constants.kCPANEL_COLOUR_YELLOW;
+                return Constants.kControlPanelColourYellow;
                 default :
-                return Constants.kCPANEL_COLOUR_INVALID;
+                return Constants.kControlPanelColourInvalid;
             }
         }
         else
         {
-            return Constants.kCPANEL_COLOUR_INVALID;
+            return Constants.kControlPanelColourInvalid;
         }
     }
 
