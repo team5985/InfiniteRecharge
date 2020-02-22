@@ -14,6 +14,7 @@ import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
+import frc.util.Luin;
 /**
  * Add your docs here.
  */
@@ -26,7 +27,10 @@ public class TeleopController {
     private static Intake m_intake;
     private static Indexer m_indexer;
     private static Climber m_climber;
+    private static Vision m_vision;
     private static Subsystem m_Subsystem;
+
+    private static Luin m_luin;
 
     private RobotState currentState;
     private RobotState desiredState;
@@ -45,7 +49,10 @@ public class TeleopController {
         currentState = RobotState.TELEOP;
         desiredState = RobotState.TELEOP;
 
+        m_luin = new Luin();
+
         m_controls = new DriverControls();
+        m_vision = Vision.getInstance();
        
         m_drive = Drive.getInstance();
         m_config = new Config();
@@ -137,7 +144,17 @@ public class TeleopController {
         //     m_climber.winchMove(0.25);
         // } else if (m_controls.get)
 
-        callDrive();
+
+        if (m_controls.getVisionCommand()) {
+            double tx = m_vision.getAngleToTarget();
+            double visionSteering = tx * Constants.kVisionTurnKp;
+            m_drive.arcadeDrive(0.5, visionSteering, 1.0);
+        } else if (m_luin.getFace() == true) {
+            m_vision.blindLuin();
+        } else {
+            m_vision.disableVision();
+            callDrive();
+        }
     }
 
     private void stEndgame() {        

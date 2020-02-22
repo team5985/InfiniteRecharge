@@ -13,6 +13,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.config.Config;
@@ -136,6 +137,7 @@ public class RobotMap {
 	static WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
 	static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
 	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
+	static Servo intakeServo = new Servo(0);
 
 	/**
 	 * Climber
@@ -213,13 +215,17 @@ public class RobotMap {
 	public static WPI_TalonSRX getIntakeActuationSystem() {
 		intakeActuation.configMotionCruiseVelocity(Constants.kIntakeActuatorMotionCruiseVel); //3600
 		intakeActuation.configMotionAcceleration(Constants.kIntakeActuatorMotionAccel); //25000
-		intakeActuation.config_kF(0, Constants.kIntakeActuatorKp);
+		intakeActuation.config_kF(0, Constants.kIntakeActuatorKf);
 		
 		return intakeActuation;
 	}
 
 	public static SensoredSystem getIntakeSystem() {
 		return intakeSystem;
+	}
+	
+	public static Servo getIntakeServo() {
+		return intakeServo;
 	}
 
 	// Set Idle mode

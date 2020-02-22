@@ -60,7 +60,7 @@ public class Constants {
 	
  	public static final int kIntakeActuatorMotionCruiseVel = 3600;
 	public static final int kIntakeActuatorMotionAccel = 25000;
-	public static final double kIntakeActuatorKp = 0.125; 
+	public static final double kIntakeActuatorKf = 0.6; 
 
 	public static final double kIntakeExtensionRevolutions = 2.4;
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
@@ -115,5 +115,8 @@ public class Constants {
 	public static final int kControlPanelSolenoidAChannel = 0;
 	public static final int kControlPanelSolenoidBChannel = 0;	
 	//Shooter RPM
+
+	// Vision
+	public static final double kVisionTurnKp = 0;
 
 }

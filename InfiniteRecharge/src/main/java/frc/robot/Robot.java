@@ -33,6 +33,9 @@ public class Robot extends TimedRobot {
 
     Climber climber = Climber.getInstance();
     climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+   
+    Intake intake = Intake.getInstance();
+    intake.setSystem(RobotMap.getIntakeActuationSystem(), RobotMap.getIntakeSystem(), RobotMap.getIntakeServo());
     
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
@@ -48,8 +51,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
     SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
     SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
-
-    
   }
 
   @Override
