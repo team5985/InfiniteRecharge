@@ -42,7 +42,7 @@ public class Constants {
     public static double kShooterMaxOutput = 1; 
     public static double kShooterMinOutput = -1;
 	public static double kShootermaxRPM = 5700;
-	public static double kShooterDefaultRPM = 5600;
+	public static double kShooterDefaultRPM = 3000;
 	public static double kShooterMinRPM = 3000;
 	public static double kShooterHysteresis = 10;
 	public static double kShooterIdleSpeed = 0;
@@ -117,6 +117,6 @@ public class Constants {
 	//Shooter RPM
 
 	// Vision
-	public static final double kVisionTurnKp = 0;
+	public static final double kVisionTurnKp = 0.012;
 
 }

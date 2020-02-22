@@ -51,6 +51,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
     SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
     SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
+
+    SmartDashboard.putNumber("Servo", 0.0);
   }
 
   @Override
@@ -72,6 +74,8 @@ public class Robot extends TimedRobot {
     Indexer.getInstance().update();
     Intake.getInstance().update();
     // Climber.getInstance().update();
+
+    RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
   }
 
   @Override

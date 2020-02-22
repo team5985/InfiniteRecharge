@@ -40,7 +40,7 @@ public class TeleopController {
     public enum RobotState {
         TELEOP,
         ENDGAME,
-        VISION,
+        // VISION,
         // CLIMB,
         VICTORY,
     }
@@ -67,20 +67,12 @@ public class TeleopController {
         switch (currentState) {
             case TELEOP:
                 stTeleop();
-                trVision();
                 trEndgame();
             break;
             case ENDGAME:
                 stEndgame();
                 trTeleop();
                 trVictory();
-            break;
-            case VISION:
-                stVision();
-                trTeleop();
-                trVision();
-                trEndgame();
-
             break;
             case VICTORY:
                 stVictory();
@@ -146,10 +138,13 @@ public class TeleopController {
 
 
         if (m_controls.getVisionCommand()) {
-            double tx = m_vision.getAngleToTarget();
-            double visionSteering = tx * Constants.kVisionTurnKp;
-            m_drive.arcadeDrive(0.5, visionSteering, 1.0);
-        } else if (m_luin.getFace() == true) {
+            // if (m_vision.getTargetAcquired()) {
+                double tx = m_vision.getAngleToTarget();
+                System.out.println("tx: " + tx);
+                double visionSteering = tx * Constants.kVisionTurnKp;
+                m_drive.arcadeDrive(1.0, visionSteering, 0.0);
+            // }
+        } else if (m_luin.getFace()) {
             m_vision.blindLuin();
         } else {
             m_vision.disableVision();
@@ -196,11 +191,6 @@ public class TeleopController {
         }
     }
 
-    private void trVision() {
-        if(m_controls.getVisionCommand()) 
-            desiredState = RobotState.VISION;
-    }
-
     private void trTeleop() {
         if (m_controls.getVisionCommand() || m_controls.getTeleopCommand()) {
             desiredState = RobotState.TELEOP;
@@ -208,10 +198,7 @@ public class TeleopController {
     }
 
     public void callDrive() {
-       
-        if (currentState != RobotState.VISION) {
-            // m_drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
-            m_drive.arcadeDrive(m_controls.getDriveThrottle(), m_controls.getDriveSteering(), m_controls.getDrivePower());
-        }
+        // m_drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
+        m_drive.arcadeDrive(m_controls.getDriveThrottle(), m_controls.getDriveSteering(), m_controls.getDrivePower());
     }
 }

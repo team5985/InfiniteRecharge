@@ -131,7 +131,7 @@ public class Shooter extends Subsystem {
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        if(getShooterRPM() >= getShooterRPM() - Constants.kShooterHysteresis && getShooterRPM() <= getShooterRPM() + Constants.kShooterHysteresis) {
+        if(getShooterRPM() >= targetRPM * 0.75) {
             return true;
         } else {
             return false;

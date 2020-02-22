@@ -18,13 +18,13 @@ public class Vision {
 
     public boolean getTargetAcquired() {
       setPipeline(1);
-      final boolean targetAcquired = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false);
+      boolean targetAcquired = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getBoolean(false);
       return targetAcquired;
     }
 
     public double getAngleToTarget() {
       setPipeline(1);
-      final double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
+      double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
       return tx;
     }
 
@@ -32,7 +32,7 @@ public class Vision {
       setPipeline(0);
     }
 
-    private void setPipeline(final int pipelineId) {
+    private void setPipeline(int pipelineId) {
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipelineId);
     }
 
