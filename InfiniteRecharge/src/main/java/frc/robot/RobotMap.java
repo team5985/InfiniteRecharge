@@ -10,6 +10,8 @@ package frc.robot;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.subsystems.RobotWrangler;
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
@@ -52,12 +54,10 @@ public class RobotMap {
         LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
         return limitSwitchGroup;
 	}
-	public static PbSolenoid getControlPanelSolenoid() {
-		if(Constants.kControlPanelDoubleSolenoid) {
-		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel,
-		 Constants.kControlPanelSolenoidBChannel);
-		} else {
-		PbSolenoid controlPanelSolenoid = new PbSolenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);}
-		return getControlPanelSolenoid();
+	public static Solenoid getControlPanelSolenoid()
+	{
+		Solenoid controlPanelSolenoid;
+		controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
+		return controlPanelSolenoid;
 	} 
 }
