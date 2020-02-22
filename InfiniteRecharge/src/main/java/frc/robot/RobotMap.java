@@ -224,32 +224,10 @@ public class RobotMap {
 		return system;
 	}
 
-    
-    
-
-    public static SpeedControllerGroup getShooter() {
-        
-		return shooterMotors;
-	}
-	public static CANEncoder getShooterVelocityEncoder() {
-		return shooterVelocityEncoder;
-	}
-	
-	public static CANPIDController getShooterAPIDController() {
-		return shooterMotorA.getPIDController();
-	}
-	public static CANPIDController getShooterBPIDController() {
-		return shooterMotorA.getPIDController();
-	}
-	
 
     
 
-    public static SensoredSystem getIndexer() {
-        SensoredSystem system = new SensoredSystem(indexerMotor, null);
 
-        return system;
-    }
     
 
     public static SpeedControllerGroup getShooter() {
@@ -296,19 +274,6 @@ public class RobotMap {
 	} 
 
     
-  
-    public static WPI_TalonSRX getIntakeActuationSystem() {
-        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
-       
-        return intakeActuation;
-	}
-	
-	
-    public static SensoredSystem getIntakeSystem() {
-        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
-        SensoredSystem system = new SensoredSystem(intakeMotor, null);
-        return system;
-    }
 
   
     public static WPI_TalonSRX getIntakeActuationSystem() {

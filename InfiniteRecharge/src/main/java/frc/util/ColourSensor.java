@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 public class ColourSensor
 {   
+    
     /**
      * The previous colour the color was.
      */
