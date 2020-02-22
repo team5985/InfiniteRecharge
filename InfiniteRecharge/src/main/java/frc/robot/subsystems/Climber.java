@@ -67,7 +67,7 @@ public class Climber extends Subsystem {
 
     @Override
     public void update() {
-        switch(desiredState) {  //TODO: set currentElevatorState when actions are completed
+        switch(desiredState) {
             case STOWED:
             m_winchMaster.stopMotor();
             currentState = ClimberState.STOWED;
@@ -75,31 +75,39 @@ public class Climber extends Subsystem {
             break;
 
             case PREPARING:
-            this.elevatorMoveTo(Constants.kElevatorMaxHeight);
-            if (this.getPosition())
+            this.winchMoveTo(Constants.kElevatorTopHeightRotations);
+            if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
+                currentState = ClimberState.PREPARED;
+            }
+            currentState = ClimberState.PREPARING;
             buddyState = BuddyState.NO_BUDDY;
             break;
 
             case PREPARED:
-            this.elevatorMoveTo(0.0);
+            this.winchMoveTo(Constants.kElevatorTopHeightRotations);
+            currentState = ClimberState.PREPARED;
+            buddyState = BuddyState.NO_BUDDY;
             break;
 
             case CLIMB_LO:
-            this.winchMoveTo(Constants.kWinchLoClimbHeight);
+            this.winchMoveTo(Constants.kWinchLoClimbRotations);
+            currentState = ClimberState.CLIMB_LO;
             break;
 
             case CLIMB_HI:
-            this.winchMoveTo(Constants.kWinchHiClimbHeight);
+            this.winchMoveTo(Constants.kWinchHiClimbRotations);
+            currentState = ClimberState.CLIMB_HI;
             break;
 
             case ELEVATOR_MANUAL:
+            currentState = ClimberState.ELEVATOR_MANUAL;
             break;
 
             case WINCH_MANUAL:
+            currentState = ClimberState.WINCH_MANUAL;
             break;
 
             default:
-            m_elevator.stopMotor();
             m_winchMaster.stopMotor();
         }
         
@@ -120,36 +128,35 @@ public class Climber extends Subsystem {
     }
 
     /**
-     * @return Position in rotations, where the bottom is 0 and becomes positive as the lift goes up
+     * @return Position in rotations, where calibration position is 0 and becomes positive as the lift goes up
      */
     @Override
-    @Deprecated
     public double getPosition() {
         return winchCountsToRotations(m_winchMaster.getCounts());
     }
 
-    /**
-     * @return Position in metres, where the bottom is 0 and becomes positive as the lift goes up
-     */
-    public double getElevatorPosition() {
-        return elevatorCountsToMetres(m_winchMaster.getCounts());
-    }
+    // /**
+    //  * @return Position in metres, where the bottom is 0 and becomes positive as the lift goes up
+    //  */
+    // public double getElevatorPosition() {
+    //     return elevatorCountsToRotations(m_winchMaster.getCounts());
+    // }
 
     /**
-     * @return Position in metres, where the top is 0 and becomes positive as the winch operates.
+     * @return Position in rotations, where calibration position is 0 and becomes positive as the lift goes up
      */
     public double getWinchPosition() {
-        return winchCountsToMetres(m_winchMaster.getCounts());
+        return winchCountsToRotations(m_winchMaster.getCounts());
     }
 
-    public ClimberState getCurrentElevatorState() {
+    public ClimberState getCurrentState() {
         return currentState;
     }
 
     /**
      * @param desiredElevatorState the desiredElevatorState to set
      */
-    public void setDesiredElevatorState(ClimberState desiredElevatorState) {
+    public void setDesiredState(ClimberState desiredElevatorState) {
         this.desiredState = desiredElevatorState;
     }
 
@@ -166,37 +173,17 @@ public class Climber extends Subsystem {
     @Override
 	public boolean zeroPosition() {
 		if (!m_lowerLimit.get()) {
-            elevatorMove(-0.1);
+            winchMove(-0.1);
             return false;
         } else {
-            elevatorMove(0.0);
+            winchMove(0.0);
+            m_winchMaster.setCounts(0);
             return true;
         }
     }
     
-    private void elevatorMoveTo(double position) {
-        double speed = (elevatorCountsToMetres(m_elevator.getCounts()) - position) * Constants.kElevatorKp;  // Simple proportional control
-        if (speed < 0) {
-            speed *= Constants.kElevatorDownwardsGain;
-        }
-        m_elevator.set(speed);
-    }
-
-    /**
-     * Move the elevator manually, with protections from the limit switches
-     * @param speed from -1.0 to 1.0
-     */
-    private void elevatorMove(double speed) {
-        if (m_upperLimit.get() && speed > 0) {
-            speed = 0;
-        } else if (m_lowerLimit.get() && speed < 0) {
-            speed = 0;
-        }
-        m_elevator.set(speed);
-    }
-
-    private void winchMoveTo(double position) {
-        double speed = winchPidController.calculate(winchCountsToMetres(m_winchMaster.getCounts()), position);
+    private void winchMoveTo(double rotations) {
+        double speed = winchPidController.calculate(winchCountsToRotations(m_winchMaster.getCounts()), rotations);
         winchMove(speed);
     }
 
@@ -205,27 +192,13 @@ public class Climber extends Subsystem {
      * @param speed from -1.0 to 1.0
      */
     private void winchMove(double speed) {
-        if (m_lowerLimit.get() && speed > 0) {
-            speed = 0;
-        } else if (speed < 0) {
+        if (m_lowerLimit.get() && speed < 0) {
             speed = 0;
         }
         m_winchMaster.set(speed);
     }
 
-    private int elevatorMetresToCounts(double position) {
-        return (int) Math.round(Constants.kElevatorCountsPerMetre * position);
-    }
-
-    private double elevatorCountsToMetres(int counts) {
-        return counts / Constants.kElevatorCountsPerMetre;
-    }
-
-    private int winchMetresToCounts(double position) {
-        return (int) Math.round(Constants.kWinchCountsPerMetre * position);
-    }
-
-    private double winchCountsToMetres(int counts) {
-        return counts / Constants.kWinchCountsPerMetre;
+    private double winchCountsToRotations(int counts) {
+        return counts / Constants.kWinchEncoderCountsPerRev;
     }
 }
