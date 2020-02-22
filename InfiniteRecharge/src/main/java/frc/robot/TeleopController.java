@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Climber.ElevatorState;
+import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.Indexer.IndexerStates;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
@@ -20,7 +20,7 @@ import frc.robot.subsystems.Shooter.ShooterState;
 public class TeleopController {
     private static Timer _timer;
     private static DriverControls _controls;
-    ElevatorState _ElevatorState;
+    ClimberState _ElevatorState;
     IntakeState _IntakeState;
     IndexerStates _IndexerState;
     ShooterState _ShooterState;
@@ -50,7 +50,7 @@ public class TeleopController {
         desiredState = RobotState.TELEOP;
 
         _controls = new DriverControls();
-        _ElevatorState = ElevatorState.STOWED;
+        _ElevatorState = ClimberState.STOWED;
         _IntakeState = IntakeState.RETRACTED;
         _IndexerState = IndexerStates.IDLE;
         _ShooterState = ShooterState.IDLE;

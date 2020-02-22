@@ -37,6 +37,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 
 import frc.util.*;
 
@@ -228,14 +229,19 @@ public class RobotMap {
 		winchA.configFactoryDefault();
 		winchA.configContinuousCurrentLimit(Constants.kWinchCurrentLimit);
 		winchA.configPeakCurrentLimit(0);
-		winchA.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, 0, 0);
+		// winchA.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, 0, 0);
+		winchA.configOpenloopRamp(250);
+		winchA.configClosedloopRamp(250);
 
 		winchB.configFactoryDefault();
 		winchB.follow(winchA);
+		winchB.setInverted(InvertType.FollowMaster);  // FIXME
 		winchC.configFactoryDefault();
 		winchC.follow(winchA);
+		winchC.setInverted(InvertType.FollowMaster);  // FIXME
 		winchD.configFactoryDefault();
 		winchD.follow(winchA);
+		winchD.setInverted(InvertType.FollowMaster);  // FIXME
 
 		return winchSystem;
 	}

@@ -71,25 +71,28 @@ public class Constants {
 	public static double kDriveSquaredSteeringInputsExponent = 2.0;
     public static double kDriveSquaredPowerInputsExponent = 2.0;
 
-	// Climber
+	/** Climber **/
 	// Elevator
-	public static final int kElevatorEncoderCountsPerRev = 42;
-	public static final double kElevatorCountsPerMetre = (kElevatorEncoderCountsPerRev*25) / (2*0.0254*Math.PI);  //FIXME
-	public static final double kElevatorKp = 1.0;  //FIXME
-	public static final double kElevatorMaxHeight = 1.3; //FIXME
-	public static final double kElevatorDownwardsGain = 0.2;  //FIXME
+	// public static final int kElevatorEncoderCountsPerRev = 42;
+	// public static final double kElevatorKp = 0.0254;  //FIXME
+	// public static final double kElevatorDownwardsGain = 0.2;  //FIXME
+
+	public static final double kElevatorTopHeightRotations = 1; //FIXME
+	public static final double kElevatorHeightTolerance = 0.125;
 
 	// Winch
-	public static final int kWinchEncoderCountsPerRev = 2048;
-	public static final double kWinchCountsPerMetre = (kWinchEncoderCountsPerRev*99.9) / (2*0.0254*Math.PI);  //FIXME
-	public static final double kWinchMaxVelocity = 0;  //FIXME
-	public static final double kWinchMaxAccel = 0;  //FIXME
-	public static final double kWinchKp = 0;  //FIXME
+	public static final int kWinchEncoderCountsPerRev = 8192; // 8192 for REV encoder
+	public static final double kWinchMaxVelocity = 1.84;  // Revolutions per Second
+	public static final double kWinchMaxAccel = 7.37;  // rps/s
+	public static final double kWinchKp = 1.0;  //FIXME
 
-	public static final double kWinchLoClimbHeight = 0;  //FIXME
-	public static final double kWinchHiClimbHeight = 0;  //FIXME
+	public static final double kWinchLoClimbRotations = 0.75;  //FIXME
+	public static final double kWinchHiClimbRotations = 0.25;  //FIXME
 
-	public static final int kWinchCurrentLimit = 0;  //FIXME
+	public static final double kWinchMaxRotationsLimit = 2; //FIXME
+	public static final double kWinchMinRotationsLimit = 0; //FIXME
+	
+	public static final int kWinchCurrentLimit = 30;
 
 	// Sensors
 	public static final int kElevatorLowerLimitDio = 1;
