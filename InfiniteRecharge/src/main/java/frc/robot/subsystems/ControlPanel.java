@@ -30,7 +30,7 @@ public class ControlPanel extends Subsystem
             currentState = desiredState;
         }
         //This allows us to get updated data from our colour sensor every 20ms
-        ColourSensor.getInstance().runPeriodic();
+        ColourSensor.getInstance().update();
         //state machine
         switch(currentState) {
             //What to do if we are EXTENDING our arm, or we are EXTENDED
@@ -72,7 +72,7 @@ public class ControlPanel extends Subsystem
             // the wheel to a particular colour.
             case POSITION_CONTROL:
             extendSpinner();
-            if (ColourSensor.getInstance().getFmsColour() == Constants.kCPANEL_COLOUR_INVALID)
+            if (ColourSensor.getInstance().getFmsColour() == Constants.kControlPanelColourInvalid)
             {
                 setDesiredState(ControlPanelState.RETRACTED);
             }
@@ -174,7 +174,7 @@ public class ControlPanel extends Subsystem
      */
     private void extendSpinner()
     {
-        RobotMap.getControlPanelSolenoid().setForward();
+        RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelExtendedState);;
     }
 
     /**
@@ -182,7 +182,7 @@ public class ControlPanel extends Subsystem
     */
     private void retractSpinner()
     {
-        RobotMap.getControlPanelSolenoid().setReverse();
+         RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelRetractedState);;
     }
 
     /**
