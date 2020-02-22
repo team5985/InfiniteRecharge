@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
-    Climber.getInstance().update();
+    // Climber.getInstance().update();
   }
 
   @Override

@@ -11,26 +11,22 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Climber.ClimberState;
-import frc.robot.subsystems.Indexer.IndexerStates;
+import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
 /**
  * Add your docs here.
  */
 public class TeleopController {
-    private static Timer _timer;
-    private static DriverControls _controls;
-    ClimberState _ElevatorState;
-    IntakeState _IntakeState;
-    IndexerStates _IndexerState;
-    ShooterState _ShooterState;
-    private static Drive _drive;
-    private static Config _config;
-    private static Shooter _shooter;
-    private static Intake _intake;
-    private static Indexer _indexer;
-    private static Subsystem _Subsystem;
-
+    private static Timer m_timer;
+    private static DriverControls m_controls;
+    private static Config m_config;
+    private static Drive m_drive;
+    private static Shooter m_shooter;
+    private static Intake m_intake;
+    private static Indexer m_indexer;
+    private static Climber m_climber;
+    private static Subsystem m_Subsystem;
 
     private RobotState currentState;
     private RobotState desiredState;
@@ -41,7 +37,7 @@ public class TeleopController {
         TELEOP,
         ENDGAME,
         VISION,
-        CLIMB,
+        // CLIMB,
         VICTORY,
     }
 
@@ -49,45 +45,35 @@ public class TeleopController {
         currentState = RobotState.TELEOP;
         desiredState = RobotState.TELEOP;
 
-        _controls = new DriverControls();
-        _ElevatorState = ClimberState.STOWED;
-        _IntakeState = IntakeState.RETRACTED;
-        _IndexerState = IndexerStates.IDLE;
-        _ShooterState = ShooterState.IDLE;
+        m_controls = new DriverControls();
        
-        _drive = Drive.getInstance();
-        _config = new Config();
-        _shooter = Shooter.getInstance();
-        _intake = Intake.getInstance();
-        _indexer = Indexer.getInstance();
+        m_drive = Drive.getInstance();
+        m_config = new Config();
+        m_shooter = Shooter.getInstance();
+        m_intake = Intake.getInstance();
+        m_indexer = Indexer.getInstance();
     }
 
     public void callStateMachine() {
+        currentState = desiredState;
 
         switch (currentState) {
             case TELEOP:
                 stTeleop();
                 trVision();
-                trEnd();
+                trEndgame();
             break;
             case ENDGAME:
-                stEndGame();
-                trVision();
-                trClimb();
+                stEndgame();
+                trTeleop();
                 trVictory();
             break;
             case VISION:
                 stVision();
                 trTeleop();
                 trVision();
-                trEnd();
+                trEndgame();
 
-            break;
-            case CLIMB:
-                stClimb(); 
-                trVision();
-                trEnd();
-                trVictory();
             break;
             case VICTORY:
                 stVictory();
@@ -102,62 +88,77 @@ public class TeleopController {
     //States
 
     private void stTeleop() {
-        _indexer.setDesiredState(_IndexerState.IDLE);
-        if(_controls.getActionCommand()) {
+        m_indexer.setDesiredState(IndexerState.IDLE);
+        m_controls.getMechanismMode();
+        
+        if(m_controls.getActionCommand()) {
             System.out.println("action command");
-            if(_controls.getMechanismMode()) {
-
-                //Check if the intake is extended
-                if(_intake.getPosition() == Constants.kIntakeExtensionRevolutions) {
-                    //Intake
-                    _intake.setDesiredState(_IntakeState.INTAKING);
-                } else {
-                    //Extend the intake
-                    _intake.setDesiredState(_IntakeState.EXTENDED);
-                }
+            if(m_controls.getMechanismMode()) {
+                m_intake.setDesiredState(IntakeState.INTAKING);
+                // //Check if the intake is extended
+                // if(m_intake.getPosition() == Constants.kIntakeExtensionRevolutions) {
+                //     //Intake
+                //     m_intake.setDesiredState(IntakeState.INTAKING);
+                // } else {
+                //     //Extend the intake
+                //     m_intake.setDesiredState(IntakeState.EXTENDED);
+                // }
             } else {
                 //check if shooter ia at an acceptable speed
-                if(_shooter.getShooterAcceptableSpeed(_shooter.getShooterTargetSpeed())) {
+                if(m_shooter.getShooterAcceptableSpeed(m_shooter.getShooterTargetSpeed())) {
                      
                     //READY - AIM - FIRE!
-                    _shooter.setDesiredState(_ShooterState.SHOOTING);
-                    _indexer.setDesiredState(_IndexerState.INDEXING);
+                    m_shooter.setDesiredState(ShooterState.SHOOTING);
+                    m_indexer.setDesiredState(IndexerState.INDEXING);
                    
                 } else {
                     //Let shooter keep spinning up
-                    _shooter.setDesiredState(_ShooterState.SHOOTING);
-                    _indexer.setDesiredState(_IndexerState.IDLE);
+                    m_shooter.setDesiredState(ShooterState.SHOOTING);
+                    m_indexer.setDesiredState(IndexerState.IDLE);
                 }
 
                 
             }
 
         } else {
-            if(_controls.getMechanismMode()) {
-                //Check if the intake slide is in
-                if(_intake.checkSafeRetraction()) {
-                    _intake.setDesiredState(_IntakeState.RETRACTED);
-                } else {
-                    _intake.setDesiredState(_IntakeState.EXTENDED);
-                }
+            //Check if the intake slide is in
+            if(m_intake.checkSafeRetraction()) {
+                m_intake.setDesiredState(IntakeState.RETRACTED);
             } else {
-                _shooter.setDesiredState(_ShooterState.IDLE);
+                m_intake.setDesiredState(IntakeState.EXTENDED);
             }
-        }
-        callDrive();
         
+            m_shooter.setDesiredState(ShooterState.IDLE);
+        
+        }
+
+        // if (m_controls.getWinchUp()) {
+        //     m_climber.setDesiredState(ClimberState.WINCH_MANUAL);
+        //     m_climber.winchMove(0.25);
+        // } else if (m_controls.get)
+
+        callDrive();
     }
 
-    private void stEndGame() {
+    private void stEndgame() {        
+        switch (m_climber.getCurrentState()) {
+            case STOWED:
+            m_climber.setDesiredState(ClimberState.PREPARED);
+            break;
 
+            case PREPARING:
+
+            break;
+
+            case PREPARED:
+            
+        }
+        
+        callDrive();
     }
 
     private void stVision() {
 
-    }
-
-    private void stClimb() {
-    
     }
 
     private void stVictory() {
@@ -165,42 +166,35 @@ public class TeleopController {
     }
 
     //Transitions
-    private void trEnd() {
-        if(_timer.getMatchTime() <=30) {
+    private void trEndgame() {
+        if(DriverControls.getDriverControlsInstance().getAutoclimb()) {
             desiredState = RobotState.ENDGAME;
-        }
-    }
-
-    private void trClimb() {
-        if(_controls.getAutoclimb()) {
-            desiredState = RobotState.CLIMB;
+            
         }
     }
 
     private void trVictory() {
-        if(_timer.getFPGATimestamp() <=0) {
+        if(m_timer.getFPGATimestamp() <=0) {
             desiredState = RobotState.VICTORY;
         }
     }
 
     private void trVision() {
-        if(_controls.getVisionCommand()) 
+        if(m_controls.getVisionCommand()) 
             desiredState = RobotState.VISION;
     }
 
     private void trTeleop() {
-        desiredState = RobotState.TELEOP;
+        if (m_controls.getVisionCommand() || m_controls.getTeleopCommand()) {
+            desiredState = RobotState.TELEOP;
+        }
     }
 
     public void callDrive() {
        
-        if ((currentState != RobotState.CLIMB) || (currentState != RobotState.VISION)){
-            // _drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
-            _drive.arcadeDrive(_controls.getDriveThrottle(), _controls.getDriveSteering(), _controls.getDrivePower());
+        if (currentState != RobotState.VISION) {
+            // m_drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
+            m_drive.arcadeDrive(m_controls.getDriveThrottle(), m_controls.getDriveSteering(), m_controls.getDrivePower());
         }
     }
-
-    
-
-
 }

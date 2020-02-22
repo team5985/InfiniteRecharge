@@ -58,6 +58,7 @@ public class Climber extends Subsystem {
         CLIMB_HI,
         ELEVATOR_MANUAL,
         WINCH_MANUAL,
+        ZEROING,
     }
 
     public enum BuddyState {
@@ -74,18 +75,30 @@ public class Climber extends Subsystem {
             buddyState = BuddyState.NO_BUDDY;
             break;
 
+            case ZEROING:
+            if (this.zeroPosition()) {
+                desiredState = ClimberState.STOWED;
+                currentState = ClimberState.STOWED;
+            } else {
+                currentState = ClimberState.ZEROING;
+            }
+            break;
+
             case PREPARING:
             this.winchMoveTo(Constants.kElevatorTopHeightRotations);
             if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
                 currentState = ClimberState.PREPARED;
+            } else {
+                currentState = ClimberState.PREPARING;
             }
-            currentState = ClimberState.PREPARING;
             buddyState = BuddyState.NO_BUDDY;
             break;
 
             case PREPARED:
             this.winchMoveTo(Constants.kElevatorTopHeightRotations);
-            currentState = ClimberState.PREPARED;
+            if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
+                currentState = ClimberState.PREPARED;
+            }
             buddyState = BuddyState.NO_BUDDY;
             break;
 
@@ -173,7 +186,7 @@ public class Climber extends Subsystem {
     @Override
 	public boolean zeroPosition() {
 		if (!m_lowerLimit.get()) {
-            winchMove(-0.1);
+            winchMove(-0.2);
             return false;
         } else {
             winchMove(0.0);

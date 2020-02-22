@@ -211,6 +211,10 @@ public class RobotMap {
 	// }
 
 	public static WPI_TalonSRX getIntakeActuationSystem() {
+		intakeActuation.configMotionCruiseVelocity(Constants.kIntakeActuatorMotionCruiseVel); //3600
+		intakeActuation.configMotionAcceleration(Constants.kIntakeActuatorMotionAccel); //25000
+		intakeActuation.config_kF(0, Constants.kIntakeActuatorKp);
+		
 		return intakeActuation;
 	}
 

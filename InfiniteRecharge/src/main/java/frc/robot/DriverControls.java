@@ -146,7 +146,7 @@ public class DriverControls {
 				return false;
 			}
 		} else {
-			if(stick.getRawButton(7)) {
+			if(stick.getRawButton(8)) {
 				return true;
 			}else {
 				return false;
@@ -237,7 +237,7 @@ public class DriverControls {
 		}
 	}
 
-
-
-	
+	public boolean getTeleopCommand() {
+		return stick.getRawButton(7);
+	}
 }

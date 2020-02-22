@@ -26,12 +26,12 @@ public class Indexer extends Subsystem {
         return m_instance;
     }
 
-    private IndexerStates currentState;
-    private IndexerStates desiredState;
+    private IndexerState currentState;
+    private IndexerState desiredState;
     
     private Indexer() {
-        currentState = IndexerStates.IDLE;
-        desiredState = IndexerStates.IDLE;
+        currentState = IndexerState.IDLE;
+        desiredState = IndexerState.IDLE;
     }
 
     public boolean zeroPosition() {
@@ -64,16 +64,16 @@ public class Indexer extends Subsystem {
         }
     }
 
-    public enum IndexerStates {
+    public enum IndexerState {
         INDEXING,
         UNINDEXING,
         IDLE,
     }
 
-    public IndexerStates getCurrentState() {
+    public IndexerState getCurrentState() {
         return currentState;
     }
-    public IndexerStates setDesiredState(IndexerStates state) {
+    public IndexerState setDesiredState(IndexerState state) {
         desiredState = state;
         return currentState;
     }
