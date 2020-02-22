@@ -45,27 +45,27 @@ public class Constants {
 	/**
      * Colour RED seen at the control panel.
      */
-    public static final int kCPANEL_COLOUR_RED = 0;
+    public static final int kControlPanelColourRed = 0;
 
     /**
      * Colour GREEN seen at the control panel.
      */
-    public static final int kCPANEL_COLOUR_GREEN = 1;
+    public static final int kControlPanelColourGreen = 1;
 
     /**
      * Colour BLUE seen at the control panel.
      */
-    public static final int kCPANEL_COLOUR_CYAN = 2;
+    public static final int kControlPanelColourBlue = 2;
 
     /**
      * Colour YELLOW seen at the control panel.
      */
-    public static final int kCPANEL_COLOUR_YELLOW = 3;
+    public static final int kControlPanelColourYellow = 3;
 
     /**
      * The colour seen at the control panel  did not match any of the expected colours.
      */
-    public static final int kCPANEL_COLOUR_INVALID = -1;
+    public static final int kControlPanelColourInvalid = -1;
 
     /**
      * The number of colour transitions per full rotation of the colour wheel.
