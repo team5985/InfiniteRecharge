@@ -206,7 +206,6 @@ public class ColourSensor
         else
         {
             return Constants.kControlPanelColourInvalid;
-
         }
     }
 
