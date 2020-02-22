@@ -29,6 +29,8 @@ public class TeleopController {
     private static Shooter _shooter;
     private static Intake _intake;
     private static Indexer _indexer;
+    private static Subsystem _Subsystem;
+
 
     private RobotState currentState;
     private RobotState desiredState;
@@ -52,7 +54,7 @@ public class TeleopController {
         _IntakeState = IntakeState.RETRACTED;
         _IndexerState = IndexerStates.IDLE;
         _ShooterState = ShooterState.IDLE;
-
+       
         _drive = Drive.getInstance();
         _config = new Config();
         _shooter = Shooter.getInstance();
@@ -61,6 +63,7 @@ public class TeleopController {
     }
 
     public void callStateMachine() {
+
         switch (currentState) {
             case TELEOP:
                 stTeleop();
@@ -99,6 +102,7 @@ public class TeleopController {
     //States
 
     private void stTeleop() {
+        _indexer.setDesiredState(_IndexerState.IDLE);
         if(_controls.getActionCommand()) {
             System.out.println("action command");
             if(_controls.getMechanismMode()) {
@@ -118,13 +122,14 @@ public class TeleopController {
                     //READY - AIM - FIRE!
                     _shooter.setDesiredState(_ShooterState.SHOOTING);
                     _indexer.setDesiredState(_IndexerState.INDEXING);
+                   
                 } else {
                     //Let shooter keep spinning up
                     _shooter.setDesiredState(_ShooterState.SHOOTING);
                     _indexer.setDesiredState(_IndexerState.IDLE);
                 }
 
-                System.out.println("Shooting");
+                
             }
 
         } else {

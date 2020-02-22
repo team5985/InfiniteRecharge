@@ -44,9 +44,12 @@ public class Indexer extends Subsystem {
     private IndexerStates desiredState;
 
     public void update() {
+        
         switch(currentState) {
             case INDEXING:
                 RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
+                
+                
                 currentState = desiredState;
             break;
             case UNINDEXING:
@@ -56,6 +59,7 @@ public class Indexer extends Subsystem {
             default: 
                 RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, 0);
                 currentState = desiredState;
+                
             
         }
     }

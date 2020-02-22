@@ -53,7 +53,7 @@ public class Constants {
 	public static final int kRobotWranglerForwardLimitDio = 0; //2056
 	
   
-	public static final double kIntakeExtensionRevolutions = 4;
+	public static final double kIntakeExtensionRevolutions = 2.4;
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
 	public static final double kIntakeIntakingSpeed = -1;
 	public static final double kIntakeUnintakingSpeed = 0.8;

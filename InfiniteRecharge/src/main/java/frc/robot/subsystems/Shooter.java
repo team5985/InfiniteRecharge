@@ -28,7 +28,7 @@ public class Shooter extends Subsystem {
 
     private ShooterState currentState;
     private ShooterState desiredState;
-    private double shooterTargetRPM = 4000;
+    private double shooterTargetRPM = Constants.kShooterDefaultRPM;
 
     static public Shooter getInstance() {
         if (m_instance == null) {
@@ -47,6 +47,7 @@ public class Shooter extends Subsystem {
         switch(desiredState) {
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
+                System.out.println(RobotMap.getShooterVelocityEncoder().getVelocity());
             break;
             case HOODUP: 
                 RobotMap.getShooterHoodSolenoid().set(true); //FIXME
@@ -123,19 +124,20 @@ public class Shooter extends Subsystem {
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
         
-        RobotMap.getShooterAPIDController().setReference(-targetVelocity, ControlType.kVelocity);
-        RobotMap.getShooterBPIDController().setReference(targetVelocity, ControlType.kVelocity);
+        RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
+        RobotMap.getShooterBPIDController().setReference(-targetVelocity, ControlType.kVelocity);
         System.out.println(targetVelocity);
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        if(getShooterRPM() >= getShooterRPM() - Constants.kShooterHysteresis || getShooterRPM() <= getShooterRPM() + Constants.kShooterHysteresis) {
+        if(getShooterRPM() >= getShooterRPM() - Constants.kShooterHysteresis && getShooterRPM() <= getShooterRPM() + Constants.kShooterHysteresis) {
             return true;
         } else {
             return false;
         }
     }
+
 
     public void setDesiredState(ShooterState state) {
         desiredState = state;

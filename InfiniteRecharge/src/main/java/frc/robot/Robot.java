@@ -64,6 +64,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
+    Indexer.getInstance().update();
+    Intake.getInstance().update();
   }
 
   @Override

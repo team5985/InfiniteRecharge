@@ -23,6 +23,13 @@ public class Intake extends Subsystem {
         UNINTAKING,
     }
 
+    private Intake() {
+        currentState = IntakeState.RETRACTED;
+        desiredState = IntakeState.RETRACTED;
+    }
+
+    
+
     
     
     public static Intake getInstance() {
@@ -32,12 +39,9 @@ public class Intake extends Subsystem {
         return m_instance;
     }
     
-    private Intake() {
-        currentState = IntakeState.RETRACTED;
-    }
 
     public void update() {
-        switch(currentState) {
+        switch(desiredState) {
             
             case RETRACTED:
                 RobotMap.getIntakeActuationSystem().set(ControlMode.MotionMagic, 0);
