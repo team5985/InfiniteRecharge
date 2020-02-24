@@ -42,7 +42,7 @@ public class Constants {
     public static double kShooterMaxOutput = 1; 
     public static double kShooterMinOutput = -1;
 	public static double kShootermaxRPM = 5700;
-	public static double kShooterDefaultRPM = 3000;
+	public static double kShooterDefaultRPM = 5700;
 	public static double kShooterMinRPM = 3000;
 	public static double kShooterHysteresis = 10;
 	public static double kShooterIdleSpeed = 0;
@@ -62,9 +62,9 @@ public class Constants {
 	public static final int kIntakeActuatorMotionAccel = 25000;
 	public static final double kIntakeActuatorKf = 0.6; 
 
-	public static final double kIntakeExtensionRevolutions = 2.4;
+	public static final double kIntakeExtensionRevolutions = 2.5;
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
-	public static final double kIntakeIntakingSpeed = -1;
+	public static final double kIntakeIntakingSpeed = -0.9;
 	public static final double kIntakeUnintakingSpeed = 0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
