@@ -21,7 +21,7 @@ import frc.robot.Constants;
  */
 public class DriverControls {
 
-    Joystick stick;
+    XboxController driverController;
 	XboxController xBox;
 	
 	boolean end = false;
@@ -39,7 +39,7 @@ public class DriverControls {
     
 
     public DriverControls() {
-         stick = new Joystick(Constants.kJoystickPort);
+         driverController = new XboxController(Constants.kDriverControllerPort);
          xBox = new XboxController(Constants.kXboxPort);
 
          SmartDashboard.setDefaultNumber("Power Gain", 2.0);
@@ -53,19 +53,19 @@ public class DriverControls {
      */
     public boolean getStickInterupt() {
 
-		if(stick.getX() >= 0.7) {
+		if(driverController.getX() >= 0.7) {
 			end = true;
-		} else if(stick.getX() <= -0.7) {
+		} else if(driverController.getX() <= -0.7) {
 			end = true;
-		} else if(stick.getY() >= 0.7) {
+		} else if(driverController.getY() >= 0.7) {
 			end = true;
-		} else if(stick.getY() <= -0.7) {
+		} else if(driverController.getY() <= -0.7) {
 			end = true;
-		} else if(stick.getZ() >= 0.7) {
+		} /* else if(driverController.getZ() >= 0.7) {
 			end = true;
-		} else if(stick.getZ() <= -0.7) {
+		} else if(driverController.getZ() <= -0.7) {
 			end = true;
-		}
+		} */
 		return end;
 		
 	}
@@ -75,7 +75,7 @@ public class DriverControls {
 	 * @return Y from -1 to 1.
 	 */
 	public double getDrivePower() {
-		double power = -stick.getY();
+		double power = -driverController.getY(Hand.kLeft);
 		Constants.kDriveSquaredPowerInputsExponent = SmartDashboard.getNumber("Power Gain", 2.0);
 		return Math.pow(Math.abs(power), Constants.kDriveSquaredPowerInputsExponent) * Math.signum(power);
 	}
@@ -85,7 +85,7 @@ public class DriverControls {
 	 * @return X from -1 to 1.
 	 */
 	public double getDriveSteering() {
-		double steering = stick.getX();
+		double steering = driverController.getX(Hand.kRight);
 		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 2.0);
 		return Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
 	}
@@ -95,7 +95,8 @@ public class DriverControls {
 	 * @return Throttle from 0 to 1.
 	 */
 	public double getDriveThrottle() {
-		return ((-stick.getThrottle() + 1) / 2);
+		// return ((-driverController.getThrottle() + 1) / 2);
+		return 1.0;
 	}
 
 	//Button presses
@@ -107,16 +108,16 @@ public class DriverControls {
 	 * @return true for intake, false for shooter
 	 */
 	public boolean getMechanismMode() {
-	if(stick.getRawButton(3)) {
+	if(driverController.getTriggerAxis(Hand.kRight) >= 0.5) {
 		mode = false;
-	} else if(stick.getRawButton(4)) {
+	} else if(driverController.getTriggerAxis(Hand.kLeft) >= 0.5) {
 		mode = true;
 	}
 	return mode;
 }
 
 	public boolean getActionCommand() {
-		if(stick.getTrigger()) {
+		if(driverController.getTriggerAxis(Hand.kLeft) > 0.5 || driverController.getTriggerAxis(Hand.kRight) > 0.5) {
 			return true;
 		} else {
 			return false;
@@ -124,7 +125,7 @@ public class DriverControls {
 	}
 
 	public boolean getVisionCommand() {
-		if(stick.getRawButton(2)) {
+		if(driverController.getRawButton(8)) { // Click right stick
 			return true;
 		} else {
 			return false;
@@ -132,21 +133,22 @@ public class DriverControls {
 	}
 
 	public boolean getTrenchRunCommand() {
-		if(stick.getRawButton(5)) {
+		if(driverController.getRawButton(5)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
 	public boolean getAutoclimb() {
 		if(Config.kPreventAccidentalClimb) {
-			if(stick.getRawButton(7) && stick.getRawButton(8) == true) {
+			if(driverController.getRawButton(12) && driverController.getRawButton(3) == true) {  // 12 - D-Pad UP, 3 - X button
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			if(stick.getRawButton(8)) {
+			if(driverController.getRawButton(12)) {
 				return true;
 			}else {
 				return false;
@@ -155,7 +157,7 @@ public class DriverControls {
 	}
 
 	public boolean getSpinnyUp() {
-		if(stick.getRawButton(12)) {
+		if(driverController.getYButton()) {  // 4 - Y Button (the top one)
 			return true;
 		}else {
 			return false;
@@ -163,12 +165,13 @@ public class DriverControls {
 	}
 
 	public boolean getControlPanelCommand() {
-		if(stick.getRawButton(11)) {
+		if(driverController.getRawButton(4)) {  // FIXME
 			return true;
 		} else {
 			return false;
 		}
 	}
+
 	public double getShooterSpeedOffset() {
 		if(xBox.getBumper(Hand.kLeft)) {
 			shooterSpeedOffset = shooterSpeedOffset - Constants.kShooterSpeedOffsetOffset;
@@ -213,7 +216,7 @@ public class DriverControls {
 
 	//AntiJam 2000
 	public boolean getAntiJam() {
-		if(stick.getRawButton(6)) {
+		if(driverController.getRawButton(6)) {
 			return true;
 		} else {
 			return false;
@@ -238,6 +241,6 @@ public class DriverControls {
 	}
 
 	public boolean getTeleopCommand() {
-		return stick.getRawButton(7);
+		return driverController.getRawButton(9);
 	}
 }

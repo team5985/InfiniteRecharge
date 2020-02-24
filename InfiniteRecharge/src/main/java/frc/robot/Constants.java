@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DigitalSource;
 public class Constants {
 
 	public static final int kXboxPort = 1;
-	public static final int kJoystickPort = 0;
+	public static final int kDriverControllerPort = 0;
 	public static final double kShooterSpeedOffsetOffset = 0.1;
 
 	// CAN IDs
