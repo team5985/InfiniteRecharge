@@ -51,28 +51,28 @@ public class Intake extends Subsystem {
             case RETRACTED:
             m_intakeActuator.set(ControlMode.MotionMagic, 0);
             m_intakeRoller.set(0.0);
-            m_intakeServo.set(1.0);
+            RobotMap.getIntakeServo().set(1.0);
             currentState = desiredState;
             break;
 
             case EXTENDED:
             m_intakeActuator.set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));
             m_intakeRoller.set(0.0);
-            m_intakeServo.set(0.1);
+            
             currentState = desiredState;
             break;
 
             case INTAKING:
             m_intakeActuator.set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));    
             m_intakeRoller.set(Constants.kIntakeIntakingSpeed);
-            m_intakeServo.set(0.1);
+            RobotMap.getIntakeServo().set(0.1);
             currentState = desiredState;
             break;
 
             case UNINTAKING:
             m_intakeActuator.set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));
             m_intakeRoller.set(Constants.kIntakeUnintakingSpeed);
-            m_intakeServo.set(0.1);
+            RobotMap.getIntakeServo().set(0.1);
             currentState = desiredState;
             break;
             
