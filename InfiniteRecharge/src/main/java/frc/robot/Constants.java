@@ -76,9 +76,12 @@ public class Constants {
 	public static final double kIndexerSpeed = 1; //FIXME
 	public static final double kIndexerAntijam = -0.5; //FIXME
 
+	public static double  kIntakeServoRetractedPos = 1;
+	public static double kIntakeServoExtendedPos = 0;
 
 	public static double kDriveSquaredSteeringInputsExponent = 2.0;
     public static double kDriveSquaredPowerInputsExponent = 2.0;
+
 
 	/** Climber **/
 	// Elevator
