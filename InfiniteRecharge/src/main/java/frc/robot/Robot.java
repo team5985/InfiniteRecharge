@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     CameraServer.getInstance().startAutomaticCapture(); */
     
     Drive drivetrain = Drive.getInstance();
-    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
+    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
 
     Climber climber = Climber.getInstance();
     climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());

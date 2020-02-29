@@ -176,6 +176,14 @@ public class RobotMap {
 		return rightDriveMotors;
 	}
 
+	public static CANEncoder getLeftDriveEncoder() {
+		return leftDriveA.getEncoder();
+	}
+
+	public static CANEncoder getRightDriveEncoder() {
+		return rightDriveA.getEncoder();
+	}
+
 	public static SpeedControllerGroup getShooter() {
 		// shooterMotorA.setInverted(false);
 		// shooterMotorB.setInverted(true);

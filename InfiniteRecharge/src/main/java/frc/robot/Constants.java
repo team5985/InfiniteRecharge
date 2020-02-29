@@ -121,5 +121,10 @@ public class Constants {
 
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
+	public static final double kDriveTurnStictionConstant = 0.0; // FIXME
+	public static final double kGyroTurnKp = 0.012;
+	public static final double kGyroDriveTurnKp = 0.012;  // FIXME
+	public static final double kEncoderDriveKp = 0.7;  // FIXME
+	public static final double kDriveEncoderConversionFactor = (1 / 11) * 0.479;
 
 }

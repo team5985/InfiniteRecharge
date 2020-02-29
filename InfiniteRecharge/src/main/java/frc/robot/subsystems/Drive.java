@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
 import frc.util.SensoredSystem;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 /**
@@ -24,6 +26,8 @@ public class Drive extends Subsystem{
 
     SpeedControllerGroup mLeftDrive;
     SpeedControllerGroup mRightDrive;
+    CANEncoder mLeftEnc;
+    CANEncoder mRightEnc;
 
     public static Drive driveInstance;
     
@@ -35,32 +39,24 @@ public class Drive extends Subsystem{
     }
     
     private Drive() {
-        try {
-            _imu = new AHRS();
-        } catch (Exception e) {
-            System.out.println("NavX Not Connected!");
-        }
+        _imu = getImuInstance();
         
     }
 
-    public void setSystem(SpeedControllerGroup leftDrive, SpeedControllerGroup rightDrive) {
+    public void setSystem(SpeedControllerGroup leftDrive, SpeedControllerGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
         mLeftDrive = leftDrive;
         mRightDrive = rightDrive;
+        mLeftEnc = leftEncoder;
+        mRightEnc = rightEncoder;
     }
 
     public static AHRS _imu;
-
-    public Drive (SensoredSystem leftDrive, SensoredSystem rightDrive) {
-
-
-    }
-
 
     Joystick stick;
     XboxController xbox = new XboxController(Config.kXboxPort);
   
     public double getPosition() {
-        return 0.0;
+        return getAvgEncoderDistance();
     }
 
     public boolean zeroPosition() {
@@ -164,9 +160,9 @@ public class Drive extends Subsystem{
 	 * Returns the average of the two drive encoders.
 	 * @return average distance since reset in metres.
 	 */
-/*	public double getAvgEncoderDistance() {
-		return (leftDriveEncoder.getDistance() + rightDriveEncoder.getDistance()) / 2;
-    } */
+	public double getAvgEncoderDistance() {
+		return Constants.kDriveEncoderConversionFactor * (mLeftEnc.getPosition() + mRightEnc.getPosition()) / 2;
+    }
 
     public void update() {
 
