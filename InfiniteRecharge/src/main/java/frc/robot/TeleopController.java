@@ -14,6 +14,7 @@ import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
+import frc.util.JavaUtil;
 import frc.util.Luin;
 /**
  * Add your docs here.
@@ -29,6 +30,7 @@ public class TeleopController {
     private static Climber m_climber;
     private static Vision m_vision;
     private static Subsystem m_Subsystem;
+    private static JavaUtil m_javaUtil;
 
     private static Luin m_luin;
 
@@ -59,6 +61,7 @@ public class TeleopController {
         m_shooter = Shooter.getInstance();
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
+        m_javaUtil = JavaUtil.getInstance();
     }
 
     public void callStateMachine() {
@@ -93,9 +96,10 @@ public class TeleopController {
         if(m_controls.getActionCommand()) {
             System.out.println("action command");
             if(m_controls.getMechanismMode()) {
-                m_intake.setDesiredState(IntakeState.INTAKING);
+                //m_intake.setDesiredState(IntakeState.INTAKING);
                  //Check if the intake is extended
-                 if(m_intake.getPosition() == Constants.kIntakeExtensionRevolutions) {
+                 if(m_javaUtil.getWithinTolerance(m_intake.getPosition(), Constants.kIntakeExtensionRevolutions, 0.5)) 
+                 {
                      //Intake
                      m_intake.setDesiredState(IntakeState.INTAKING);
                  } else {
@@ -115,9 +119,10 @@ public class TeleopController {
                     m_shooter.setDesiredState(ShooterState.SHOOTING);
                     m_indexer.setDesiredState(IndexerState.IDLE);
                 }
+            }
 
                 
-            }
+            
 
         } else {
             if(m_intake.checkSafeRetraction()) {

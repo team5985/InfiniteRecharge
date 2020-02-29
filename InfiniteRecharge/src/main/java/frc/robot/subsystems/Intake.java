@@ -55,6 +55,7 @@ public class Intake extends Subsystem {
             
             case RETRACTED:
             m_intakeActuator.set(ControlMode.MotionMagic, 0);
+            m_intakeRoller.set(0.0);
             currentState = desiredState;
             break;
 
@@ -82,7 +83,7 @@ public class Intake extends Subsystem {
     }
 
     public double getPosition() {
-        return m_intakeActuator.getSelectedSensorPosition();
+        return m_intakeActuator.getSelectedSensorPosition() / Constants.kIntakeEncoderPPR;
       
     }
 
