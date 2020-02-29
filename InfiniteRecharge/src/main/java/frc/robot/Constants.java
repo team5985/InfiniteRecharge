@@ -64,7 +64,7 @@ public class Constants {
 
 	public static final double kIntakeExtensionRevolutions = 2.5;
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
-	public static final double kIntakeIntakingSpeed = -0.9;
+	public static final double kIntakeIntakingSpeed = -0.85;  // .85
 	public static final double kIntakeUnintakingSpeed = 0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
