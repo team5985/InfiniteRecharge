@@ -16,7 +16,7 @@ public class AutoController {
 	}
 
 	public enum AutoSelection {
-		DEFAULT, LEFT_CARGOSHIP, RIGHT_CARGOSHIP, CENTRE_CARGOSHIP,
+		DEFAULT, LEAVELINE,
 	}
 
 	SendableChooser<AutoSelection> autoSelector;
@@ -24,6 +24,8 @@ public class AutoController {
 	AutoMode runningAuto;
 	int currentStep;
 	Sequencer mSequencer;
+
+	LeaveLine leaveLineMode = new LeaveLine();
 
 	private AutoController() {
 		autoSelector = new SendableChooser<AutoSelection>();
@@ -40,15 +42,19 @@ public class AutoController {
 
 	public void initialiseAuto() {
 		selectedAuto = autoSelector.getSelected();
-		TeleopController.resetAllSensors();
+		TeleopController.getInstance().resetAllSensors();
 
 		switch (selectedAuto) {
+			case LEAVELINE:
+			leaveLineMode.init(mSequencer);
+			break;
+			
 			default:
-			LeaveLine.init(mSequencer);
+			leaveLineMode.init(mSequencer);
 			break;
 		}
 
-		mSequencer.startSequence();
+		mSequencer.sequenceStart();
 	}
 
 	public void runAuto() {

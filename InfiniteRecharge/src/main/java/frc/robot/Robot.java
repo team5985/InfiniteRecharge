@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
@@ -40,8 +39,8 @@ public class Robot extends TimedRobot {
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     
-    autoController = new AutoController();
-    teleopController = new TeleopController();
+    autoController = AutoController.getInstance();
+    teleopController = TeleopController.getInstance();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
@@ -62,10 +61,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    autoController.initialiseAuto();
   }
 
   @Override
   public void autonomousPeriodic() {
+    autoController.runAuto();
   }
 
   @Override

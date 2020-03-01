@@ -39,6 +39,15 @@ public class TeleopController {
 
     public double gameTime = Timer.getMatchTime();
 
+    private static TeleopController mInstance;
+    
+    public static TeleopController getInstance() {
+        if (mInstance == null) {
+            mInstance = new TeleopController();
+        }
+        return mInstance;
+    }
+
     public enum RobotState {
         TELEOP,
         ENDGAME,
@@ -47,7 +56,7 @@ public class TeleopController {
         VICTORY,
     }
 
-    public TeleopController() {
+    private TeleopController() {
         currentState = RobotState.TELEOP;
         desiredState = RobotState.TELEOP;
 
@@ -203,5 +212,12 @@ public class TeleopController {
     public void callDrive() {
         // m_drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
         m_drive.arcadeDrive(m_controls.getDriveThrottle(), m_controls.getDriveSteering(), m_controls.getDrivePower());
+    }
+
+    public void resetAllSensors() {
+        m_drive.resetSensors();
+        m_climber.resetSensors();
+        m_intake.resetSensors();
+        // Spinny thing?
     }
 }

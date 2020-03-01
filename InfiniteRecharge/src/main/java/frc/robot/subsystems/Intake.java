@@ -111,4 +111,8 @@ public class Intake extends Subsystem {
     public void retractFlap() {
         RobotMap.getIntakeServo().set(Constants.kIntakeServoRetractedPos);
     }
+
+	public void resetSensors() {
+        m_intakeActuator.setSelectedSensorPosition(0);
+	}
 }

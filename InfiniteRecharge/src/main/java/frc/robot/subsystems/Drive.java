@@ -161,12 +161,16 @@ public class Drive extends Subsystem{
 	 * @return average distance since reset in metres.
 	 */
 	public double getAvgEncoderDistance() {
-		return Constants.kDriveEncoderConversionFactor * (mLeftEnc.getPosition() + mRightEnc.getPosition()) / 2;
+		return Constants.kDriveEncoderConversionFactor * (mLeftEnc.getPosition() + -mRightEnc.getPosition()) / 2;
     }
 
     public void update() {
 
     }
     
-   
+    public void resetSensors() {
+        mLeftEnc.setPosition(0.0);
+        mRightEnc.setPosition(0.0);
+        _imu.reset();
+    }
 }

@@ -214,4 +214,8 @@ public class Climber extends Subsystem {
     private double winchCountsToRotations(int counts) {
         return counts / Constants.kWinchEncoderCountsPerRev;
     }
+
+    public void resetSensors() {
+        m_winchMaster.setCounts(0);
+    }
 }
