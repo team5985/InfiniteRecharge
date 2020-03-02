@@ -13,6 +13,7 @@ public class LeaveLine extends AutoMode {
         gDrive.setAngle(startAngle);
         gDrive.setDistance(endDist);
 
+        mSequencer.setInitialStep(gDrive);
         mSequencer.setInitialTransition(gDrive);
     }
 

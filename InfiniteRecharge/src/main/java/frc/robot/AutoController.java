@@ -55,9 +55,13 @@ public class AutoController {
 		}
 
 		mSequencer.sequenceStart();
+		System.out.println("Sequence Started!");
 	}
 
 	public void runAuto() {
-		mSequencer.update();
+		if (!mSequencer.update()) {
+			System.out.println("Running Auto...");
+		}
+		
 	}
 }

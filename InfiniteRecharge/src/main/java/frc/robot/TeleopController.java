@@ -65,8 +65,9 @@ public class TeleopController {
         m_controls = new DriverControls();
         m_vision = Vision.getInstance();
        
-        m_drive = Drive.getInstance();
         m_config = new Config();
+        m_drive = Drive.getInstance();
+        m_climber = Climber.getInstance();
         m_shooter = Shooter.getInstance();
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
@@ -216,7 +217,7 @@ public class TeleopController {
 
     public void resetAllSensors() {
         m_drive.resetSensors();
-        m_climber.resetSensors();
+        // m_climber.resetSensors();
         m_intake.resetSensors();
         // Spinny thing?
     }
