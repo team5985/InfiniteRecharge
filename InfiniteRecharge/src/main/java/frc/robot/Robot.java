@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -45,14 +45,14 @@ public class Robot extends TimedRobot {
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
 
-    SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
-    SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
-    SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
-    SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
-    SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
+    // SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
+    // SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
+    // SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
+    // SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
+    // SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
 
 
-    SmartDashboard.putNumber("Servo", 0.0);
+    // SmartDashboard.putNumber("Servo", 0.0);
   }
 
   @Override
@@ -67,6 +67,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     autoController.runAuto();
+    Shooter.getInstance().update();
+    Indexer.getInstance().update();
+    Intake.getInstance().update();
   }
 
   @Override

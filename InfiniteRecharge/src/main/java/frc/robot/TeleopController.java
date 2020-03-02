@@ -104,7 +104,7 @@ public class TeleopController {
         m_controls.getMechanismMode();
         
         if(m_controls.getActionCommand()) {
-            System.out.println("action command");
+            // System.out.println("action command");
             if(m_controls.getMechanismMode()) {
                 //m_intake.setDesiredState(IntakeState.INTAKING);
                  //Check if the intake is extended
@@ -153,7 +153,7 @@ public class TeleopController {
         if (m_controls.getVisionCommand()) {
             // if (m_vision.getTargetAcquired()) {
                 double tx = m_vision.getAngleToTarget();
-                System.out.println("tx: " + tx);
+                // System.out.println("tx: " + tx);
                 double visionSteering = tx * Constants.kVisionTurnKp;
                 m_drive.arcadeDrive(1.0, visionSteering, 0.0);
             // }

@@ -112,12 +112,11 @@ public class Drive extends Subsystem{
     * @param maxRate
     * @return true when done
     */
-   
     public boolean actionGyroTurn(double targetHeading, int maxRate) {
 		double currentRate = _imu.getRate();
 		double currentHeading = _imu.getYaw();
-		double steering = Math.sqrt((targetHeading - currentHeading)) * Config.kDriveGyroTurnK;
-		arcadeDrive(0.0, steering, Math.abs(maxRate));
+		double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+		arcadeDrive(1.0, steering, 0.0);
 
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
 
@@ -130,16 +129,18 @@ public class Drive extends Subsystem{
 	 * @param distance in metres.
 	 * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
 	 */
-	/*public boolean actionSensorDrive(double speed, double targetHeading, double distance) {
-		double position = getAvgEncoderDistance();
-		double drivePower = (distance - position) * Constants.kDriveEncoderDrivePGain;
-
-		double currentHeading = _imu.getYaw();
-		double steering = (targetHeading - currentHeading) * Constants.kDriveSensorDriveTurnKp;
-		arcadeDrive(drivePower, steering, 1);
-
-		return encoderIsWithinDistance(distance, 0.1);
-    } */
+	public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
+		double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
+		double power = (distance - getAvgEncoderDistance()) * Constants.kEncoderDriveKp;
+		if (power >= 0 && power > maxPower) {
+			power = maxPower;
+		} else if (power < 0 && power < -maxPower) {
+			power = -maxPower;
+		}
+		
+		arcadeDrive(1.0, steering, power);
+		return encoderIsWithinDistance(distance, 0.01);
+    }
     public AHRS getImuInstance() {
 		if (_imu == null) {
 			_imu = new AHRS(SPI.Port.kMXP); // Must be over SPI so the JeVois can communicate through UART Serial.
@@ -152,9 +153,9 @@ public class Drive extends Subsystem{
 	 * @param threshRange +/- in metres
 	 * @return Boolean true when within range.
 	 */
-	/*public boolean encoderIsWithinDistance(double distance, double threshRange) {
+	public boolean encoderIsWithinDistance(double distance, double threshRange) {
 		return Math.abs(distance - getAvgEncoderDistance()) < threshRange;
-	} */
+	}
 
 	/**
 	 * Returns the average of the two drive encoders.

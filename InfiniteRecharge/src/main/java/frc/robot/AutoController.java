@@ -1,9 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.*;
-import frc.sequencer.Sequencer;
 
 public class AutoController {
 	public static AutoController instance;
@@ -15,21 +15,23 @@ public class AutoController {
 		return instance;
 	}
 
+	public AutoMode[] autoModes = new AutoMode[] {
+		new LeaveLine(),
+	};
+
 	public enum AutoSelection {
-		DEFAULT, LEAVELINE,
+		DEFAULT,
+		LEAVELINE, SHOOT_AND_SCOOT, SCOOT_AND_SHOOT, SHOOT_THEN_PICKUP_CENTRE,
+		
 	}
 
 	SendableChooser<AutoSelection> autoSelector;
 	AutoSelection selectedAuto;
 	AutoMode runningAuto;
-	int currentStep;
-	Sequencer mSequencer;
-
-	LeaveLine leaveLineMode = new LeaveLine();
+	int currentStep = 0;
 
 	private AutoController() {
 		autoSelector = new SendableChooser<AutoSelection>();
-		mSequencer = new Sequencer();
 		
 		// Add each auto to the dashboard dropdown menu
 		for (AutoSelection auto : AutoSelection.values()) {
@@ -42,26 +44,43 @@ public class AutoController {
 
 	public void initialiseAuto() {
 		selectedAuto = autoSelector.getSelected();
+		runningAuto = evaluateAutoSelection(selectedAuto);
+
 		TeleopController.getInstance().resetAllSensors();
 
-		switch (selectedAuto) {
-			case LEAVELINE:
-			leaveLineMode.init(mSequencer);
-			break;
-			
-			default:
-			leaveLineMode.init(mSequencer);
-			break;
-		}
-
-		mSequencer.sequenceStart();
-		System.out.println("Sequence Started!");
+		currentStep = 0;
 	}
 
 	public void runAuto() {
-		if (!mSequencer.update()) {
-			System.out.println("Running Auto...");
+		try {
+			System.out.println("STEP: " + currentStep);
+			boolean stepComplete = runningAuto.runStep(currentStep);
+			if (stepComplete) {
+				currentStep++;
+			}
+
+		} catch (NullPointerException e) {
+			DriverStation.reportWarning(e.toString(), true);
 		}
 		
+	}
+
+	/**
+	 * @return True when the auto program has completed its motions
+	 */
+	public boolean exit() {
+		return runningAuto.getExit();
+	}
+
+	private AutoMode evaluateAutoSelection(AutoSelection autoType) {
+		AutoMode retval = null;
+		
+		for (AutoMode mode : autoModes) {
+			if (mode.getAutoType() == autoType) {
+				return mode;
+			}
+		}
+		
+		return new ShootThenPickupCentre();
 	}
 }

@@ -1,20 +1,43 @@
 package frc.robot.auto;
 
-import frc.sequencer.GyroDrive;
-import frc.sequencer.Sequencer;
+import frc.robot.AutoController.AutoSelection;
+import frc.robot.subsystems.Drive;
 
 public class LeaveLine extends AutoMode {
+    private String name = "Leave Line";
+    private AutoSelection autoType = AutoSelection.LEAVELINE;
+    
+    @Override
+    public boolean getExit() {
+        return false;
+    }
 
-    public void init(Sequencer mSequencer) {
-        double startAngle = 0.0;
-        double endDist = 1.0;
+    @Override
+    public void init() {
+        
+    }
 
-        GyroDrive gDrive = new GyroDrive();
-        gDrive.setAngle(startAngle);
-        gDrive.setDistance(endDist);
+    @Override
+    public boolean runStep(int step) {
+        switch(step) {
+            case 0:
+            Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
-        mSequencer.setInitialStep(gDrive);
-        mSequencer.setInitialTransition(gDrive);
+            System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
+            if (Drive.getInstance().getAvgEncoderDistance() >= 1.0) {
+                return true;
+            }
+            break;
+
+            case 1:
+            Drive.getInstance().arcadeDrive(0.0, 0.0, 0.0);
+            break;
+
+            default:
+            return false;
+        }
+
+        return false;
     }
 
 }
