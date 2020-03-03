@@ -36,6 +36,7 @@ public class Constants {
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 
 	public static final int kIntakeActuatorCanID = 10;
+	public static final int kIntakeFlapSolenoidChannel = 2;
 
 	public static final int kDriveCurrentLimit = 40;
 

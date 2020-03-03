@@ -138,6 +138,7 @@ public class RobotMap {
 	static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
 	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
 	static Servo intakeServo = new Servo(0);
+	static Solenoid intakeFlapSolenoid = new Solenoid(Constants.kPcmCanId, Constants.kIntakeFlapSolenoidChannel);
 
 	/**
 	 * Climber
@@ -200,6 +201,10 @@ public class RobotMap {
 
 	public static SensoredSystem getIndexer() {
 		return indexerSystem;
+	}
+
+	public static Solenoid getIndexerFlap() {
+		return intakeFlapSolenoid;
 	}
 
 	// public static LimitSwitchGroup getRobotWranglerLimits() {
