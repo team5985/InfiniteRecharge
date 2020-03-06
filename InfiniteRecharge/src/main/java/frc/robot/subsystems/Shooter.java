@@ -48,6 +48,8 @@ public class Shooter extends Subsystem {
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
                 System.out.println(RobotMap.getShooterVelocityEncoder().getVelocity());
+               RobotMap.getShooterHoodSolenoid().set(true);
+
             break;
             case HOODUP: 
                 RobotMap.getShooterHoodSolenoid().set(true); //FIXME
@@ -57,6 +59,7 @@ public class Shooter extends Subsystem {
             break;
             default:
                 shooterPIDControl(Constants.kShooterIdleSpeed);
+                RobotMap.getShooterHoodSolenoid().set(false);
             break;
             
         }

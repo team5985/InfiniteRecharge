@@ -36,7 +36,7 @@ public class Constants {
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 
 	public static final int kIntakeActuatorCanID = 10;
-	public static final int kIntakeFlapSolenoidChannel = 2;
+	public static final int kIntakeFlapSolenoidChannel = 1;
 
 	public static final int kDriveCurrentLimit = 40;
 
@@ -52,8 +52,8 @@ public class Constants {
     public static double kShooterD = 0; 
     public static double kShooterIz = 0; 
 	public static double kShooterFF = 1/kShootermaxRPM; 
-	public static int kShooterHoodSolenoidAChannel = 1;
-	public static int kShooterHoodSolenoidBChannel = 2;
+	public static int kShooterHoodSolenoidAChannel = 0;
+	//public static int kShooterHoodSolenoidBChannel = 2;
 
 
 	public static final int kRobotWranglerReverseLimitDio = 0; //1114
@@ -111,7 +111,7 @@ public class Constants {
 	public static final int kElevatorLowerLimitDio = 1;
 	public static final int kElevatorUpperLimitDio = 2;
 
-	public static final int kBuddySolenoidPcmPort = 0;
+	public static final int kBuddySolenoidPcmPort = 3;
 
 	//Intake
 	public static final int kIntakeCanID = 9;
