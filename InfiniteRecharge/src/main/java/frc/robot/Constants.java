@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-
 /**
  * Add your docs here.
  */
@@ -36,7 +34,7 @@ public class Constants {
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
 
 	public static final int kIntakeActuatorCanID = 10;
-	public static final int kIntakeFlapSolenoidChannel = 1;
+	public static final int kIntakeFlapSolenoidChannel = 6;
 
 	public static final int kDriveCurrentLimit = 40;
 
@@ -52,7 +50,7 @@ public class Constants {
     public static double kShooterD = 0; 
     public static double kShooterIz = 0; 
 	public static double kShooterFF = 1/kShootermaxRPM; 
-	public static int kShooterHoodSolenoidAChannel = 0;
+	public static int kShooterHoodSolenoidAChannel = 5;
 	//public static int kShooterHoodSolenoidBChannel = 2;
 
 
@@ -63,7 +61,7 @@ public class Constants {
 	public static final int kIntakeActuatorMotionAccel = 25000;
 	public static final double kIntakeActuatorKf = 0.6; 
 
-	public static final double kIntakeExtensionRevolutions = 2.5;
+	public static final double kIntakeExtensionRevolutions = 2.6;
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
 	public static final double kIntakeIntakingSpeed = -0.9;  // .85
 	public static final double kIntakeUnintakingSpeed = 0.8;
@@ -116,7 +114,7 @@ public class Constants {
 	//Intake
 	public static final int kIntakeCanID = 9;
 	public static final int kItntakeActuatorCanID = 10;
-	public static final int kControlPanelSolenoidAChannel = 0;
+	public static final int kControlPanelSolenoidAChannel = 7;
 	public static final int kControlPanelSolenoidBChannel = 0;	
 	//Shooter RPM
 

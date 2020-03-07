@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     
+    RobotMap.getIntakeActuationSystem().setSelectedSensorPosition(0);
     autoController = new AutoController();
     teleopController = new TeleopController();
 

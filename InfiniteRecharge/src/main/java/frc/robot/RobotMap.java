@@ -255,13 +255,13 @@ public class RobotMap {
 
 		winchB.configFactoryDefault();
 		winchB.follow(winchA);
-		winchB.setInverted(InvertType.FollowMaster);
+		//winchB.setInverted(InvertType.FollowMaster);
 		winchC.configFactoryDefault();
 		winchC.follow(winchA);
-		winchC.setInverted(InvertType.OpposeMaster);
+		//winchC.setInverted(InvertType.OpposeMaster);
 		winchD.configFactoryDefault();
 		winchD.follow(winchA);
-		winchD.setInverted(InvertType.OpposeMaster);
+		//winchD.setInverted(InvertType.OpposeMaster);
 
 		return winchSystem;
 	}
