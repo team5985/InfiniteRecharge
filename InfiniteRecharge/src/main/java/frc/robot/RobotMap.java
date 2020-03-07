@@ -146,13 +146,11 @@ public class RobotMap {
 	static WPI_VictorSPX winchB = new WPI_VictorSPX(Constants.kWinchBCanId);
 	static WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
 	static  WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
-
 	static PbDioEncoder winchEncoder = new PbDioEncoder(Constants.kWinchEncoderDioA, Constants.kWinchEncoderDioB);
-
-	// PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId, MotorType.kBrushless);
-	// SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
-
 	static SensoredSystem winchSystem = new SensoredSystem(winchA, winchEncoder);
+
+	static PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId, MotorType.kBrushless);
+	static SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
 
 	static PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
 	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
@@ -242,9 +240,9 @@ public class RobotMap {
 		return indexerMotor;
 	}
 
-	// public static SensoredSystem getElevatorSystem() {
-	// return elevatorSystem;
-	// }
+	public static SensoredSystem getElevatorSystem() {
+		return elevatorSystem;
+	}
 
 	public static SensoredSystem getWinchSystem() {
 		winchA.configFactoryDefault();

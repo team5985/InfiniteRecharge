@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Climber.ClimberState;
+import frc.robot.subsystems.Winch.ClimberState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
@@ -27,7 +27,8 @@ public class TeleopController {
     private static Shooter m_shooter;
     private static Intake m_intake;
     private static Indexer m_indexer;
-    private static Climber m_climber;
+    private static Winch m_winch;
+    private static Elevator m_elevator;
     private static Vision m_vision;
     private static Subsystem m_Subsystem;
     private static JavaUtil m_javaUtil;
@@ -67,7 +68,8 @@ public class TeleopController {
        
         m_config = new Config();
         m_drive = Drive.getInstance();
-        m_climber = Climber.getInstance();
+        m_winch = Winch.getInstance();
+        m_elevator = Elevator.getInstance();
         m_shooter = Shooter.getInstance();
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
@@ -131,9 +133,6 @@ public class TeleopController {
                 }
             }
 
-                
-            
-
         } else {
             if(m_intake.checkSafeRetraction()) {
                 m_intake.setDesiredState(IntakeState.RETRACTED);
@@ -144,11 +143,19 @@ public class TeleopController {
         
         }
 
-        // if (m_controls.getWinchUp()) {
-        //     m_climber.setDesiredState(ClimberState.WINCH_MANUAL);
-        //     m_climber.winchMove(0.25);
-        // } else if (m_controls.get)
+        if (m_controls.getWinchUp()) {
+            m_winch.setDesiredState(ClimberState.WINCH_MANUAL);
+            m_winch.winchMove(0.25);
+        } else if (m_controls.getWinchDown()) {
+            m_winch.setDesiredState(ClimberState.WINCH_MANUAL);
+            m_winch.winchMove(-0.25);
+        }
 
+        if (m_controls.getElevatorUp()) {
+            m_elevator.move(0.25);
+        } else if (m_controls.getElevatorDown()) {
+            m_elevator.move(0.25);
+        }
 
         if (m_controls.getVisionCommand()) {
             // if (m_vision.getTargetAcquired()) {
@@ -166,9 +173,9 @@ public class TeleopController {
     }
 
     private void stEndgame() {        
-        switch (m_climber.getCurrentState()) {
+        switch (m_winch.getCurrentState()) {
             case STOWED:
-            m_climber.setDesiredState(ClimberState.PREPARED);
+            m_winch.setDesiredState(ClimberState.PREPARED);
             break;
 
             case PREPARING:

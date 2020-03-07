@@ -8,12 +8,12 @@ import frc.util.LimitSwitchAdapter;
 import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
 
-public class Climber extends Subsystem {
-    public static Climber m_instance;
+public class Winch extends Subsystem {
+    public static Winch m_instance;
 
-    public static Climber getInstance() {
+    public static Winch getInstance() {
         if (m_instance == null) {
-            m_instance = new Climber();
+            m_instance = new Winch();
         }
 
         return m_instance;
@@ -32,7 +32,7 @@ public class Climber extends Subsystem {
     ProfiledPIDController winchPidController;
     Constraints winchPidConstraints;
 
-    private Climber() {
+    private Winch() {
         currentState = ClimberState.STOWED;
         desiredState = ClimberState.STOWED;
         buddyState = BuddyState.NO_BUDDY;
@@ -205,7 +205,7 @@ public class Climber extends Subsystem {
      * @param speed from -1.0 to 1.0
      */
     public void winchMove(double speed) {
-        if (m_lowerLimit.get() && speed < 0) {
+        if (m_lowerLimit.get() && speed > 0) {
             speed = 0;
         }
         m_winchMaster.set(speed);

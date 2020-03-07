@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.*;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Climber.BuddyState;
+import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.Winch.BuddyState;
 import frc.robot.Constants;
 
 /**
@@ -239,5 +239,22 @@ public class DriverControls {
 
 	public boolean getTeleopCommand() {
 		return stick.getRawButton(7);
+	}
+
+
+	public boolean getWinchUp() {
+		return xBox.getPOV() == 0;
+	}
+
+	public boolean getWinchDown() {
+		return xBox.getPOV() == 180;
+	}
+
+	public boolean getElevatorUp() {
+		return xBox.getPOV() == 90;
+	}
+
+	public boolean getElevatorDown() {
+		return xBox.getPOV() == 270;
 	}
 }

@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-
 /**
  * Add your docs here.
  */
@@ -22,7 +20,7 @@ public class Constants {
 	public static final int kPcmCanId = 50;
 	public static final int kRobotWranglerSparkCanId = 148;
 
-	// public static final int kElevatorMotorCanId = 0;  //FIXME
+	public static final int kElevatorMotorCanId = 20;
 	public static final int kWinchACanId = 16;
 	public static final int kWinchBCanId = 17;
 	public static final int kWinchCCanId = 18;

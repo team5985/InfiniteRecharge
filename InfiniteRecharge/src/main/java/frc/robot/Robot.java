@@ -30,8 +30,11 @@ public class Robot extends TimedRobot {
     Drive drivetrain = Drive.getInstance();
     drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
 
-    Climber climber = Climber.getInstance();
-    climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+    Winch winch = Winch.getInstance();
+    winch.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+
+    Elevator elevator = Elevator.getInstance();
+    elevator.setSystem(RobotMap.getElevatorSystem());
    
     Intake intake = Intake.getInstance();
     intake.setSystem(RobotMap.getIntakeActuationSystem(), RobotMap.getIntakeSystem(), RobotMap.getIntakeServo());
@@ -78,9 +81,8 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
-    // Climber.getInstance().update();
-
-    //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
+    Winch.getInstance().update();
+    Elevator.getInstance().update();
   }
 
   @Override
