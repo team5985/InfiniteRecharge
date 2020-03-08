@@ -148,13 +148,18 @@ public class TeleopController {
             m_winch.winchMove(0.25);
         } else if (m_controls.getWinchDown()) {
             m_winch.setDesiredState(ClimberState.WINCH_MANUAL);
-            m_winch.winchMove(-0.25);
+            m_winch.winchMove(-1.0);
+        } else {
+            m_winch.setDesiredState(ClimberState.WINCH_MANUAL);
+            m_winch.winchMove(0.0);
         }
 
         if (m_controls.getElevatorUp()) {
-            m_elevator.move(0.25);
+            m_elevator.move(0.5);
         } else if (m_controls.getElevatorDown()) {
-            m_elevator.move(0.25);
+            m_elevator.move(-.25);
+        } else {
+            m_elevator.move(0.0);
         }
 
         if (m_controls.getVisionCommand()) {

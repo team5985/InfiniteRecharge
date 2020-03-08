@@ -73,7 +73,7 @@ public class PbSparkMax extends CANSparkMax implements SpeedController, EncoderA
 
     @Override
     public void set(double speed) {
-        super.pidWrite(speed);
+        super.set(speed);
     }
 
     @Override

@@ -259,10 +259,10 @@ public class RobotMap {
 		winchB.setInverted(InvertType.FollowMaster);
 		winchC.configFactoryDefault();
 		winchC.follow(winchA);
-		winchC.setInverted(InvertType.OpposeMaster);
+		winchC.setInverted(InvertType.FollowMaster);   // Silver - OpposeMaster
 		winchD.configFactoryDefault();
 		winchD.follow(winchA);
-		winchD.setInverted(InvertType.OpposeMaster);
+		winchD.setInverted(InvertType.FollowMaster);   // Silver - Oppose Master
 
 		return winchSystem;
 	}

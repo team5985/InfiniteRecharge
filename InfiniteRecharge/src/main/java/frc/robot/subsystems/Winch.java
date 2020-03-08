@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
+// import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+// import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
 import frc.util.LimitSwitchAdapter;
 import frc.util.LimitSwitchGroup;
@@ -29,17 +29,17 @@ public class Winch extends Subsystem {
     private ClimberState desiredState;
     private BuddyState buddyState;
     
-    ProfiledPIDController winchPidController;
-    Constraints winchPidConstraints;
+    // ProfiledPIDController winchPidController;
+    // Constraints winchPidConstraints;
 
     private Winch() {
         currentState = ClimberState.STOWED;
         desiredState = ClimberState.STOWED;
         buddyState = BuddyState.NO_BUDDY;
 
-        winchPidConstraints = new Constraints(Constants.kWinchMaxVelocity, Constants.kWinchMaxAccel);
-        winchPidController = new ProfiledPIDController(Constants.kWinchKp, 0.0, 0.0, winchPidConstraints);
-        winchPidController.reset(0.0);
+        // winchPidConstraints = new Constraints(Constants.kWinchMaxVelocity, Constants.kWinchMaxAccel);
+        // winchPidController = new ProfiledPIDController(Constants.kWinchKp, 0.0, 0.0, winchPidConstraints);
+        // winchPidController.reset(0.0);
     }
 
     public void setSystem(SensoredSystem winch, Solenoid buddyLock, LimitSwitchGroup limitGroup) {
@@ -196,8 +196,8 @@ public class Winch extends Subsystem {
     }
     
     private void winchMoveTo(double rotations) {
-        double speed = winchPidController.calculate(winchCountsToRotations(m_winchMaster.getCounts()), rotations);
-        winchMove(speed);
+        // double speed = winchPidController.calculate(winchCountsToRotations(m_winchMaster.getCounts()), rotations);
+        winchMove(0);
     }
 
     /**
@@ -205,9 +205,9 @@ public class Winch extends Subsystem {
      * @param speed from -1.0 to 1.0
      */
     public void winchMove(double speed) {
-        if (m_lowerLimit.get() && speed > 0) {
-            speed = 0;
-        }
+        // if (m_lowerLimit.get() && speed > 0) {
+        //     speed = 0;
+        // }
         m_winchMaster.set(speed);
     }
 
