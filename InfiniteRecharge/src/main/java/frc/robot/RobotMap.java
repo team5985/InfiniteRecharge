@@ -14,7 +14,6 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import frc.robot.config.Config;
 import frc.util.EncoderAdapter;
 import frc.util.SensoredSystem;
 import com.revrobotics.AlternateEncoderType;
@@ -36,6 +35,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.RobotWrangler;
+
+import frc.util.*;
+
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
 
 import frc.util.*;
 
@@ -205,7 +214,20 @@ public class RobotMap {
         
         SensoredSystem system = new SensoredSystem(robotWranglerMotor);
         return system;
-    }
+
+	}
+	
+	public static SensoredSystem getControlPanelSystem() {
+		PbTalonSrx controlPanelMotor;
+		controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
+		SensoredSystem system = new SensoredSystem(controlPanelMotor);
+		return system;
+	}
+
+
+    
+
+
     
 
     public static SpeedControllerGroup getShooter() {
@@ -242,7 +264,17 @@ public class RobotMap {
         PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
         LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
         return limitSwitchGroup;
-    }
+
+	}
+	public static Solenoid getControlPanelSolenoid()
+	{
+		Solenoid controlPanelSolenoid;
+		controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
+		return controlPanelSolenoid;
+	} 
+
+    
+
   
     public static WPI_TalonSRX getIntakeActuationSystem() {
         WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
@@ -256,6 +288,7 @@ public class RobotMap {
         SensoredSystem system = new SensoredSystem(intakeMotor, null);
         return system;
     }
+
     
     //Set Idle mode
 
@@ -304,4 +337,5 @@ public class RobotMap {
         SolenoidAdapter buddySolenoid = new PbSolenoid(Constants.kPcmCanId, Constants.kBuddySolenoidPcmPort);
         return buddySolenoid;
     }
+
 }

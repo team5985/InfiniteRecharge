@@ -14,6 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 
+import frc.util.ColourSensor;
+
+import edu.wpi.first.wpilibj.Timer;
+
+
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
@@ -45,7 +50,13 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
     RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
 
-    Climber.setSystem(RobotMap.getElevatorSystem(), RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+    /*ColourSensor.colorMatcher.addColorMatch(kBlueTarget);
+    colorMatcher.addColorMatch(kGreenTarget);
+    colorMatcher.addColorMatch(kRedTarget);
+    colorMatcher.addColorMatch(kYellowTarget);  */
+
+
+    //Climber.setSystem(RobotMap.getElevatorSystem(), RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
   }
 
   @Override
