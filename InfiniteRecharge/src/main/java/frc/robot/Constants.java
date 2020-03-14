@@ -66,12 +66,7 @@ public class Constants {
 	public static final double kIntakeActuatorKf = 0.6; 
 
 	public static final double kIntakeExtensionRevolutions = 2.6;
-	public static double kShooterFF = 0.000015; 
-    public static double kShooterMaxOutput = 1; 
-    public static double kShooterMinOutput = -1;
-    public static double kShootermaxRPM = 5700;
-	public static final int kRobotWranglerReverseLimitDio = 1114;
-	public static final int kRobotWranglerForwardLimitDio = 2056;
+
 
 
 
@@ -83,15 +78,13 @@ public class Constants {
 
 	public static final int kSensorOffset = 2; //FIXME
 
-	public static final boolean kControlPanelDoubleSolenoid = false;
-	public static final int kControlPanelSolenoidAChannel = 0; //FIXME
-	public static final int kControlPanelSolenoidBChannel = 1; //FIXME
+	public static final int kControlPanelSolenoidAChannel = 7; 
 	public static final double kRotationalControlTargetRotations = 3.75;
 	//Depreciated if single solenoid
     public static final boolean kControlPanelExtendedState = true;
     public static final boolean kControlPanelRetractedState = false;
 
-	public static final double kControlPanelManualSpeed = 0.3; 
+	public static final double kControlPanelManualSpeed = -0.7; 
 	public static final double kMaxRotationalControlSpeed = 0.4;
 	public static final double kControlPanelPoisitionControlSpeed = 0.1; 
 	public static final double kControlPanelTargetRotations = 4;
@@ -133,7 +126,9 @@ public class Constants {
     public static final Color kLIT_CYAN = ColorMatch.makeColor(0.14,0.42,0.43);
     public static final Color kLIT_GREEN = ColorMatch.makeColor(0.19,0.53,0.27);
     public static final Color kLIT_RED = ColorMatch.makeColor(0.48,0.36,0.16);
-    public static final Color kLIT_YELLOW = ColorMatch.makeColor(0.32,0.53,0.14);
+	public static final Color kLIT_YELLOW = ColorMatch.makeColor(0.32,0.53,0.14);
+	
+	public static final Color kColourInvalid = ColorMatch.makeColor(0, 0, 0);
 
     // Values from test with sensor LED turned off (ambient light).
     public static final Color kAMB_CYAN = ColorMatch.makeColor(0.14,0.39,0.45);
@@ -152,7 +147,7 @@ public class Constants {
 	}
 
   
-	public static final double kIntakeExtensionRevolutions = 4;
+
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
 	public static final double kIntakeIntakingSpeed = -0.9;  // .85
 	public static final double kIntakeUnintakingSpeed = 0.8;
@@ -205,8 +200,7 @@ public class Constants {
 	//Intake
 	public static final int kIntakeCanID = 9;
 	public static final int kItntakeActuatorCanID = 10;
-	public static final int kControlPanelSolenoidAChannel = 7;
-	public static final int kControlPanelSolenoidBChannel = 0;	
+	
 	//Shooter RPM
 
 	// Vision

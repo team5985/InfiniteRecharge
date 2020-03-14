@@ -41,6 +41,10 @@ public class Robot extends TimedRobot {
    
     Intake intake = Intake.getInstance();
     intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
+
+    ControlPanel controlPanel = ControlPanel.getInstance();
+    ColourSensor colourSensor = ColourSensor.getInstance();
+    
     
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
@@ -80,6 +84,8 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
+    ControlPanel.getInstance().update();
+    ColourSensor.getInstance().update();
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));

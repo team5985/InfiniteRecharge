@@ -52,6 +52,7 @@ public class DriverControls {
      * @return Driver interrupt command.
      */
     public boolean getStickInterupt() {
+		end = false;
 
 		if(stick.getX() >= 0.7) {
 			end = true;

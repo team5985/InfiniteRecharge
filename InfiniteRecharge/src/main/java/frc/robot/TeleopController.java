@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Climber.ClimberState;
+import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
+import frc.util.ColourSensor;
 import frc.util.JavaUtil;
 import frc.util.Luin;
 /**
@@ -31,6 +33,8 @@ public class TeleopController {
     private static Vision m_vision;
     private static Subsystem m_Subsystem;
     private static JavaUtil m_javaUtil;
+    private static ControlPanel m_controlPanel;
+    private static ColourSensor m_colourSensor;
 
     private static Luin m_luin;
 
@@ -62,6 +66,7 @@ public class TeleopController {
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
         m_javaUtil = JavaUtil.getInstance();
+        m_controlPanel = ControlPanel.getInstance();
     }
 
     public void callStateMachine() {
@@ -139,6 +144,17 @@ public class TeleopController {
         } else {
             m_vision.disableVision();
             callDrive();
+        }
+
+        if(m_controls.getSpinnyUp()) {
+            m_controlPanel.setDesiredState(ControlPanelState.EXTENDED);
+        } else if(m_controls.getStickInterupt()){
+            m_controlPanel.setDesiredState(ControlPanelState.RETRACTED);
+        }
+
+        if(m_controls.getControlPanelCommand()) {
+            m_controlPanel.setDesiredState(ControlPanelState.MANUAL_ANTICLOCKWISE);
+
         }
     }
 

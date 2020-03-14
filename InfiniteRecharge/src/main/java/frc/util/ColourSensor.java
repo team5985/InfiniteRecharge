@@ -36,6 +36,9 @@ public class ColourSensor
      */
     private ColorSensorV3 sensor;
 
+    Color col;
+    ColorMatchResult result;
+
     /**
      * The class that compares the observed colours with the list of colours that we are expecting.
      */
@@ -57,15 +60,16 @@ public class ColourSensor
      */
     private ColourSensor() {
         I2C.Port i2cPort = I2C.Port.kOnboard;
-        sensor = new ColorSensorV3(i2cPort);
+        ColorSensorV3 sensor = new ColorSensorV3(i2cPort);
 
-        matcher = new ColorMatch();
+        ColorMatch matcher = new ColorMatch();
         matcher.addColorMatch(Constants.kAMB_CYAN);
         matcher.addColorMatch(Constants.kAMB_RED);
         matcher.addColorMatch(Constants.kAMB_GREEN);
         matcher.addColorMatch(Constants.kAMB_YELLOW);
         matcher.setConfidenceThreshold(0.8);
-    }
+
+       col = Constants.kColourInvalid;    }
 
     /**
      * Creates (if necessary) and returns the one and only instance of the
@@ -81,7 +85,7 @@ public class ColourSensor
     }
 
     /**
-     * Gets tyhe colour seen by the colour sensor. Returns one of...
+     * Gets the colour seen by the colour sensor. Returns one of...
      * {@link #kControlPanelColourBlue} {@link #kControlPanelColourGreen}
      * {@link #kControlPanelColourRed} {@link #CkControlPanelColourYellow}
      * {@link #kControlPanelColourInvalid}
@@ -89,10 +93,19 @@ public class ColourSensor
      * @return the colour currently seen by the colour sensor.
      */
     public int getColour() {
-        Color col = sensor.getColor();
-        ColorMatchResult result = matcher.matchColor(col);
+        try {
+            col = sensor.getColor();
+            ColorMatchResult result = matcher.matchClosestColor(col);
+        } catch(Exception e) {
+            col = Constants.kColourInvalid;
+            System.out.println("Invalid colour sensor data");
+        }
         int forReturn = Constants.kControlPanelColourInvalid;
-        if (result.color == Constants.kAMB_CYAN) {
+        if (result == null) {
+            forReturn = Constants.kControlPanelColourInvalid;
+        } else if (result.color == null) {
+            forReturn = Constants.kControlPanelColourInvalid;
+        } else if (result.color == Constants.kAMB_CYAN) {
             forReturn = Constants.kControlPanelColourBlue;
         } else if (result.color == Constants.kAMB_RED) {
             forReturn = Constants.kControlPanelColourRed;

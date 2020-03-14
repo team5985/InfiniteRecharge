@@ -11,11 +11,25 @@ public class ControlPanel extends Subsystem
      */
     private ControlPanelState currentState;
 
+    private static ControlPanel m_instance;
+
     /**
      * The state we are going to be in.
      */
     private ControlPanelState desiredState;
 
+    public static ControlPanel getInstance() {
+        if (m_instance == null) {
+            m_instance = new ControlPanel();
+        }
+        return m_instance;
+    }
+
+    private ControlPanel() {
+        currentState = ControlPanelState.RETRACTED;
+        desiredState = ControlPanelState.RETRACTED;
+    }
+    boolean newState = false;
     /**
      * Run every 20ms, executes all functionality
      */
@@ -23,14 +37,15 @@ public class ControlPanel extends Subsystem
     {
         //This boolean is declared as true every time we enter a new state, and can be used
         // to differentiate between the first loop of the state from the others.
-        boolean newState = false;
+        
         if (currentState != desiredState)
         {
             newState = true;
             currentState = desiredState;
+        } else {
+            newState = false;
         }
-        //This allows us to get updated data from our colour sensor every 20ms
-        ColourSensor.getInstance().update();
+        
         //state machine
         switch(currentState) {
             //What to do if we are EXTENDING our arm, or we are EXTENDED
@@ -174,7 +189,7 @@ public class ControlPanel extends Subsystem
      */
     private void extendSpinner()
     {
-        RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelExtendedState);;
+        RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelExtendedState);
     }
 
     /**
@@ -182,7 +197,9 @@ public class ControlPanel extends Subsystem
     */
     private void retractSpinner()
     {
-         RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelRetractedState);;
+         RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelRetractedState);
+         
+
     }
 
     /**
@@ -191,6 +208,7 @@ public class ControlPanel extends Subsystem
     private void setSpinnerSpeed(double speed)
     {
         RobotMap.getControlPanelSystem().set(speed);
+    
     }
     
 }
