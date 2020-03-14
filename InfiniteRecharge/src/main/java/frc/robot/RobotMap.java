@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import frc.robot.config.Config;
 import frc.util.EncoderAdapter;
 import frc.util.SensoredSystem;
 import com.revrobotics.AlternateEncoderType;
@@ -40,6 +39,16 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.RobotWrangler;
+
+import frc.util.*;
+
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
 
 import frc.util.*;
 
@@ -174,7 +183,74 @@ public class RobotMap {
 	public static SpeedControllerGroup getRightDrive() {
 
 		return rightDriveMotors;
+	} /*
+		 // Initialise motor controllers
+		 leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+		 leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
+		 //leftDriveC = new CANSparkMax(kLeftDriveCCanId, MotorType.kBrushless);
+		 
+		 rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+		 rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
+		 //rightDriveC = new CANSparkMax(kRightDriveCCanId, MotorType.kBrushless);
+		 
+		 // Set brake/coast
+		 leftDriveA.setIdleMode(Config.kDriveIdleMode);
+		 leftDriveB.setIdleMode(Config.kDriveIdleMode);
+		 //leftDriveC.setIdleMode(Config.kDriveIdleMode);
+		 
+		 rightDriveA.setIdleMode(Config.kDriveIdleMode);
+		 rightDriveB.setIdleMode(Config.kDriveIdleMode);
+		 //rightDriveC.setIdleMode(Config.kDriveIdleMode);
+		 
+		 // Invert right side
+		 leftDriveA.setInverted(Config.kLeftDrivePhase);
+		 leftDriveB.setInverted(Config.kLeftDrivePhase);
+		 //leftDriveC.setInverted(Config.kLeftDrivePhase);
+
+		 rightDriveA.setInverted(Config.kRightDrivePhase);
+		 rightDriveB.setInverted(Config.kRightDrivePhase);
+		 //rightDriveB.setInverted(Config.kRightDrivePhase);
+		 
+ 
+		 // Set current limit to PDP fuses
+		 leftDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 leftDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 //leftDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+
+		 rightDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 rightDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit); */
+	
+
+
+
+    public static SensoredSystem getRobotWranglerSystem() {
+        PbSparkMax robotWranglerMotor;
+
+        if (Constants.kUseRobotWranglerNeoEncoder) {
+            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless);
+        } else {
+            robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless, AlternateEncoderType.kQuadrature, 2048); 
+            // if using alternate encoder with neo
+        }
+        
+        SensoredSystem system = new SensoredSystem(robotWranglerMotor);
+        return system;
+
 	}
+	
+	public static SensoredSystem getControlPanelSystem() {
+		PbTalonSrx controlPanelMotor;
+		controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
+		SensoredSystem system = new SensoredSystem(controlPanelMotor);
+		return system;
+	}
+
+
+    
+
+
+    
 
 	public static SpeedControllerGroup getShooter() {
 		// shooterMotorA.setInverted(false);
@@ -216,6 +292,29 @@ public class RobotMap {
 
 	public static Solenoid getIntakeActuationSystem() {
 		
+    
+    public static LimitSwitchGroup getRobotWranglerLimits() {
+        PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
+        PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
+        LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
+        return limitSwitchGroup;
+
+	}
+	public static Solenoid getControlPanelSolenoid()
+	{
+		Solenoid controlPanelSolenoid;
+		controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
+		return controlPanelSolenoid;
+	} 
+
+    
+
+  
+    public static WPI_TalonSRX getIntakeActuationSystem() {
+        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
+       
+        return intakeActuation;
+	}
 	
 		return intakeActuator;
 	}
@@ -224,6 +323,14 @@ public class RobotMap {
 		return intakeSystem;
 	}
 	
+    public static SensoredSystem getIntakeSystem() {
+        WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
+        SensoredSystem system = new SensoredSystem(intakeMotor, null);
+        return system;
+    }
+
+    
+    //Set Idle mode
 
 	// Set Idle mode
 
