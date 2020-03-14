@@ -35,12 +35,12 @@ public class Robot extends TimedRobot {
     climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
    
     Intake intake = Intake.getInstance();
-    intake.setSystem(RobotMap.getIntakeActuationSystem(), RobotMap.getIntakeSystem(), RobotMap.getIndexerFlap());
+    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
     
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     
-    RobotMap.getIntakeActuationSystem().setSelectedSensorPosition(0);
+
     autoController = new AutoController();
     teleopController = new TeleopController();
 

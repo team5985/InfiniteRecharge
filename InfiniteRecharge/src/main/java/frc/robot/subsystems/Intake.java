@@ -20,21 +20,19 @@ public class Intake extends Subsystem {
 
     DigitalInput indexerFlap = new DigitalInput(0);
 
-    private static WPI_TalonSRX m_intakeActuator;
+    private static Solenoid m_intakeActuator;
     private static SpeedController m_intakeRoller;
-    private static Solenoid m_intakeFlap;
+
     
     public enum IntakeState {
-        EXTENDED,
-        RETRACTED,
         INTAKING,
         UNINTAKING,
+        IDLE,
     }
 
     private Intake() {
-        currentState = IntakeState.RETRACTED;
-        desiredState = IntakeState.RETRACTED;
-        DigitalInput intakeFlapHallEffect;
+        currentState = IntakeState.IDLE;
+        desiredState = IntakeState.IDLE;
         
     }
 
@@ -45,55 +43,47 @@ public class Intake extends Subsystem {
         return m_instance;
     }
 
-    public void setSystem(WPI_TalonSRX intakeActuator, SpeedController intakeRoller, Solenoid flap) {
+    public void setSystem(SpeedController intakeRoller, Solenoid intakeActuator) {
         m_intakeActuator = intakeActuator;
         m_intakeRoller = intakeRoller;
-        m_intakeFlap = flap;
     }
     
     public void update() {
         switch(desiredState) {
             
-            case RETRACTED:
-            m_intakeActuator.set(ControlMode.MotionMagic, 0);
-            m_intakeRoller.set(0.0);
-            m_intakeFlap.set(false);
-            currentState = desiredState;
-            
-            break;
-
-            case EXTENDED:
-            m_intakeActuator.set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));
-            m_intakeRoller.set(0.0);
-            RobotMap.getIntakeServo().set(Constants.kIntakeServoExtendedPos);
-            m_intakeFlap.set(true);
-            currentState = desiredState;
-            break;
 
             case INTAKING:
-            m_intakeActuator.set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));    
+            m_intakeActuator.set(true);    
             m_intakeRoller.set(Constants.kIntakeIntakingSpeed);
             currentState = desiredState;
             break;
 
             case UNINTAKING:
-            m_intakeActuator.set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));
+            m_intakeActuator.set(true);
             m_intakeRoller.set(Constants.kIntakeUnintakingSpeed);
             currentState = desiredState;
             break;
+            
+            default:
+            m_intakeRoller.set(0);
+            m_intakeActuator.set(false);
             
 
         }
     }
 
     public double getPosition() {
-        return m_intakeActuator.getSelectedSensorPosition() / Constants.kIntakeEncoderPPR;
+        if(currentState == IntakeState.INTAKING) {
+            return 1;
+        }else {
+            return 0;
+        }
       
     }
 
     public boolean zeroPosition() {
-        m_intakeActuator.setSelectedSensorPosition(0);
-        return false;
+        desiredState = IntakeState.IDLE;
+        return true;
 
     }
 
@@ -113,7 +103,5 @@ public class Intake extends Subsystem {
         } */
         return true;
     }
-    public void retractFlap() {
-        RobotMap.getIntakeServo().set(Constants.kIntakeServoRetractedPos);
-    }
+
 }

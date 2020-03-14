@@ -134,11 +134,10 @@ public class RobotMap {
 	/**
 	 * Intake
 	 */
-	static WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
+	
 	static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
 	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
-	static Servo intakeServo = new Servo(0);
-	static Solenoid intakeFlapSolenoid = new Solenoid(Constants.kPcmCanId, Constants.kIntakeFlapSolenoidChannel);
+	static Solenoid intakeActuator = new Solenoid(Constants.kPcmCanId, Constants.kIntakeFlapSolenoidChannel);
 
 	/**
 	 * Climber
@@ -203,9 +202,7 @@ public class RobotMap {
 		return indexerSystem;
 	}
 
-	public static Solenoid getIndexerFlap() {
-		return intakeFlapSolenoid;
-	}
+
 
 	// public static LimitSwitchGroup getRobotWranglerLimits() {
 	// PbDioSwitch robotWranglerForwardLimit = new
@@ -217,21 +214,16 @@ public class RobotMap {
 	// return limitSwitchGroup;
 	// }
 
-	public static WPI_TalonSRX getIntakeActuationSystem() {
-		intakeActuation.configMotionCruiseVelocity(Constants.kIntakeActuatorMotionCruiseVel); //3600
-		intakeActuation.configMotionAcceleration(Constants.kIntakeActuatorMotionAccel); //25000
-		intakeActuation.config_kF(0, Constants.kIntakeActuatorKf);
+	public static Solenoid getIntakeActuationSystem() {
 		
-		return intakeActuation;
+	
+		return intakeActuator;
 	}
 
 	public static SensoredSystem getIntakeSystem() {
 		return intakeSystem;
 	}
 	
-	public static Servo getIntakeServo() {
-		return intakeServo;
-	}
 
 	// Set Idle mode
 

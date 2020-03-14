@@ -96,16 +96,7 @@ public class TeleopController {
         if(m_controls.getActionCommand()) {
             System.out.println("action command");
             if(m_controls.getMechanismMode()) {
-                //m_intake.setDesiredState(IntakeState.INTAKING);
-                 //Check if the intake is extended
-                 if(m_javaUtil.getWithinTolerance(m_intake.getPosition(), Constants.kIntakeExtensionRevolutions, 0.5)) 
-                 {
-                     //Intake
-                     m_intake.setDesiredState(IntakeState.INTAKING);
-                 } else {
-                     //Extend the intake
-                     m_intake.setDesiredState(IntakeState.EXTENDED);
-                 }
+                
             } else {
                 //check if shooter ia at an acceptable speed
                 if(m_shooter.getShooterAcceptableSpeed(m_shooter.getShooterTargetSpeed())) {
@@ -125,11 +116,7 @@ public class TeleopController {
             
 
         } else {
-            if(m_intake.checkSafeRetraction()) {
-                m_intake.setDesiredState(IntakeState.RETRACTED);
-            } else {
-                m_intake.retractFlap();
-            }
+            m_intake.setDesiredState(IntakeState.IDLE);
             m_shooter.setDesiredState(ShooterState.IDLE);
         
         }
