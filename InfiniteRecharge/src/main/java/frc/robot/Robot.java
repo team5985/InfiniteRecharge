@@ -6,6 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.util.Color;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -13,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
-
 import frc.util.ColourSensor;
+
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -42,24 +46,22 @@ public class Robot extends TimedRobot {
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
-
-    SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
+/*
+   SmartDashboard .putNumber("Shooter P Gain", Constants.kShooterP);
         SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
         SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
         SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
         SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
     RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
-
-    /*ColourSensor.colorMatcher.addColorMatch(kBlueTarget);
-    colorMatcher.addColorMatch(kGreenTarget);
-    colorMatcher.addColorMatch(kRedTarget);
-    colorMatcher.addColorMatch(kYellowTarget);  */
+*/
+    
 
 
     //Climber.setSystem(RobotMap.getElevatorSystem(), RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
   }
 
   @Override
+
   public void robotPeriodic() {
   }
 
@@ -73,6 +75,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putNumber("Colour Sensor", ColourSensor.getInstance().getColour());
+    SmartDashboard.putNumber("Rotations", ColourSensor.getInstance().getControlPanelRotations());
+    SmartDashboard.putNumber("Total Colour Changes", ColourSensor.getInstance().getColourChange());
+    SmartDashboard.putBoolean("Is it going clockwise ", ColourSensor.getInstance().getControlPanelDirection());
+
+
   }
 
   @Override

@@ -3,6 +3,7 @@ package frc.util;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorSensorV3.RawColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
@@ -10,9 +11,20 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 public class ColourSensor
 {   
-    
+    private int getCurrentRawRed()
+    {
+        return getCurrentRawRed(); 
+    }
+    private int getCurrentRawBlue(){
+        return getCurrentRawBlue()
+    }
+
+    private int getCurrentRawGreen(){
+        return getCurrentRawGreen();
+    }
+
     /**
-     * The previous colour the color was.
+     * The previous colour lastColour.
      */
     private int PreviousColour = Constants.kControlPanelColourInvalid;
 
@@ -22,9 +34,21 @@ public class ColourSensor
     private int lastColour = Constants.kControlPanelColourInvalid;
 
     /**
-     * A count of how many times the sensor has scammed the smae colour
+     * A count of how many times the sensor has scammed the same colour
      */
     private int scanCount = 0;
+ /**
+     * The red value in the current colour
+     */
+    public int ColourSensorR = 0;
+ /**
+     * The green value in the current colour
+     */
+    public int ColourSensorG = 0;
+ /**
+     * The blue value in the current colour
+     */
+    public int ColourSensorB = 0;
 
     /**
      * The singleton instance of this class.
@@ -45,6 +69,10 @@ public class ColourSensor
      * The number of colour change transitions that have been counted since this was last reset.
      */
     private static int myColourChanges = 0;
+
+	public static Object colorMatcher;
+
+	
 
     /**
      * The direction of rotation for the last transition that was detected.
@@ -81,7 +109,7 @@ public class ColourSensor
     }
 
     /**
-     * Gets tyhe colour seen by the colour sensor. Returns one of...
+     * Gets the colour seen by the colour sensor. Returns one of...
      * {@link #kControlPanelColourBlue} {@link #kControlPanelColourGreen}
      * {@link #kControlPanelColourRed} {@link #CkControlPanelColourYellow}
      * {@link #kControlPanelColourInvalid}
@@ -149,6 +177,7 @@ public class ColourSensor
 
     public void update()
     {
+        
         int CurrentColour = getColour();
         if (CurrentColour == lastColour)
         {
