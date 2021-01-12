@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.ColorMatch;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.util.ColourSensor;
@@ -18,11 +20,16 @@ public class ControlPanel extends Subsystem
      */
     private ControlPanelState desiredState;
 
+    public ControlPanel(){
+        desiredState = ControlPanelState.RETRACTED;
+    }
+
     /**
      * Run every 20ms, executes all functionality
      */
     public void update() 
-    {
+    {   
+        
         //This boolean is declared as true every time we enter a new state, and can be used
         // to differentiate between the first loop of the state from the others.
         boolean newState = false;
@@ -60,8 +67,7 @@ public class ControlPanel extends Subsystem
             if(controlPanelRotations < Constants.kRotationalControlTargetRotations)
             {   
                 //Defines a square root deceleration
-                double rotationSpeed = Math.min(Math.sqrt(Math.max(controlPanelRotations, 0)),1)*Constants.kControlPanelManualSpeed;
-                setSpinnerSpeed(rotationSpeed);
+                setSpinnerSpeed(Constants.kRotationalControlSpeed);
             }
             else
             {
@@ -170,13 +176,14 @@ public class ControlPanel extends Subsystem
         MANUAL_CLOCKWISE,
         MANUAL_ANTICLOCKWISE,
     }
+	Solenoid controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
 
     /**
      * Extends our spinner
      */
     private void extendSpinner()
     {
-        RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelExtendedState);;
+        controlPanelSolenoid.set(Constants.kControlPanelExtendedState);;
     }
 
     /**
@@ -184,7 +191,7 @@ public class ControlPanel extends Subsystem
     */
     private void retractSpinner()
     {
-         RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelRetractedState);;
+         controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
     }
 
     /**

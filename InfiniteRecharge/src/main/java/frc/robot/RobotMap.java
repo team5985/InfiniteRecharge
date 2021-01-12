@@ -112,7 +112,6 @@ public class RobotMap {
 	// static final boolean useNeoEncoders = true;
 
 	
-	
 
 	/**
 	 * DIO Ports
@@ -268,13 +267,12 @@ public class RobotMap {
         return limitSwitchGroup;
 
 	}
-	public static Solenoid getControlPanelSolenoid()
+/*	public static Solenoid getControlPanelSolenoid()
 	{
-		Solenoid controlPanelSolenoid;
-		controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
+		
 		return controlPanelSolenoid;
 	} 
-
+*/
     
 
   

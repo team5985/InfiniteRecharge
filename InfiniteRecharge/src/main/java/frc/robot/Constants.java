@@ -61,14 +61,14 @@ public class Constants {
 	public static final boolean kControlPanelDoubleSolenoid = false;
 	public static final int kControlPanelSolenoidAChannel = 7; //FIXME
 	public static final int kControlPanelSolenoidBChannel = 6; //FIXME
-	public static final double kRotationalControlTargetRotations = 3.75;
+	public static final double kRotationalControlTargetRotations = 3.5;
 	//Depreciated if single solenoid
     public static final boolean kControlPanelExtendedState = true;
     public static final boolean kControlPanelRetractedState = false;
 
 	public static final double kControlPanelManualSpeed = 0.3; 
-	public static final double kMaxRotationalControlSpeed = 0.4;
-	public static final double kControlPanelPoisitionControlSpeed = 0.1; 
+	public static final double kRotationalControlSpeed = 0.2;
+	public static final double kControlPanelPoisitionControlSpeed = 0.15; 
 	public static final double kControlPanelTargetRotations = 4;
 	public static final double kControlPanelHysteresis = 0.5;
 
