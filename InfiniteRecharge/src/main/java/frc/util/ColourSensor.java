@@ -11,16 +11,28 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 public class ColourSensor
 {   
+    /**
+     * A function used to call the current raw red value that the sensor detects
+     */
     private int getCurrentRawRed()
     {
-        return getCurrentRawRed(); 
+        int getCurrentRawRed = sensor.getRed();
+        return getCurrentRawRed; 
     }
+    /**
+     * A function used to call the current raw blue value that the sensor detects
+     */
     private int getCurrentRawBlue(){
-        return getCurrentRawBlue()
+        int getCurrentRawBlue = sensor.getBlue();
+        return getCurrentRawBlue;
     }
-
+    /**
+     * A function used to call the current raw green value that the sensor detects
+     */
     private int getCurrentRawGreen(){
-        return getCurrentRawGreen();
+        int getCurrentRawGreen = sensor.getGreen();
+
+        return getCurrentRawGreen;
     }
 
     /**
@@ -97,7 +109,7 @@ public class ColourSensor
 
     /**
      * Creates (if necessary) and returns the one and only instance of the
-     * ColourSensor class.
+     * Colour Sensor class.
      * 
      * @return the instance of {@link ColourSensor}
      */
@@ -131,6 +143,28 @@ public class ColourSensor
         }
         return forReturn;
     }
+
+    /**
+     * Gets the colour seen by the colour sensor. Returns one of...
+     * {@link #kControlPanelColourBlue} {@link #kControlPanelColourGreen}
+     * {@link #kControlPanelColourRed} {@link #CkControlPanelColourYellow}
+     * {@link #kControlPanelColourInvalid}
+     * 
+     * @return the colour currently seen by the colour sensor.
+     */
+    public String getColourString() {
+        int col = getColour();
+        if (col == Constants.kControlPanelColourBlue)
+            return Constants.kNAME_CYAN;
+        if (col == Constants.kControlPanelColourGreen)
+            return Constants.kNAME_GREEN;
+        if (col == Constants.kControlPanelColourRed)
+            return Constants.kNAME_RED;
+        if (col == Constants.kControlPanelColourYellow)
+            return Constants.kNAME_YELLOW;
+        return Constants.kNAME_UNKNOWN;
+    }
+
 
     /**
      * Reset the colour change counter back to zero.
@@ -177,6 +211,9 @@ public class ColourSensor
 
     public void update()
     {
+        ColourSensorR = getCurrentRawRed();
+        ColourSensorG = getCurrentRawGreen();
+        ColourSensorB = getCurrentRawBlue();
         
         int CurrentColour = getColour();
         if (CurrentColour == lastColour)

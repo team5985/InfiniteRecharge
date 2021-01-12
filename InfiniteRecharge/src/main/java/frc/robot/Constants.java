@@ -109,6 +109,11 @@ public class Constants {
     public static final Color kLIT_GREEN = ColorMatch.makeColor(0.19,0.53,0.27);
     public static final Color kLIT_RED = ColorMatch.makeColor(0.48,0.36,0.16);
     public static final Color kLIT_YELLOW = ColorMatch.makeColor(0.32,0.53,0.14);
+    public static final String kNAME_CYAN = "Cyan";
+    public static final String kNAME_GREEN = "Green";
+    public static final String kNAME_RED = "Red";
+    public static final String kNAME_YELLOW = "Yellow";
+    public static final String kNAME_UNKNOWN = "Unknown";
 
     // Values from test with sensor LED turned off (ambient light).
     public static final Color kAMB_CYAN = ColorMatch.makeColor(0.14,0.39,0.45);
