@@ -10,7 +10,7 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -19,8 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.util.ColourSensor;
-
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -32,7 +33,7 @@ public class Robot extends TimedRobot {
   Compressor comp;
   Solenoid solenoid;
   static Timer _timer = new Timer();
-  
+  Joystick js = new Joystick(Constants.kJoystickPort);
 
 
   public void robotInit() {
@@ -99,8 +100,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("G", ColourSensor.getInstance().ColourSensorG);
     SmartDashboard.putNumber("B", ColourSensor.getInstance().ColourSensorB);
     solenoid.set(true);
-
+    
+if(js.getRawButtonPressed(1) ==  true){
+  RobotMap.getControlPanelSystem().set(-0.25);
+}
+else if(js.getRawButtonReleased(1)== true) {
+  RobotMap.getControlPanelSystem().set(0);
+}
   }
+
 
   @Override
   public void testPeriodic() {

@@ -8,31 +8,29 @@ import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants;
 public class ColourSensor
 {   
-    /**
-     * A function used to call the current raw red value that the sensor detects
-     */
-    private int getCurrentRawRed()
-    {
-        int getCurrentRawRed = sensor.getRed();
-        return getCurrentRawRed; 
-    }
-    /**
-     * A function used to call the current raw blue value that the sensor detects
-     */
-    private int getCurrentRawBlue(){
-        int getCurrentRawBlue = sensor.getBlue();
-        return getCurrentRawBlue;
-    }
-    /**
-     * A function used to call the current raw green value that the sensor detects
-     */
-    private int getCurrentRawGreen(){
-        int getCurrentRawGreen = sensor.getGreen();
 
-        return getCurrentRawGreen;
+    public Color getColourValue()
+    {
+        return sensor.getColor();
+    }
+
+    private double getRed()
+    {
+        return getColourValue().red;
+    }
+
+    private double getGreen()
+    {
+        return getColourValue().green;
+    }
+
+    private double getBlue()
+    {
+        return getColourValue().blue;
     }
 
     /**
@@ -52,15 +50,15 @@ public class ColourSensor
  /**
      * The red value in the current colour
      */
-    public int ColourSensorR = 0;
+    public double ColourSensorR = 0;
  /**
      * The green value in the current colour
      */
-    public int ColourSensorG = 0;
+    public double ColourSensorG = 0;
  /**
      * The blue value in the current colour
      */
-    public int ColourSensorB = 0;
+    public double ColourSensorB = 0;
 
     /**
      * The singleton instance of this class.
@@ -88,7 +86,7 @@ public class ColourSensor
 
     /**
      * The direction of rotation for the last transition that was detected.
-     * <code>true</code> is Clockwise. <code>false</code> is AntiClockwise.
+     * <code>true</code> is AntiClockwise. <code>false</code> is Clockwise.
      */
     private boolean myLastTransitionDir = false;
 
@@ -211,11 +209,14 @@ public class ColourSensor
 
     public void update()
     {
-        ColourSensorR = getCurrentRawRed();
-        ColourSensorG = getCurrentRawGreen();
-        ColourSensorB = getCurrentRawBlue();
+        
+        ColourSensorR = getRed();
+        ColourSensorG = getGreen();
+        ColourSensorB = getBlue();
         
         int CurrentColour = getColour();
+       
+        
         if (CurrentColour == lastColour)
         {
             scanCount++;
@@ -225,21 +226,23 @@ public class ColourSensor
             lastColour = CurrentColour;
             scanCount = 0;
         }
-
-        //update count rotations
+        if(CurrentColour == Constants.kControlPanelColourInvalid){
+            CurrentColour = PreviousColour;
+        }     
+       //update count rotations
         if ((CurrentColour != Constants.kControlPanelColourInvalid) &&
             (CurrentColour != PreviousColour) &&
-            (scanCount > 2))
+            (scanCount > 4))
         {
             myColourChanges ++;
             //update direction
             if(PreviousColour == (CurrentColour+1) %4)
             {
-                myLastTransitionDir = true;            
+                myLastTransitionDir = false;            
             }
             else if ((PreviousColour+1)%4 == CurrentColour)
             {
-                myLastTransitionDir = false;
+                myLastTransitionDir = true;
             }
             PreviousColour = CurrentColour; 
         }
