@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
+import java.util.Random;
+
 import com.revrobotics.ColorMatch;
+
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -20,8 +23,15 @@ public class ControlPanel extends Subsystem
      */
     private ControlPanelState desiredState;
 
+    private int randomFMS;
+    private int NumberOfEarlyScans;
+    private int SecondarySpinCheck;
+
     public ControlPanel(){
         desiredState = ControlPanelState.RETRACTED;
+        randomFMS = 0;
+        NumberOfEarlyScans = 0;
+        SecondarySpinCheck = 0;
     }
 
     /**
@@ -80,25 +90,89 @@ public class ControlPanel extends Subsystem
             // the wheel to a particular colour.
             case POSITION_CONTROL:
             extendSpinner();
+//Test code 
+
+        {
+            
+            if(newState == true){
+                randomFMS = (int)(Math.random() * 4);
+                System.out.println("The current colour is: " + ColourSensor.getInstance().getColourString(randomFMS));
+                NumberOfEarlyScans = 0;
+                SecondarySpinCheck = 0;
+              
+            }
+            NumberOfEarlyScans++;
+            int FMSColour = randomFMS;
+            int currentColour = ColourSensor.getInstance().getColour();
+            int TargetColour = (FMSColour +2) % 4;
+            if(currentColour != TargetColour && NumberOfEarlyScans >= 50)
+            {
+                setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
+            }
+            else if(currentColour != TargetColour || NumberOfEarlyScans < 50){
+            
+            }
+            else
+            {   
+                setSpinnerSpeed(0.15);
+                if(SecondarySpinCheck >= 5){
+                setSpinnerSpeed(0);
+                setDesiredState(ControlPanelState.RETRACTED);
+                }
+                SecondarySpinCheck++;
+
+            }
+
+
+
+
+
+
+
+
+
+            //Actual Code
+         /*               
+            if(newState == true){
+                NumberOfEarlyScans = 0;
+                SecondarySpinCheck = 0;
+
+            }     
             if (ColourSensor.getInstance().getFmsColour() == Constants.kControlPanelColourInvalid)
             {
                 setDesiredState(ControlPanelState.RETRACTED);
             }
             else
             {
+                NumberOfEarlyScans++;
                 int FMSColour = ColourSensor.getInstance().getFmsColour();
                 int currentColour = ColourSensor.getInstance().getColour();
                 int TargetColour = (FMSColour +2) % 4;
-                if(currentColour != TargetColour)
+                if(currentColour != TargetColour && NumberOfEarlyScans >= 20)
                 {
                     setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
                 }
-                else
-                {
-                    setSpinnerSpeed(0);
-                    setDesiredState(ControlPanelState.RETRACTED);
+                else if(currentColour != TargetColour || NumberOfEarlyScans < 20){
+            
                 }
+            else
+            {   
+                setSpinnerSpeed(0.2);
+                if(SecondarySpinCheck >= 5){
+                setSpinnerSpeed(0);
+                setDesiredState(ControlPanelState.RETRACTED);
+                }
+                SecondarySpinCheck++;
+
             }
+
+                
+                
+                
+                
+                
+                */
+            } 
             break;
 
             //What to do when we are spinning MANUAL CLOCKWISE

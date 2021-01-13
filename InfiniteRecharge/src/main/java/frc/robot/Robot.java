@@ -97,6 +97,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     m_controlPanel.update();
     if(js.getRawButtonPressed(2)){
+      m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
+    
+    } 
+    if(js.getRawButtonPressed(1)){
       m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
     
     } 

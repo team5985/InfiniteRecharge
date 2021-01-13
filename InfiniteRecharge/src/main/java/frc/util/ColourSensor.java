@@ -151,14 +151,16 @@ public class ColourSensor
      * @return the colour currently seen by the colour sensor.
      */
     public String getColourString() {
-        int col = getColour();
-        if (col == Constants.kControlPanelColourBlue)
+        return getColourString(getColour());
+    }
+    public String getColourString(int aColour){
+        if (aColour == Constants.kControlPanelColourBlue)
             return Constants.kNAME_CYAN;
-        if (col == Constants.kControlPanelColourGreen)
+        if (aColour == Constants.kControlPanelColourGreen)
             return Constants.kNAME_GREEN;
-        if (col == Constants.kControlPanelColourRed)
+        if (aColour == Constants.kControlPanelColourRed)
             return Constants.kNAME_RED;
-        if (col == Constants.kControlPanelColourYellow)
+        if (aColour == Constants.kControlPanelColourYellow)
             return Constants.kNAME_YELLOW;
         return Constants.kNAME_UNKNOWN;
     }
@@ -243,7 +245,7 @@ public class ColourSensor
             else if ((PreviousColour+1)%4 == CurrentColour)
             {
                 myLastTransitionDir = true;
-            }
+            }   
             PreviousColour = CurrentColour; 
         }
     }

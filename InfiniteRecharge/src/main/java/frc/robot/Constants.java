@@ -68,7 +68,7 @@ public class Constants {
 
 	public static final double kControlPanelManualSpeed = 0.3; 
 	public static final double kRotationalControlSpeed = 0.3;
-	public static final double kControlPanelPoisitionControlSpeed = 0.15; 
+	public static final double kControlPanelPoisitionControlSpeed = 0.1;
 	public static final double kControlPanelTargetRotations = 4;
 	public static final double kControlPanelHysteresis = 0.5;
 
@@ -134,7 +134,6 @@ public class Constants {
     public static final Color kAMB_GREEN = ColorMatch.makeColor(0.23,0.58,0.19);
     public static final Color kAMB_RED = ColorMatch.makeColor(0.47,0.37,0.16);
 	public static final Color kAMB_YELLOW = ColorMatch.makeColor(0.33,0.54,0.13);
-
 	//Name Values for Colours
     public static final String kNAME_CYAN = "Cyan";
     public static final String kNAME_GREEN = "Green";
