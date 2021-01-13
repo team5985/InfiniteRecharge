@@ -232,7 +232,7 @@ public class ColourSensor
        //update count rotations
         if ((CurrentColour != Constants.kControlPanelColourInvalid) &&
             (CurrentColour != PreviousColour) &&
-            (scanCount > 4))
+            (scanCount > 3))
         {
             myColourChanges ++;
             //update direction

@@ -67,7 +67,7 @@ public class Constants {
     public static final boolean kControlPanelRetractedState = false;
 
 	public static final double kControlPanelManualSpeed = 0.3; 
-	public static final double kRotationalControlSpeed = 0.2;
+	public static final double kRotationalControlSpeed = 0.3;
 	public static final double kControlPanelPoisitionControlSpeed = 0.15; 
 	public static final double kControlPanelTargetRotations = 4;
 	public static final double kControlPanelHysteresis = 0.5;

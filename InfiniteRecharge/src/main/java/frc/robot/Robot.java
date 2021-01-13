@@ -21,6 +21,7 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.util.ColourSensor;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
@@ -53,6 +54,7 @@ public class Robot extends TimedRobot {
     autoController = new AutoController();
     teleopController = new TeleopController();
     colourSensor = ColourSensor.getInstance();
+    LiveWindow.disableAllTelemetry();
     //solenoid = new Solenoid(Constants.kPcmCanID, 7);
     m_controlPanel = new ControlPanel();
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
@@ -98,6 +100,13 @@ public class Robot extends TimedRobot {
       m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
     
     } 
+    SmartDashboard.putString("Current Colour", ColourSensor.getInstance().getColourString());
+    SmartDashboard.putNumber("Rotations", ColourSensor.getInstance().getControlPanelRotations());
+    SmartDashboard.putNumber("Total Colour Changes", ColourSensor.getInstance().getColourChange());
+    SmartDashboard.putBoolean("Is it going clockwise ", ColourSensor.getInstance().getControlPanelDirection());
+    SmartDashboard.putNumber("R", ColourSensor.getInstance().ColourSensorR);
+    SmartDashboard.putNumber("G", ColourSensor.getInstance().ColourSensorG);
+    SmartDashboard.putNumber("B", ColourSensor.getInstance().ColourSensorB);
   }
 
 
@@ -107,11 +116,5 @@ public class Robot extends TimedRobot {
 }
 
   /*  colourSensor.update();
-    SmartDashboard.putString("Current Colour", ColourSensor.getInstance().getColourString());
-    SmartDashboard.putNumber("Rotations", ColourSensor.getInstance().getControlPanelRotations());
-    SmartDashboard.putNumber("Total Colour Changes", ColourSensor.getInstance().getColourChange());
-    SmartDashboard.putBoolean("Is it going clockwise ", ColourSensor.getInstance().getControlPanelDirection());
-    SmartDashboard.putNumber("R", ColourSensor.getInstance().ColourSensorR);
-    SmartDashboard.putNumber("G", ColourSensor.getInstance().ColourSensorG);
-    SmartDashboard.putNumber("B", ColourSensor.getInstance().ColourSensorB);
+   
     solenoid.set(true); */

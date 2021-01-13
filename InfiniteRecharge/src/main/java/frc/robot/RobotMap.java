@@ -7,7 +7,6 @@
 
 
 package frc.robot;
-
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
