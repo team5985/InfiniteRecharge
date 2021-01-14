@@ -1,5 +1,12 @@
 package frc.robot.subsystems;
 
+import java.util.Random;
+
+import com.revrobotics.ColorMatch;
+
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.util.ColourSensor;
@@ -18,26 +25,27 @@ public class ControlPanel extends Subsystem
      */
     private ControlPanelState desiredState;
 
-    public static ControlPanel getInstance() {
-        if (m_instance == null) {
-            m_instance = new ControlPanel();
-        }
-        return m_instance;
+
+    private int randomFMS;
+    private int NumberOfEarlyScans;
+    private int SecondarySpinCheck;
+
+    public ControlPanel(){
+        desiredState = ControlPanelState.RETRACTED;
+        randomFMS = 0;
+        NumberOfEarlyScans = 0;
+        SecondarySpinCheck = 0;
     }
 
-    private ControlPanel() {
-        currentState = ControlPanelState.RETRACTED;
-        desiredState = ControlPanelState.RETRACTED;
-    }
-    boolean newState = false;
     /**
      * Run every 20ms, executes all functionality
      */
     public void update() 
-    {
+    {   
+        
         //This boolean is declared as true every time we enter a new state, and can be used
         // to differentiate between the first loop of the state from the others.
-        
+        boolean newState = false;    
         if (currentState != desiredState)
         {
             newState = true;
@@ -73,8 +81,7 @@ public class ControlPanel extends Subsystem
             if(controlPanelRotations < Constants.kRotationalControlTargetRotations)
             {   
                 //Defines a square root deceleration
-                double rotationSpeed = Math.min(Math.sqrt(Math.max(controlPanelRotations, 0)),1)*Constants.kControlPanelManualSpeed;
-                setSpinnerSpeed(rotationSpeed);
+                setSpinnerSpeed(Constants.kRotationalControlSpeed);
             }
             else
             {
@@ -87,25 +94,44 @@ public class ControlPanel extends Subsystem
             // the wheel to a particular colour.
             case POSITION_CONTROL:
             extendSpinner();
+//Test code 
+
+    
+            //Actual Code
+                       
+            if(newState == true){
+                NumberOfEarlyScans = 0;
+                SecondarySpinCheck = 0;
+
+            }     
             if (ColourSensor.getInstance().getFmsColour() == Constants.kControlPanelColourInvalid)
             {
                 setDesiredState(ControlPanelState.RETRACTED);
             }
             else
             {
+                NumberOfEarlyScans++;
                 int FMSColour = ColourSensor.getInstance().getFmsColour();
                 int currentColour = ColourSensor.getInstance().getColour();
                 int TargetColour = (FMSColour +2) % 4;
-                if(currentColour != TargetColour)
+                if(currentColour != TargetColour && NumberOfEarlyScans >= 20)
                 {
                     setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
                 }
-                else
-                {
-                    setSpinnerSpeed(0);
-                    setDesiredState(ControlPanelState.RETRACTED);
+                else if(currentColour != TargetColour || NumberOfEarlyScans < 20){
+            
                 }
+            else
+            {   
+                setSpinnerSpeed(0.2);
+                if(SecondarySpinCheck >= 5){
+                setSpinnerSpeed(0);
+                setDesiredState(ControlPanelState.RETRACTED);
+                }
+                SecondarySpinCheck++;    
             }
+            } 
+        
             break;
 
             //What to do when we are spinning MANUAL CLOCKWISE
@@ -123,6 +149,36 @@ public class ControlPanel extends Subsystem
             default:
             desiredState = ControlPanelState.RETRACTED;
             break;
+            /*  
+            if(newState == true){
+                randomFMS = (int)(Math.random() * 4);
+                System.out.println("The current colour is: " + ColourSensor.getInstance().getColourString(randomFMS));
+                NumberOfEarlyScans = 0;
+                SecondarySpinCheck = 0;
+              
+            }
+            NumberOfEarlyScans++;
+            int FMSColour = randomFMS;
+            int currentColour = ColourSensor.getInstance().getColour();
+            int TargetColour = (FMSColour +2) % 4;
+            if(currentColour != TargetColour && NumberOfEarlyScans >= 50)
+            {
+                setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
+            }
+            else if(currentColour != TargetColour || NumberOfEarlyScans < 50){
+            
+            }
+            else
+            {   
+                setSpinnerSpeed(0.15);
+                if(SecondarySpinCheck >= 5){
+                setSpinnerSpeed(0);
+                setDesiredState(ControlPanelState.RETRACTED);
+                }
+                SecondarySpinCheck++;
+
+            }
+*/
         }
     }
     /**
@@ -183,13 +239,14 @@ public class ControlPanel extends Subsystem
         MANUAL_CLOCKWISE,
         MANUAL_ANTICLOCKWISE,
     }
+	Solenoid controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
 
     /**
      * Extends our spinner
      */
     private void extendSpinner()
     {
-        RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelExtendedState);
+        controlPanelSolenoid.set(Constants.kControlPanelExtendedState);;
     }
 
     /**
@@ -197,8 +254,7 @@ public class ControlPanel extends Subsystem
     */
     private void retractSpinner()
     {
-         RobotMap.getControlPanelSolenoid().set(Constants.kControlPanelRetractedState);
-         
+         controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
 
     }
 
