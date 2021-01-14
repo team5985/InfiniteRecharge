@@ -10,19 +10,16 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.GyroBase;
 
 public class Robot extends TimedRobot {
-  AutoController autoController;
   TeleopController teleopController;
-
+  
   @Override
   public void robotInit() {
-    CameraServer.getInstance().startAutomaticCapture(0);
-    autoController = new AutoController();
     teleopController = new TeleopController();
-
-    // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
-    RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
+    
   }
 
   @Override
