@@ -124,7 +124,7 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static TalonFX leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+	static TalonFX leftDriveA = new TalonFX();
 	static TalonFX leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
@@ -134,6 +134,7 @@ public class RobotMap {
 	static TalonFX rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
+
 
 	/**
 	 * Indexer
