@@ -7,7 +7,6 @@
 
 
 package frc.robot;
-
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -35,6 +34,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.*;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -100,6 +101,7 @@ public class RobotMap {
 	 * Robot Configuration
 	 */
 	// static final boolean useNeoEncoders = true;
+
 
 	/**
 	 * DIO Ports
@@ -292,12 +294,26 @@ public class RobotMap {
 	}
 
 	public static Solenoid getControlPanelSolenoid() {
-
+    //FIXME
+	}
+/*	public static Solenoid getControlPanelSolenoid()
+	{
+		
 		return controlPanelSolenoid;
 	} 
+*/
+    
+
+  
+    public static WPI_TalonSRX getIntakeActuationSystem() 
+    {
+        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
+        return intakeActuation;
+	  } 
 
 	public static SensoredSystem getIntakeSystem() {
 		return intakeSystem;
+
 	}
 	
 	public static Solenoid getIntakeActuationSystem() {
@@ -348,5 +364,4 @@ public class RobotMap {
     public static Solenoid getClimberSolenoid() {
         return buddySolenoid;
     }
-
 }
