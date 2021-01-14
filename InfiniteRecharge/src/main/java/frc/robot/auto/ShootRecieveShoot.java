@@ -39,7 +39,6 @@ public class ShootRecieveShoot extends AutoMode {
             break;
             case 1:
 
-            Drive.getInstance().arcadeDrive(0.0, 0.0, 0.0);
             Shooter.getInstance().setDesiredState(ShooterState.IDLE);
             Indexer.getInstance().setDesiredState(IndexerState.IDLE);
             if(DriverStation.getInstance().getMatchTime() < 5) {
