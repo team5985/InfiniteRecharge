@@ -52,7 +52,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 
 import frc.util.*;
-
+import frc.util.sim.*;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.LimitSwitchGroup;
@@ -124,14 +124,16 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static TalonFX leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
-	static TalonFX leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
+	static WPI_TalonFX leftDriveA = new WPI_TalonFX(Constants.kLeftDriveACanID);
+	static WPI_TalonFX leftDriveB = new WPI_TalonFX(Constants.kLeftDriveBCanID);
+	//leftDriveB.follow(leftDriveA);	
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
 
 	// Right
-	static TalonFX rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
-	static TalonFX rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
+	static WPI_TalonFX rightDriveA = new WPI_TalonFX(Constants.kRightDriveACanID);
+	static WPI_TalonFX rightDriveB = new WPI_TalonFX(Constants.kRightDriveBCanID);
+	//rightDriveB.follow(rightDriveA);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
 	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
 

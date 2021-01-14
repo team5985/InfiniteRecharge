@@ -146,16 +146,15 @@ public class TeleopController {
             callDrive();
         }
 
-        if(m_controls.getSpinnyUp()) {
-            m_controlPanel.setDesiredState(ControlPanelState.EXTENDED);
+        if(m_controls.getRotationControlCommand()) { //12
+            m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
+        } else if(m_controls.getGetPositionControlCommand()) {
+            m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
         } else if(m_controls.getStickInterupt()){
             m_controlPanel.setDesiredState(ControlPanelState.RETRACTED);
         }
 
-        if(m_controls.getControlPanelCommand()) {
-            m_controlPanel.setDesiredState(ControlPanelState.MANUAL_ANTICLOCKWISE);
-
-        }
+        
     }
 
     private void stEndgame() {        
