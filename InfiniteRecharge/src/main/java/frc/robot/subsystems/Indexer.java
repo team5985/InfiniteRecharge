@@ -16,6 +16,23 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class Indexer extends Subsystem {
+    private static Indexer m_instance;
+
+    public static Indexer getInstance() {
+        if (m_instance == null) {
+            m_instance = new Indexer();
+        }
+
+        return m_instance;
+    }
+
+    private IndexerState currentState;
+    private IndexerState desiredState;
+    
+    private Indexer() {
+        currentState = IndexerState.IDLE;
+        desiredState = IndexerState.IDLE;
+    }
 
     public boolean zeroPosition() {
         return false;
@@ -26,37 +43,37 @@ public class Indexer extends Subsystem {
         return 0;
     }
 
-    private IndexerStates currentState;
-    private IndexerStates desiredState;
-
     public void update() {
-
-    switch(currentState) {
-        case INDEXING:
-            RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
-            currentState = desiredState;
-        break;
-        case UNINDEXING:
-            RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
-            currentState = desiredState;
-        break;
-        default: 
-            RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, 0);
-            currentState = desiredState;
         
+        switch(currentState) {
+            case INDEXING:
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
+                
+                
+                currentState = desiredState;
+            break;
+            case UNINDEXING:
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
+                currentState = desiredState;
+            break;
+            default: 
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, 0);
+                currentState = desiredState;
+                
+            
+        }
     }
-}
 
-    public enum IndexerStates {
+    public enum IndexerState {
         INDEXING,
         UNINDEXING,
         IDLE,
     }
 
-    public IndexerStates getCurrentState() {
+    public IndexerState getCurrentState() {
         return currentState;
     }
-    public IndexerStates setDesiredState(IndexerStates state) {
+    public IndexerState setDesiredState(IndexerState state) {
         desiredState = state;
         return currentState;
     }

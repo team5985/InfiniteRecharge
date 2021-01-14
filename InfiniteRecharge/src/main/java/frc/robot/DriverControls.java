@@ -52,6 +52,7 @@ public class DriverControls {
      * @return Driver interrupt command.
      */
     public boolean getStickInterupt() {
+		end = false;
 
 		if(stick.getX() >= 0.7) {
 			end = true;
@@ -95,12 +96,17 @@ public class DriverControls {
 	 * @return Throttle from 0 to 1.
 	 */
 	public double getDriveThrottle() {
-		return (-stick.getThrottle() + 1) / 2;
+		return ((-stick.getThrottle() + 1) / 2);
 	}
 
 	//Button presses
 
 	//Intake/Shooter mode
+
+	/**
+	 * 
+	 * @return true for intake, false for shooter
+	 */
 	public boolean getMechanismMode() {
 	if(stick.getRawButton(3)) {
 		mode = false;
@@ -141,7 +147,7 @@ public class DriverControls {
 				return false;
 			}
 		} else {
-			if(stick.getRawButton(7)) {
+			if(stick.getRawButton(8)) {
 				return true;
 			}else {
 				return false;
@@ -214,6 +220,7 @@ public class DriverControls {
 			return false;
 		}
 	}
+	
 
 	private boolean getBoolBuddyState() {
 		if(true == true) { //TODO
@@ -231,7 +238,7 @@ public class DriverControls {
 		}
 	}
 
-
-
-	
+	public boolean getTeleopCommand() {
+		return stick.getRawButton(7);
+	}
 }

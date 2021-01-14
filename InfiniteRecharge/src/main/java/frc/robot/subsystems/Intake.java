@@ -1,13 +1,15 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedController;
 import frc.robot.RobotMap;
+import frc.util.SensoredSystem;
 import frc.robot.Constants;
-
-
 
 public class Intake extends Subsystem {
 
@@ -16,65 +18,90 @@ public class Intake extends Subsystem {
     IntakeState currentState;
     IntakeState desiredState;
 
-    public enum IntakeState {
-        EXTENDED,
-        RETRACTED,
-        INTAKING,
-        UNINTAKING,
-    }
+    DigitalInput indexerFlap = new DigitalInput(0);
+
+    private static Solenoid m_intakeActuator;
+    private static SpeedController m_intakeRoller;
 
     
-    
+    public enum IntakeState {
+        INTAKING,
+        UNINTAKING,
+        IDLE,
+    }
+
+    private Intake() {
+        currentState = IntakeState.IDLE;
+        desiredState = IntakeState.IDLE;
+        
+    }
+
     public static Intake getInstance() {
         if (m_instance == null) {
             m_instance = new Intake();
         }
         return m_instance;
     }
-    
-    private Intake() {
-        currentState = IntakeState.RETRACTED;
+
+    public void setSystem(SpeedController intakeRoller, Solenoid intakeActuator) {
+        m_intakeActuator = intakeActuator;
+        m_intakeRoller = intakeRoller;
     }
-
+    
     public void update() {
-        switch(currentState) {
+        switch(desiredState) {
             
-            case RETRACTED:
-                RobotMap.getIntakeActuationSystem().set(ControlMode.MotionMagic, 0);
-                currentState = desiredState;
-                break;
-
-            case EXTENDED:
-                RobotMap.getIntakeActuationSystem().set(ControlMode.MotionMagic, (Constants.kIntakeExtensionRevolutions * Constants.kIntakeEncoderPPR));
-                currentState = desiredState;
-                break;
 
             case INTAKING:
-                RobotMap.getIntakeSystem().set(Constants.kIntakeIntakingSpeed);
-                currentState = desiredState;
-                break;
+            m_intakeActuator.set(true);    
+            m_intakeRoller.set(Constants.kIntakeIntakingSpeed);
+            currentState = desiredState;
+            break;
 
             case UNINTAKING:
-                RobotMap.getIntakeSystem().set(Constants.kIntakeUnintakingSpeed);
-                currentState = desiredState;
+            m_intakeActuator.set(true);
+            m_intakeRoller.set(Constants.kIntakeUnintakingSpeed);
+            currentState = desiredState;
             break;
+            
+            default:
+            m_intakeRoller.set(0);
+            m_intakeActuator.set(false);
             
 
         }
     }
 
-
-
     public double getPosition() {
-        return RobotMap.getIntakeActuationSystem().getSelectedSensorPosition();
+        if(currentState == IntakeState.INTAKING) {
+            return 1;
+        }else {
+            return 0;
+        }
       
     }
 
     public boolean zeroPosition() {
-        RobotMap.getIntakeActuationSystem().setSelectedSensorPosition(0);
-        return false;
+        desiredState = IntakeState.IDLE;
+        return true;
 
     }
+
+    public void setDesiredState(IntakeState state) {
+        desiredState = state;
+    }
+
+    public IntakeState getCurrentState() {
+        return currentState;
+    }
    
+    public boolean checkSafeRetraction() {
+        /*if(!(indexerFlap.get())) { //FIXME
+            return true;
+        } else {
+            return false;
+        } */
+        return true;
+    }
 
 }

@@ -18,10 +18,13 @@ public class ControlPanel extends Subsystem
      */
     private ControlPanelState currentState;
 
+    private static ControlPanel m_instance;
+
     /**
      * The state we are going to be in.
      */
     private ControlPanelState desiredState;
+
 
     private int randomFMS;
     private int NumberOfEarlyScans;
@@ -42,14 +45,15 @@ public class ControlPanel extends Subsystem
         
         //This boolean is declared as true every time we enter a new state, and can be used
         // to differentiate between the first loop of the state from the others.
-        boolean newState = false;
+        boolean newState = false;    
         if (currentState != desiredState)
         {
             newState = true;
             currentState = desiredState;
+        } else {
+            newState = false;
         }
-        //This allows us to get updated data from our colour sensor every 20ms
-        ColourSensor.getInstance().update();
+        
         //state machine
         switch(currentState) {
             //What to do if we are EXTENDING our arm, or we are EXTENDED
@@ -251,6 +255,7 @@ public class ControlPanel extends Subsystem
     private void retractSpinner()
     {
          controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
+
     }
 
     /**
@@ -259,6 +264,7 @@ public class ControlPanel extends Subsystem
     private void setSpinnerSpeed(double speed)
     {
         RobotMap.getControlPanelSystem().set(speed);
+    
     }
     
 }

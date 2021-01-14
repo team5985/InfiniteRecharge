@@ -24,6 +24,8 @@ import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import frc.robot.TeleopController;
+
 import frc.util.ColourSensor;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
@@ -46,9 +48,20 @@ public class Robot extends TimedRobot {
     autoController.addOption("Loose :(", kCustomAuto);
     SmartDashboard.putData("Auto choices", autoController);
     CameraServer.getInstance().startAutomaticCapture(); */
-    /*
+    
     Drive drivetrain = Drive.getInstance();
-    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive()); */
+    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
+
+    Climber climber = Climber.getInstance();
+    climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+   
+    Intake intake = Intake.getInstance();
+    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
+
+    ControlPanel controlPanel = ControlPanel.getInstance();
+    ColourSensor colourSensor = ColourSensor.getInstance();
+    
+    
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     comp = new Compressor(Constants.kPcmCanID);
@@ -61,18 +74,16 @@ public class Robot extends TimedRobot {
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
-/*
-   SmartDashboard .putNumber("Shooter P Gain", Constants.kShooterP);
-        SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
-        SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
-        SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
-        SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
-    RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem(), RobotMap.getRobotWranglerLimits()); // The Robot gives each Subsystem its physical devices that it will control
-*/
-    
+
+    SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
+    SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
+    SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
+    SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
+    SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
 
 
-    //Climber.setSystem(RobotMap.getElevatorSystem(), RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+
+    SmartDashboard.putNumber("Servo", 0.0);
   }
 
   @Override
@@ -97,8 +108,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    teleopController.callStateMachine();  // Also runs drivetrain
+    Shooter.getInstance().update();
+    Indexer.getInstance().update();
+    Intake.getInstance().update();
+    ControlPanel.getInstance().update();  //FIXME
+    
+    //The control panel can be setup more easily, and you don't need to call ColourSensor
+    ColourSensor.getInstance().update(); //FIXME
+    // Climber.getInstance().update();
 
-
+    //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
 
   }
 

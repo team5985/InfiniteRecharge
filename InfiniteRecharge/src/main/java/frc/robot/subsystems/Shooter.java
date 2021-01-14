@@ -24,10 +24,48 @@ import com.revrobotics.CANEncoder;
  * Add your docs here.
  */
 public class Shooter extends Subsystem {
+    static private Shooter m_instance;
+
+    private ShooterState currentState;
+    private ShooterState desiredState;
+    private double shooterTargetRPM = Constants.kShooterDefaultRPM;
+
+    static public Shooter getInstance() {
+        if (m_instance == null) {
+            m_instance = new Shooter();
+        }
+
+        return m_instance;
+    }
+
+    private Shooter() {
+        currentState = ShooterState.IDLE;
+        desiredState = ShooterState.IDLE;
+    }
 
     public void update() {
-        
+        switch(desiredState) {
+            case SHOOTING: 
+                shooterPIDControl(shooterTargetRPM);
+                System.out.println(RobotMap.getShooterVelocityEncoder().getVelocity());
+               RobotMap.getShooterHoodSolenoid().set(true);
+
+            break;
+            case HOODUP: 
+                RobotMap.getShooterHoodSolenoid().set(true); //FIXME
+            break;
+            case HOODDOWN: 
+                RobotMap.getShooterHoodSolenoid().set(false); //FIXME
+            break;
+            default:
+                shooterPIDControl(Constants.kShooterIdleSpeed);
+                RobotMap.getShooterHoodSolenoid().set(false);
+            break;
+            
+        }
     }
+        
+    
 
     public double getPosition() {
         return 0.0;
@@ -37,18 +75,14 @@ public class Shooter extends Subsystem {
         return false;
     }
 
-    public boolean shoot(double targetPower) {
-        RobotMap.getShooter().set(targetPower);
-        return getShooterTargetSpeed();
-    }
-
     public long boot(double distance, int team) {
         long fouls = 0; //Hopefully :/
         //Send robot flying to the other side of the field and beyond!
         return fouls;
     }
-    public boolean getShooterTargetSpeed() {
-        return (getShooterRPM() >= Config.kShooterMinSpeed);
+
+    public double getShooterTargetSpeed() {
+        return shooterTargetRPM;
     }
    
     public void removeShooterJam() {
@@ -94,8 +128,35 @@ public class Shooter extends Subsystem {
         double min = SmartDashboard.getNumber("Min Output", 0);
         
         RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
-        RobotMap.getShooterAPIDController().setReference(targetVelocity * -1, ControlType.kVelocity);
-        return getShooterTargetSpeed();
+        RobotMap.getShooterBPIDController().setReference(-targetVelocity, ControlType.kVelocity);
+        System.out.println(targetVelocity);
+        return getShooterAcceptableSpeed(targetVelocity);
+    }
+
+    public boolean getShooterAcceptableSpeed(double targetRPM) {
+        if(getShooterRPM() >= targetRPM * 0.75) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public void setDesiredState(ShooterState state) {
+        desiredState = state;
+    }
+    public ShooterState getCurrentState() {
+        return currentState;
+    }
+    public enum ShooterState {
+        SHOOTING,
+        HOODUP,
+        HOODDOWN,
+        IDLE,
+    }
+
+    public void setShooterTargetSpeed(double rpm) {
+        shooterTargetRPM = rpm;
     }
 
 
