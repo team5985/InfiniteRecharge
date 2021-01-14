@@ -14,6 +14,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.TeleopController;
+import frc.robot.auto.AutoMode;
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
@@ -70,8 +71,8 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
+    
   }
-
   @Override
   public void teleopPeriodic() {
     teleopController.callStateMachine();  // Also runs drivetrain
