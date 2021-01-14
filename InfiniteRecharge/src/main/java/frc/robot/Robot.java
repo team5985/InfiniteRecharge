@@ -9,6 +9,8 @@ package frc.robot;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.SparkMax;
+
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -26,7 +28,6 @@ import frc.util.ColourSensor;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
-
 
 public class Robot extends TimedRobot {
   AutoController autoController;
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
     LiveWindow.disableAllTelemetry();
     //solenoid = new Solenoid(Constants.kPcmCanID, 7);
     m_controlPanel = new ControlPanel();
+
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
 /*
@@ -95,22 +97,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_controlPanel.update();
-    if(js.getRawButtonPressed(2)){
-      m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
-    
-    } 
-    if(js.getRawButtonPressed(1)){
-      m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
-    
-    } 
-    SmartDashboard.putString("Current Colour", ColourSensor.getInstance().getColourString());
-    SmartDashboard.putNumber("Rotations", ColourSensor.getInstance().getControlPanelRotations());
-    SmartDashboard.putNumber("Total Colour Changes", ColourSensor.getInstance().getColourChange());
-    SmartDashboard.putBoolean("Is it going clockwise ", ColourSensor.getInstance().getControlPanelDirection());
-    SmartDashboard.putNumber("R", ColourSensor.getInstance().ColourSensorR);
-    SmartDashboard.putNumber("G", ColourSensor.getInstance().ColourSensorG);
-    SmartDashboard.putNumber("B", ColourSensor.getInstance().ColourSensorB);
+
+
+
   }
 
 

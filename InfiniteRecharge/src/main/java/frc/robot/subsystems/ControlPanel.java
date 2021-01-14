@@ -92,47 +92,9 @@ public class ControlPanel extends Subsystem
             extendSpinner();
 //Test code 
 
-        {
-            
-            if(newState == true){
-                randomFMS = (int)(Math.random() * 4);
-                System.out.println("The current colour is: " + ColourSensor.getInstance().getColourString(randomFMS));
-                NumberOfEarlyScans = 0;
-                SecondarySpinCheck = 0;
-              
-            }
-            NumberOfEarlyScans++;
-            int FMSColour = randomFMS;
-            int currentColour = ColourSensor.getInstance().getColour();
-            int TargetColour = (FMSColour +2) % 4;
-            if(currentColour != TargetColour && NumberOfEarlyScans >= 50)
-            {
-                setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
-            }
-            else if(currentColour != TargetColour || NumberOfEarlyScans < 50){
-            
-            }
-            else
-            {   
-                setSpinnerSpeed(0.15);
-                if(SecondarySpinCheck >= 5){
-                setSpinnerSpeed(0);
-                setDesiredState(ControlPanelState.RETRACTED);
-                }
-                SecondarySpinCheck++;
-
-            }
-
-
-
-
-
-
-
-
-
+    
             //Actual Code
-         /*               
+                       
             if(newState == true){
                 NumberOfEarlyScans = 0;
                 SecondarySpinCheck = 0;
@@ -162,17 +124,10 @@ public class ControlPanel extends Subsystem
                 setSpinnerSpeed(0);
                 setDesiredState(ControlPanelState.RETRACTED);
                 }
-                SecondarySpinCheck++;
-
+                SecondarySpinCheck++;    
             }
-
-                
-                
-                
-                
-                
-                */
             } 
+        
             break;
 
             //What to do when we are spinning MANUAL CLOCKWISE
@@ -190,6 +145,36 @@ public class ControlPanel extends Subsystem
             default:
             desiredState = ControlPanelState.RETRACTED;
             break;
+            /*  
+            if(newState == true){
+                randomFMS = (int)(Math.random() * 4);
+                System.out.println("The current colour is: " + ColourSensor.getInstance().getColourString(randomFMS));
+                NumberOfEarlyScans = 0;
+                SecondarySpinCheck = 0;
+              
+            }
+            NumberOfEarlyScans++;
+            int FMSColour = randomFMS;
+            int currentColour = ColourSensor.getInstance().getColour();
+            int TargetColour = (FMSColour +2) % 4;
+            if(currentColour != TargetColour && NumberOfEarlyScans >= 50)
+            {
+                setSpinnerSpeed(Constants.kControlPanelPoisitionControlSpeed);
+            }
+            else if(currentColour != TargetColour || NumberOfEarlyScans < 50){
+            
+            }
+            else
+            {   
+                setSpinnerSpeed(0.15);
+                if(SecondarySpinCheck >= 5){
+                setSpinnerSpeed(0);
+                setDesiredState(ControlPanelState.RETRACTED);
+                }
+                SecondarySpinCheck++;
+
+            }
+*/
         }
     }
     /**
