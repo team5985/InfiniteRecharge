@@ -107,7 +107,7 @@ public class ColourSensor
         matcher.addColorMatch(Constants.kAMB_YELLOW);
         matcher.setConfidenceThreshold(0.8);
 
-       col = Constants.kColourInvalid;    }
+       col = Constants.kColInvalid;    }
 
     /**
      * Creates (if necessary) and returns the one and only instance of the
@@ -135,7 +135,7 @@ public class ColourSensor
             col = sensor.getColor();
             ColorMatchResult result = matcher.matchClosestColor(col);
         } catch(Exception e) {
-            col = Constants.kColourInvalid;
+            col = Constants.kColInvalid;
             System.out.println("Invalid colour sensor data");
         }
         int forReturn = Constants.kControlPanelColourInvalid;

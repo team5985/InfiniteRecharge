@@ -297,22 +297,8 @@ public class RobotMap {
 	}
 
 	public static Solenoid getControlPanelSolenoid() {
-    //FIXME
+    return controlPanelSolenoid;
 	}
-/*	public static Solenoid getControlPanelSolenoid()
-	{
-		
-		return controlPanelSolenoid;
-	} 
-*/
-    
-
-  
-    public static WPI_TalonSRX getIntakeActuationSystem() 
-    {
-        WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
-        return intakeActuation;
-	  } 
 
 	public static SensoredSystem getIntakeSystem() {
 		return intakeSystem;

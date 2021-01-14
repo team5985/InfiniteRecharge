@@ -48,15 +48,7 @@ public class Robot extends TimedRobot {
     autoController.addOption("Loose :(", kCustomAuto);
     SmartDashboard.putData("Auto choices", autoController);
     CameraServer.getInstance().startAutomaticCapture(); */
-    
-    Drive drivetrain = Drive.getInstance();
-    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive());
-
-    Climber climber = Climber.getInstance();
-    climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
-   
-    Intake intake = Intake.getInstance();
-    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
+  
 
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();

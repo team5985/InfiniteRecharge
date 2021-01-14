@@ -37,6 +37,13 @@ public class ControlPanel extends Subsystem
         SecondarySpinCheck = 0;
     }
 
+    public static ControlPanel getInstance() {
+        if (m_instance == null) {
+            m_instance = new ControlPanel();
+        }
+        return m_instance;
+    }
+
     /**
      * Run every 20ms, executes all functionality
      */

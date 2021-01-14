@@ -156,6 +156,10 @@ public class Constants {
     public static final Color kAMB_GREEN = ColorMatch.makeColor(0.23,0.58,0.19);
     public static final Color kAMB_RED = ColorMatch.makeColor(0.47,0.37,0.16);
 	public static final Color kAMB_YELLOW = ColorMatch.makeColor(0.33,0.54,0.13);
+
+	public static final Color kColInvalid = ColorMatch.makeColor(0,0,0);
+
+
 	//Name Values for Colours
     public static final String kNAME_CYAN = "Cyan";
     public static final String kNAME_GREEN = "Green";
@@ -174,6 +178,7 @@ public class Constants {
 		return null;
 	}
 
+	
   
 
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
