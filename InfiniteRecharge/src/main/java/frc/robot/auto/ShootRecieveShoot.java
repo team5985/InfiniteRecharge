@@ -9,7 +9,6 @@ import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
 import frc.robot.subsystems.Indexer.IndexerState;
-import frc.robot.subsystems.Shooter.ShooterState;
 
 public class ShootRecieveShoot extends AutoMode {
     private String name = "ShootRecieveShoot";
@@ -30,17 +29,18 @@ public class ShootRecieveShoot extends AutoMode {
     public boolean runStep(int step) {
         switch(step) {
             case 0:
-            
             Shooter.getInstance().setDesiredState(ShooterState.SHOOTING);
-            Indexer.getInstance().setDesiredState(IndexerState.INDEXING);
-            if(DriverStation.getInstance().getMatchTime() < 10) {
+            if(DriverStation.getInstance().getMatchTime() < 12) {
+                Indexer.getInstance().setDesiredState(IndexerState.INDEXING);
+            }
+            if(DriverStation.getInstance().getMatchTime() < 9) {
                 result = true;
             }
             break;
             case 1:
 
-            Shooter.getInstance().setDesiredState(ShooterState.IDLE);
             Indexer.getInstance().setDesiredState(IndexerState.IDLE);
+            Shooter.getInstance().setDesiredState(ShooterState.IDLE);
             if(DriverStation.getInstance().getMatchTime() < 5) {
                 result = true;
             }
@@ -51,7 +51,9 @@ public class ShootRecieveShoot extends AutoMode {
             case 2:
             result = false;
             Shooter.getInstance().setDesiredState(ShooterState.SHOOTING);
-            Indexer.getInstance().setDesiredState(IndexerState.INDEXING);
+            if(DriverStation.getInstance().getMatchTime() < 3) {
+                Indexer.getInstance().setDesiredState(IndexerState.INDEXING);
+            }
             default:
             result = false;
         }

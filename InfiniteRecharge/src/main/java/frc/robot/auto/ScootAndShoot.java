@@ -46,7 +46,7 @@ public class ScootAndShoot extends AutoMode {
             double visionSteering = tx * Constants.kVisionTurnKp;
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
 
-            //check if shooter ia at an acceptable speed
+            //check if shooter is at an acceptable speed
             if(Shooter.getInstance().getShooterAcceptableSpeed(Shooter.getInstance().getShooterTargetSpeed())) {
                 Shooter.getInstance().setDesiredState(ShooterState.SHOOTING);
                 Indexer.getInstance().setDesiredState(IndexerState.INDEXING);
