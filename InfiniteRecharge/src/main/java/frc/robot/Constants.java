@@ -52,10 +52,18 @@ public class Constants {
 	public static double kShooterP = 6e-5; 
     public static double kShooterI = 0;
     public static double kShooterD = 0; 
+<<<<<<< Updated upstream
     public static double kShooterIz = 0; 
 	public static double kShooterFF = 1/kShootermaxRPM; 
 	public static int kShooterHoodSolenoidAChannel = 5;
 	//public static int kShooterHoodSolenoidBChannel = 2;
+=======
+    public static double kShooterIz = 0;
+	public static double kShooterFF = 1/kShootermaxRPM;
+	public static int kShooterHoodSolenoidAChannel = 1;
+	public static int kShooterHoodSolenoidBChannel = 2;
+>>>>>>> Stashed changes
+
 
 
 	public static final int kRobotWranglerReverseLimitDio = 0; //1114
@@ -193,6 +201,7 @@ public class Constants {
 	public static final int kIndexerCanID = 22;
 	public static final double kIndexerSpeed = 1; //FIXME
 	public static final double kIndexerAntijam = -0.5; //FIXME
+	public static final double kIndexerIdle = -0.5;
 
 	public static double  kIntakeServoRetractedPos = 1;
 	public static double kIntakeServoExtendedPos = 0;
@@ -238,5 +247,6 @@ public class Constants {
 
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
+
 
 }

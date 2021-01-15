@@ -57,7 +57,7 @@ public class Indexer extends Subsystem {
                 currentState = desiredState;
             break;
             default: 
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, 0);
+                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerIdle);
                 currentState = desiredState;
                 
             
