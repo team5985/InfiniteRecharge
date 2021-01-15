@@ -18,6 +18,7 @@ import frc.robot.subsystems.Shooter.ShooterState;
 import frc.util.ColourSensor;
 import frc.util.JavaUtil;
 import frc.util.Luin;
+import frc.util.ShooterCounter;
 /**
  * Add your docs here.
  */
@@ -35,6 +36,7 @@ public class TeleopController {
     private static JavaUtil m_javaUtil;
     private static ControlPanel m_controlPanel;
     private static ColourSensor m_colourSensor;
+    private static ShooterCounter m_shooterCounter;
 
     private static Luin m_luin;
 
@@ -206,4 +208,11 @@ public class TeleopController {
         // m_drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
         m_drive.arcadeDrive(m_controls.getDriveThrottle(), m_controls.getDriveSteering(), m_controls.getDrivePower());
     }
+
+    private void debugPrintout() {
+        System.out.println("RPM " + m_shooter.getShooterRPM());
+        System.out.println("Target " + m_shooter.getShooterTarget());
+        System.out.println("Balls shot "+ m_shooterCounter.getTotalBallCount());
+    }
 }
+
