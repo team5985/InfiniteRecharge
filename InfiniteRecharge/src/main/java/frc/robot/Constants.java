@@ -236,6 +236,9 @@ public class Constants {
 	
 	//Shooter RPM
 
+	public static final double kShooterPassDeviation = 0.70;
+
+
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
 

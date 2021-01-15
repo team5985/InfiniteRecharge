@@ -90,8 +90,12 @@ public class Shooter extends Subsystem {
         //Set indexer -1;
         RobotMap.getIndexer().set(-1);
     }
-    public double getShooterRPM() {
+    public static double getShooterRPM() {
         return RobotMap.getShooterVelocityEncoder().getVelocity();
+    }
+
+    public static double getShooterTarget() {
+        return RobotMap.shooterMotorA.get();
     }
 
     /**

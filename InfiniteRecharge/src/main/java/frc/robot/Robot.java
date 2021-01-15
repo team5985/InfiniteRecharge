@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.TeleopController;
 
 import frc.util.ColourSensor;
+import frc.util.ShooterCounter;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
@@ -108,6 +109,7 @@ public class Robot extends TimedRobot {
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
     ColourSensor.getInstance().update(); //FIXME
+    ShooterCounter.getInstance().update();
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
