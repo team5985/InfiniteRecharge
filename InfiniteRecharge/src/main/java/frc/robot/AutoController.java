@@ -21,7 +21,7 @@ public class AutoController {
 
 	public enum AutoSelection {
 		DEFAULT,
-		LEAVELINE, SHOOT_AND_SCOOT, SCOOT_AND_SHOOT, SHOOT_THEN_PICKUP_CENTRE, SHOOT_RECIEVE_SHOOT,
+		LEAVELINE, SHOOT_AND_SCOOT, SCOOT_AND_SHOOT, SHOOT_THEN_PICKUP_CENTRE, SHOOT_RECIEVE_SHOOT, CROSS_FIELD_TEN_BALL_AUTO,
 		
 	}
 
@@ -81,6 +81,6 @@ public class AutoController {
 			}
 		}
 		
-		return new ShootThenPickupCentre();
+		return new CrossFieldTenBallAuto();
 	}
 }

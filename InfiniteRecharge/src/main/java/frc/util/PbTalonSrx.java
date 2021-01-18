@@ -12,7 +12,8 @@ public class PbTalonSrx extends WPI_TalonSRX implements SpeedController, Encoder
 
     @Override
     public int getCounts() {
-        return super.getSelectedSensorPosition();
+        return 0;
+        //return super.getSelectedSensorPosition();
     }
 
     @Override

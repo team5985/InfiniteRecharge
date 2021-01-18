@@ -109,7 +109,7 @@ public class Drive extends Subsystem{
 
    /**
     * @param targetHeading
-    * @param maxRate
+    * @param maxRate not used
     * @return true when done
     */
     public boolean actionGyroTurn(double targetHeading, int maxRate) {
@@ -163,6 +163,14 @@ public class Drive extends Subsystem{
 	 */
 	public double getAvgEncoderDistance() {
 		return Constants.kDriveEncoderConversionFactor * (mLeftEnc.getPosition() + -mRightEnc.getPosition()) / 2;
+    }
+
+    /**
+     * Returns gyro in degrees
+     * @return gyro angle in degrees
+     */
+    public double getYaw() {
+        return _imu.getYaw();
     }
 
     public void update() {
