@@ -16,6 +16,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 public class Config {
 
     //Safty feature prevents accidental climb
+
+    public static final boolean debugMode = true;   
+
     public static final boolean kPreventAccidentalClimb = true;
 
     //1 = normal, -1 = inverted
