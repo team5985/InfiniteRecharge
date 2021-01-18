@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Bar.BarState;
 import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Indexer.IndexerState;
@@ -35,6 +36,7 @@ public class TeleopController {
     private static JavaUtil m_javaUtil;
     private static ControlPanel m_controlPanel;
     private static ColourSensor m_colourSensor;
+    private static Bar m_bar;
 
     private static Luin m_luin;
 
@@ -170,6 +172,16 @@ public class TeleopController {
 
             case PREPARED:
             
+
+        }
+        if(m_controls.getBarRight()) {
+            m_bar.setDesiredState(BarState.FORWARD);
+        }
+        else if(m_controls.getBarLeft()) {
+            m_bar.setDesiredState(BarState.BACKWARD);
+        }
+        else {
+            m_bar.setDesiredState(BarState.IDLE)
         }
         
         callDrive();
