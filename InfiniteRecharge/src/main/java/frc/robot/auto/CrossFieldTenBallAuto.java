@@ -1,7 +1,10 @@
 package frc.robot.auto;
 
+import frc.robot.Constants;
 import frc.robot.AutoController.AutoSelection;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Vision;
+
 
 public class CrossFieldTenBallAuto extends AutoMode {
     private String name = "Cross Field Ten Ball Auto";
@@ -30,7 +33,7 @@ public class CrossFieldTenBallAuto extends AutoMode {
             break;
 
             case 1:
-            Drive.getInstance().actionSensorDrive(0.4, 0.0, 0.0);
+            Drive.getInstance().actionSensorDrive(0.69, 0.0, 0.0);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
             if (Drive.getInstance().getAvgEncoderDistance() <= 0.1) {
@@ -48,15 +51,32 @@ public class CrossFieldTenBallAuto extends AutoMode {
             break;
 
             case 3:
-            Drive.getInstance().actionSensorDrive(0.4, -90.0, 3.0);
+            Drive.getInstance().actionSensorDrive(0.69, -90.0, 4.9);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
-            if (Drive.getInstance().getAvgEncoderDistance() >= 2.9) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 4.8) {
                 return true;
             }
             break;
 
-//turn you iece of shit
+            case 4:
+            Drive.getInstance().actionGyroTurn(0, 0);
+
+            System.out.println("GYRO:" + Drive.getInstance().getYaw());
+            if (Drive.getInstance().getYaw() >= -5) {
+                return true;
+            }
+            break;
+
+            case 5:
+            double tx = Vision.getInstance().getAngleToTarget();
+            double visionSteering = tx * Constants.kVisionTurnKp;
+            Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
+            // TODO shoot the balls.
+            break;
+
+
+//turn you piece of shit
 
             default:
             return false;
