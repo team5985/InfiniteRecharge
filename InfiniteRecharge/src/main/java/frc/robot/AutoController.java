@@ -21,9 +21,8 @@ public class AutoController {
 
 	public enum AutoSelection {
 		DEFAULT,
-		LEAVELINE, SHOOT_AND_SCOOT, SCOOT_AND_SHOOT, SHOOT_THEN_PICKUP_CENTRE, SHOOT_RECIEVE_SHOOT,
-		
-	}
+		LEAVELINE, SHOOT_AND_SCOOT, SCOOT_AND_SHOOT, SHOOT_THEN_PICKUP_CENTRE, SHOOT_RECIEVE_SHOOT, AUTO_NAV_SALOOM,
+		}
 
 	SendableChooser<AutoSelection> autoSelector;
 	AutoSelection selectedAuto;

@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
     
     autoController = AutoController.getInstance();
     teleopController = TeleopController.getInstance();
+    autoController.initialiseAuto();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
@@ -75,13 +76,10 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void teleopPeriodic() {
-    teleopController.callStateMachine();  // Also runs drivetrain
+    autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
-    // Climber.getInstance().update();
-
-    //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
   }
 
   @Override
