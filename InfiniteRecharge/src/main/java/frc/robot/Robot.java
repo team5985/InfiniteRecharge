@@ -44,16 +44,25 @@ public class Robot extends TimedRobot {
  
     /* autoController.setDefaultOption("WIN", kDefaultAuto);
     autoController.addOption("Loose :(", kCustomAuto);
-    SmartDashboard.putData("Auto choices", autoController);
-    CameraServer.getInstance().startAutomaticCapture(); */
-  
+    SmartDashboard.putData("Auto choices", autoController); */
+
+    Drive drivetrain = Drive.getInstance();
+    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
+
+    Climber climber = Climber.getInstance();
+    climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+
+    Intake intake = Intake.getInstance();
+    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
 
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
-    
-    
+        
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
+
+    Vision.getInstance();
+    
     comp = new Compressor(Constants.kPcmCanID);
     autoController = AutoController.getInstance();
     teleopController = TeleopController.getInstance();
