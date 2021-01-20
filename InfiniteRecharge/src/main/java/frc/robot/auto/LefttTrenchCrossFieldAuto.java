@@ -6,9 +6,9 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Vision;
 
 
-public class CrossFieldTenBallAuto extends AutoMode {
-    private String name = "Cross Field Ten Ball Auto";
-    private AutoSelection autoType = AutoSelection.CROSS_FIELD_TEN_BALL_AUTO;
+public class LefttTrenchCrossFieldAuto extends AutoMode {
+    private String name = "Right Trench Cross Field Auto";
+    private AutoSelection autoType = AutoSelection.RIGHT_TRENCH_CROSS_FIELD_AUTO;
     
     @Override
     public boolean getExit() {

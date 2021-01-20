@@ -26,8 +26,8 @@ public class AutoController {
 		SCOOT_AND_SHOOT,
 		SHOOT_THEN_PICKUP_CENTRE,
 		SHOOT_RECIEVE_SHOOT,
-		CROSS_FIELD_TEN_BALL_AUTO,
-		OUR_TRENCH_EIGHT_BALL_AUTO,
+		LEFT_TRENCH_ALL_BALL_AUTO,
+		RIGHT_TRENCH_CROSS_FIELD_AUTO,
 		
 	}
 
@@ -95,6 +95,6 @@ public class AutoController {
 			}
 		}
 		
-		return new OurTrenchEightBallAuto();
+		return new RightTrenchAllBallAuto();
 	}
 }

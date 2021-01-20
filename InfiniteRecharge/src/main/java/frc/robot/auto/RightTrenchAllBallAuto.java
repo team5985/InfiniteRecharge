@@ -6,9 +6,9 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 
-public class OurTrenchEightBallAuto extends AutoMode {
-    private String name = "Our Trench Eight Ball Auto";
-    private AutoSelection autoType = AutoSelection.OUR_TRENCH_EIGHT_BALL_AUTO;
+public class RightTrenchAllBallAuto extends AutoMode {
+    private String name = "Left Trench All Ball Auto";
+    private AutoSelection autoType = AutoSelection.LEFT_TRENCH_ALL_BALL_AUTO;
     
     @Override
     public boolean getExit() {
@@ -29,12 +29,13 @@ public class OurTrenchEightBallAuto extends AutoMode {
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
             System.out.println("visionSteering: " + visionSteering);
             // TODO shoot the balls and detect when all have been shot.
-            if (DriverStation.getInstance().getMatchTime() < 10) {
+            if (DriverStation.getInstance().getMatchTime() < 13) {
                 return true;
             }
             break;
             
             case 1:
+            Vision.getInstance().disableVision();
             Drive.getInstance().actionSensorDrive(0.4, 0.0, 6.0);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
@@ -48,8 +49,16 @@ public class OurTrenchEightBallAuto extends AutoMode {
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
             if (Drive.getInstance().getAvgEncoderDistance() <= 0.1) {
-                return false;
+                return true;
             }
+            break;
+
+            case 3:
+            tx = Vision.getInstance().getAngleToTarget();
+            visionSteering = tx * Constants.kVisionTurnKp;
+            Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
+            System.out.println("visionSteering: " + visionSteering);
+            // TODO shoot the balls.
             break;
 
             default:
