@@ -129,7 +129,9 @@ public class Drive extends Subsystem{
     public boolean actionGyroTurn(double targetHeading, int maxRate) {
 		double currentRate = _imu.getRate();
 		double currentHeading = _imu.getYaw();
-		double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+        // double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+        profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
+        double steering = profiledTurnController.calculate(currentHeading, targetHeading);
 		arcadeDrive(1.0, steering, 0.0);
 
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
@@ -145,7 +147,7 @@ public class Drive extends Subsystem{
 	 */
 	public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
 		double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
-        double power = profiledDriveController.calculate(distance - getAvgEncoderDistance(), distance);
+        double power = profiledDriveController.calculate(getAvgEncoderDistance(), distance);
 		if (power >= 0 && power > maxPower) {
 			power = maxPower;
 		} else if (power < 0 && power < -maxPower) {
