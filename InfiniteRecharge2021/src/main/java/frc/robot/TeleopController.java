@@ -43,15 +43,6 @@ public class TeleopController {
 
     public double gameTime = Timer.getMatchTime();
 
-    private static TeleopController mInstance;
-    
-    public static TeleopController getInstance() {
-        if (mInstance == null) {
-            mInstance = new TeleopController();
-        }
-        return mInstance;
-    }
-
     public enum RobotState {
         TELEOP,
         ENDGAME,
@@ -60,7 +51,7 @@ public class TeleopController {
         VICTORY,
     }
 
-    private TeleopController() {
+    public TeleopController() {
         currentState = RobotState.TELEOP;
         desiredState = RobotState.TELEOP;
 
@@ -69,9 +60,8 @@ public class TeleopController {
         m_controls = new DriverControls();
         m_vision = Vision.getInstance();
        
-        m_config = new Config();
         m_drive = Drive.getInstance();
-        m_climber = Climber.getInstance();
+        m_config = new Config();
         m_shooter = Shooter.getInstance();
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
@@ -109,7 +99,7 @@ public class TeleopController {
         m_controls.getMechanismMode();
         
         if(m_controls.getActionCommand()) {
-            // System.out.println("action command");
+            System.out.println("action command");
             if(m_controls.getMechanismMode()) {
                 
             } else {
@@ -145,7 +135,7 @@ public class TeleopController {
         if (m_controls.getVisionCommand()) {
             // if (m_vision.getTargetAcquired()) {
                 double tx = m_vision.getAngleToTarget();
-                // System.out.println("tx: " + tx);
+                System.out.println("tx: " + tx);
                 double visionSteering = tx * Constants.kVisionTurnKp;
                 m_drive.arcadeDrive(1.0, visionSteering, 0.0);
             // }
@@ -156,15 +146,16 @@ public class TeleopController {
             callDrive();
         }
 
-        if(m_controls.getRotationControlCommand()) { //12
-            m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
-        } else if(m_controls.getGetPositionControlCommand()) {
-            m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
+        if(m_controls.getSpinnyUp()) {
+            m_controlPanel.setDesiredState(ControlPanelState.EXTENDED);
         } else if(m_controls.getStickInterupt()){
             m_controlPanel.setDesiredState(ControlPanelState.RETRACTED);
         }
 
-        
+        if(m_controls.getControlPanelCommand()) {
+            m_controlPanel.setDesiredState(ControlPanelState.MANUAL_ANTICLOCKWISE);
+
+        }
     }
 
     private void stEndgame() {        
@@ -215,12 +206,5 @@ public class TeleopController {
     public void callDrive() {
         // m_drive.smartDrive(_controls.getDrivePower(), _controls.getDriveSteering(), _controls.getDriveThrottle(), _config.kUseStallSenseTeleopDrive);
         m_drive.arcadeDrive(m_controls.getDriveThrottle(), m_controls.getDriveSteering(), m_controls.getDrivePower());
-    }
-
-    public void resetAllSensors() {
-        m_drive.resetSensors();
-        // m_climber.resetSensors();
-        m_intake.resetSensors();
-        // Spinny thing?
     }
 }

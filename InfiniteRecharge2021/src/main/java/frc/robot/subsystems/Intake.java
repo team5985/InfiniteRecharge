@@ -104,6 +104,4 @@ public class Intake extends Subsystem {
         return true;
     }
 
-	public void resetSensors() {
-	}
 }

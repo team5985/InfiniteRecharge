@@ -155,7 +155,7 @@ public class DriverControls {
 		}
 	}
 
-	public boolean getGetPositionControlCommand() {
+	public boolean getSpinnyUp() {
 		if(stick.getRawButton(12)) {
 			return true;
 		}else {
@@ -163,7 +163,7 @@ public class DriverControls {
 		}
 	}
 
-	public boolean getRotationControlCommand() {
+	public boolean getControlPanelCommand() {
 		if(stick.getRawButton(11)) {
 			return true;
 		} else {

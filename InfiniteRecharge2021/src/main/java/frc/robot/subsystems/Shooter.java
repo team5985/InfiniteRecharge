@@ -14,7 +14,7 @@ import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -119,13 +119,13 @@ public class Shooter extends Subsystem {
         RobotMap.getShooterBPIDController().setFF(Constants.kShooterFF);
         RobotMap.getShooterBPIDController().setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
         
-        // double p = SmartDashboard.getNumber("P Gain", 0);
-        // double i = SmartDashboard.getNumber("I Gain", 0);
-        // double d = SmartDashboard.getNumber("D Gain", 0);
-        // double iz = SmartDashboard.getNumber("I Zone", 0);
-        // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-        // double max = SmartDashboard.getNumber("Max Output", 0);
-        // double min = SmartDashboard.getNumber("Min Output", 0);
+        double p = SmartDashboard.getNumber("P Gain", 0);
+        double i = SmartDashboard.getNumber("I Gain", 0);
+        double d = SmartDashboard.getNumber("D Gain", 0);
+        double iz = SmartDashboard.getNumber("I Zone", 0);
+        double ff = SmartDashboard.getNumber("Feed Forward", 0);
+        double max = SmartDashboard.getNumber("Max Output", 0);
+        double min = SmartDashboard.getNumber("Min Output", 0);
         
         RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
         RobotMap.getShooterBPIDController().setReference(-targetVelocity, ControlType.kVelocity);
@@ -134,7 +134,7 @@ public class Shooter extends Subsystem {
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        if(getShooterRPM() >= targetRPM * 0.85) {
+        if(getShooterRPM() >= targetRPM * 0.75) {
             return true;
         } else {
             return false;

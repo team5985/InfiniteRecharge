@@ -7,6 +7,7 @@
 
 
 package frc.robot;
+
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -35,8 +36,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.*;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -53,7 +52,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 
 import frc.util.*;
-import frc.util.sim.*;
+
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.LimitSwitchGroup;
@@ -103,7 +102,6 @@ public class RobotMap {
 	 */
 	// static final boolean useNeoEncoders = true;
 
-
 	/**
 	 * DIO Ports
 	 */
@@ -126,18 +124,17 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static WPI_TalonFX leftDriveA = new WPI_TalonFX(Constants.kLeftDriveACanID);
-	static WPI_TalonFX leftDriveB = new WPI_TalonFX(Constants.kLeftDriveBCanID);
-	//leftDriveB.follow(leftDriveA);	
+	static TalonFX leftDriveA = new TalonFX();
+	static TalonFX leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
-	static SparkGroup leftDriveMotors = new SparkGroup(leftDriveA, leftDriveB);
+	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
 
 	// Right
-	static WPI_TalonFX rightDriveA = new WPI_TalonFX(Constants.kRightDriveACanID);
-	static WPI_TalonFX rightDriveB = new WPI_TalonFX(Constants.kRightDriveBCanID);
-	//rightDriveB.follow(rightDriveA);
+	static TalonFX rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+	static TalonFX rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
-	static SparkGroup rightDriveMotors = new SparkGroup(rightDriveA, rightDriveB);
+	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
+
 
 	/**
 	 * Indexer
@@ -177,7 +174,7 @@ public class RobotMap {
 	/**
 	 * @return the leftDrive
 	 */
-	public static SparkGroup getLeftDrive() {
+	public static SpeedControllerGroup getLeftDrive() {
 
 		return leftDriveMotors;
 	}
@@ -190,7 +187,7 @@ public class RobotMap {
 	/**
 	 * @return the Right Drive
 	 */
-	public static SparkGroup getRightDrive() {
+	public static SpeedControllerGroup getRightDrive() {
 
 		return rightDriveMotors;
 	} /*
@@ -252,14 +249,6 @@ public class RobotMap {
 		return controlPanelSystem;
 	}
 
-	public static CANEncoder getLeftDriveEncoder() {
-		return leftDriveA.getEncoder();
-	}
-
-	public static CANEncoder getRightDriveEncoder() {
-		return rightDriveA.getEncoder();
-	}
-
 	public static SpeedControllerGroup getShooter() {
 		// shooterMotorA.setInverted(false);
 		// shooterMotorB.setInverted(true);
@@ -305,12 +294,12 @@ public class RobotMap {
 	}
 
 	public static Solenoid getControlPanelSolenoid() {
-    return controlPanelSolenoid;
-	}
+
+		return controlPanelSolenoid;
+	} 
 
 	public static SensoredSystem getIntakeSystem() {
 		return intakeSystem;
-
 	}
 	
 	public static Solenoid getIntakeActuationSystem() {
@@ -361,4 +350,5 @@ public class RobotMap {
     public static Solenoid getClimberSolenoid() {
         return buddySolenoid;
     }
+
 }
