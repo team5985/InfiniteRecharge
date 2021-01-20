@@ -203,7 +203,7 @@ public class Constants {
 	// Profiled PID Controller values for autonomous movements
 	// Driving to a distance
 	public static double kDriveMaxSpeed = 4.18;
-	public static double kDriveMaxAccel = 16.0;
+	public static double kDriveMaxAccel = 256.0;
 
 	// Turning on the spot with the gyro
 	public static double kDriveMaxTurnSpeed = 12.12;
