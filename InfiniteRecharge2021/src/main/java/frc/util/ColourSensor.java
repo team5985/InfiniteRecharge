@@ -3,38 +3,16 @@ package frc.util;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.ColorSensorV3.RawColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants;
 public class ColourSensor
 {   
-
-    public Color getColourValue()
-    {
-        return sensor.getColor();
-    }
-
-    private double getRed()
-    {
-        return getColourValue().red;
-    }
-
-    private double getGreen()
-    {
-        return getColourValue().green;
-    }
-
-    private double getBlue()
-    {
-        return getColourValue().blue;
-    }
-
+    
     /**
-     * The previous colour lastColour.
+     * The previous colour the color was.
      */
     private int PreviousColour = Constants.kControlPanelColourInvalid;
 
@@ -44,21 +22,9 @@ public class ColourSensor
     private int lastColour = Constants.kControlPanelColourInvalid;
 
     /**
-     * A count of how many times the sensor has scammed the same colour
+     * A count of how many times the sensor has scammed the smae colour
      */
     private int scanCount = 0;
- /**
-     * The red value in the current colour
-     */
-    public double ColourSensorR = 0;
- /**
-     * The green value in the current colour
-     */
-    public double ColourSensorG = 0;
- /**
-     * The blue value in the current colour
-     */
-    public double ColourSensorB = 0;
 
     /**
      * The singleton instance of this class.
@@ -83,13 +49,9 @@ public class ColourSensor
      */
     private static int myColourChanges = 0;
 
-	public static Object colorMatcher;
-
-	
-
     /**
      * The direction of rotation for the last transition that was detected.
-     * <code>true</code> is AntiClockwise. <code>false</code> is Clockwise.
+     * <code>true</code> is Clockwise. <code>false</code> is AntiClockwise.
      */
     private boolean myLastTransitionDir = false;
 
@@ -107,11 +69,11 @@ public class ColourSensor
         matcher.addColorMatch(Constants.kAMB_YELLOW);
         matcher.setConfidenceThreshold(0.8);
 
-       col = Constants.kColInvalid;    }
+       col = Constants.kColourInvalid;    }
 
     /**
      * Creates (if necessary) and returns the one and only instance of the
-     * Colour Sensor class.
+     * ColourSensor class.
      * 
      * @return the instance of {@link ColourSensor}
      */
@@ -135,7 +97,7 @@ public class ColourSensor
             col = sensor.getColor();
             ColorMatchResult result = matcher.matchClosestColor(col);
         } catch(Exception e) {
-            col = Constants.kColInvalid;
+            col = Constants.kColourInvalid;
             System.out.println("Invalid colour sensor data");
         }
         int forReturn = Constants.kControlPanelColourInvalid;
@@ -154,30 +116,6 @@ public class ColourSensor
         }
         return forReturn;
     }
-
-    /**
-     * Gets the colour seen by the colour sensor. Returns one of...
-     * {@link #kControlPanelColourBlue} {@link #kControlPanelColourGreen}
-     * {@link #kControlPanelColourRed} {@link #CkControlPanelColourYellow}
-     * {@link #kControlPanelColourInvalid}
-     * 
-     * @return the colour currently seen by the colour sensor.
-     */
-    public String getColourString() {
-        return getColourString(getColour());
-    }
-    public String getColourString(int aColour){
-        if (aColour == Constants.kControlPanelColourBlue)
-            return Constants.kNAME_CYAN;
-        if (aColour == Constants.kControlPanelColourGreen)
-            return Constants.kNAME_GREEN;
-        if (aColour == Constants.kControlPanelColourRed)
-            return Constants.kNAME_RED;
-        if (aColour == Constants.kControlPanelColourYellow)
-            return Constants.kNAME_YELLOW;
-        return Constants.kNAME_UNKNOWN;
-    }
-
 
     /**
      * Reset the colour change counter back to zero.
@@ -224,14 +162,7 @@ public class ColourSensor
 
     public void update()
     {
-        
-        ColourSensorR = getRed();
-        ColourSensorG = getGreen();
-        ColourSensorB = getBlue();
-        
         int CurrentColour = getColour();
-       
-        
         if (CurrentColour == lastColour)
         {
             scanCount++;
@@ -241,24 +172,22 @@ public class ColourSensor
             lastColour = CurrentColour;
             scanCount = 0;
         }
-        if(CurrentColour == Constants.kControlPanelColourInvalid){
-            CurrentColour = PreviousColour;
-        }     
-       //update count rotations
+
+        //update count rotations
         if ((CurrentColour != Constants.kControlPanelColourInvalid) &&
             (CurrentColour != PreviousColour) &&
-            (scanCount > 3))
+            (scanCount > 2))
         {
             myColourChanges ++;
             //update direction
             if(PreviousColour == (CurrentColour+1) %4)
             {
-                myLastTransitionDir = false;            
+                myLastTransitionDir = true;            
             }
             else if ((PreviousColour+1)%4 == CurrentColour)
             {
-                myLastTransitionDir = true;
-            }   
+                myLastTransitionDir = false;
+            }
             PreviousColour = CurrentColour; 
         }
     }
