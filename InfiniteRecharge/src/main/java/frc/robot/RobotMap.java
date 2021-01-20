@@ -26,6 +26,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANPIDController;
 
@@ -70,29 +71,38 @@ public class RobotMap {
     public static final int kShooterACanID = 12;
     public static final int kShooterBCanID = 13;
     public static final int kIndexerCanID = 22;
+	static RobotMap m_instance;
 
-    //Encoders
-    //static EncoderAdapter shooterVelocityEncoder;
+	// Encoders
+	// static EncoderAdapter shooterVelocityEncoder;
 
-    //Init controllers
-    /*
-    shooterMotorA.setIdleMode(Config.kShooterIdleMode);
-	shooterMotorB.setIdleMode(Config.kShooterIdleMode); */
+	// Init controllers
+	/*
+	 * shooterMotorA.setIdleMode(Config.kShooterIdleMode);
+	 * shooterMotorB.setIdleMode(Config.kShooterIdleMode);
+	 */
 
-   /* 
-    shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
-	shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
-    
-    shooterMotorA.setIdleMode(Config.kShooterIdleMode);
-    shooterMotorB.setIdleMode(Config.kShooterIdleMode); 
-
-    leftDriveA.setIdleMode(Config.kDriveIdleMode); */
+	/*
+	 * shooterMotorA = new CANSparkMax(kShooterACanID, MotorType.kBrushless);
+	 * shooterMotorB = new CANSparkMax(kShooterBCanID, MotorType.kBrushless);
+	 * 
+	 * shooterMotorA.setIdleMode(Config.kShooterIdleMode);
+	 * shooterMotorB.setIdleMode(Config.kShooterIdleMode);
+	 * 
+	 * leftDriveA.setIdleMode(Config.kDriveIdleMode);
+	 */
 	/**
 	 * Robot Configuration
 	 */
 	// static final boolean useNeoEncoders = true;
 
-	/**
+	public static RobotMap getInstance() {
+		if (m_instance == null) {
+            m_instance = new RobotMap();
+        }
+        return m_instance;
+    }
+	/*
 	 * DIO Ports
 	 */
 	static final int leftDriveEncADioPort = 0;
@@ -275,5 +285,19 @@ public class RobotMap {
 
     public static Solenoid getClimberSolenoid() {
         return buddySolenoid;
-    }
+	}
+	
+	public void setIdleCoast(boolean mode) {
+		if(!mode) {
+			leftDriveA.setIdleMode(IdleMode.kBrake);
+			leftDriveB.setIdleMode(IdleMode.kBrake);
+			rightDriveA.setIdleMode(IdleMode.kBrake);
+			rightDriveA.setIdleMode(IdleMode.kBrake);
+		} else {
+			leftDriveA.setIdleMode(IdleMode.kCoast);
+			leftDriveB.setIdleMode(IdleMode.kCoast);
+			rightDriveA.setIdleMode(IdleMode.kCoast);
+			rightDriveA.setIdleMode(IdleMode.kCoast);
+		}
+	}
 }

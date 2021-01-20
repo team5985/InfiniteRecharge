@@ -139,7 +139,7 @@ public class Drive extends Subsystem{
 		}
 		
 		arcadeDrive(1.0, steering, power);
-		return encoderIsWithinDistance(distance, 0.01);
+		return encoderIsWithinDistance(distance, 0.05);//0.01
     }
     public AHRS getImuInstance() {
 		if (_imu == null) {

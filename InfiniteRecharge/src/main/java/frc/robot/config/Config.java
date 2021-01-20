@@ -63,9 +63,9 @@ public class Config {
     //SQRT for gyro
     public static final double kDriveGyroTurnK = 0.06;
     //Degrees
-    public static final double kDriveGyroTurnThresh = 3.0;
+    public static final double kDriveGyroTurnThresh = 3.0; //3
     //Degrees/second
-    public static final double kDriveGyroRateThresh = 3.0;
+    public static final double kDriveGyroRateThresh = 3.0; //3
 
     //Xbox
     public static final int kXboxPort = 1;

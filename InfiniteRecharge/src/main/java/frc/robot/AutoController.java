@@ -80,6 +80,6 @@ public class AutoController {
 			}
 		}
 		
-		return new ShootThenPickupCentre();
+		return new AutoNavSaloom();
 	}
 }

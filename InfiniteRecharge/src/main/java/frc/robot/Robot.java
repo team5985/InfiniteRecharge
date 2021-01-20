@@ -20,6 +20,8 @@ public class Robot extends TimedRobot {
   TeleopController teleopController;
   static Timer _timer = new Timer();
   
+  RobotMap m_RobotMap;
+
 
   @Override
   public void robotInit() {
@@ -28,6 +30,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", autoController);
     CameraServer.getInstance().startAutomaticCapture(); */
     
+    m_RobotMap.getInstance().setIdleCoast(true);
+
+
     Drive drivetrain = Drive.getInstance();
     drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
 
@@ -57,8 +62,15 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("Servo", 0.0);
   }
 
+
   @Override
   public void robotPeriodic() {
+  }
+
+  @Override
+  public void disabledInit() {
+    m_RobotMap.getInstance().setIdleCoast(true);
+
   }
 
   @Override
@@ -68,14 +80,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+   // m_RobotMap.getInstance().setIdleCoast(false);
+
     autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
     
   }
+
+  @Override
+  public void teleopInit() {
+    // TODO Auto-generated method stub
+    autoController.initialiseAuto();
+    //m_RobotMap.getInstance().setIdleCoast(false);
+
+  }
   @Override
   public void teleopPeriodic() {
+    m_RobotMap.getInstance().setIdleCoast(false);
+
     autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
