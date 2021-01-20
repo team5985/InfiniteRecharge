@@ -35,7 +35,7 @@ public class ShootThenPickupCentre extends AutoMode {
             double visionSteering = tx * Constants.kVisionTurnKp;
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
             
-            Intake.getInstance().setDesiredState(IntakeState.RETRACTED);
+            // Intake.getInstance().setDesiredState(IntakeState.RETRACTED);
             
             if(Shooter.getInstance().getShooterAcceptableSpeed(Shooter.getInstance().getShooterTargetSpeed())) {
                 Shooter.getInstance().setDesiredState(ShooterState.SHOOTING);
@@ -89,7 +89,7 @@ public class ShootThenPickupCentre extends AutoMode {
             return Drive.getInstance().actionGyroTurn(14.0, 1);
 
             case 5:
-            Intake.getInstance().setDesiredState(IntakeState.EXTENDED);
+            // Intake.getInstance().setDesiredState(IntakeState.EXTENDED);
             
             tx = Vision.getInstance().getAngleToTarget();
             visionSteering = tx * Constants.kVisionTurnKp;

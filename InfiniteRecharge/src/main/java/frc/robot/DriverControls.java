@@ -52,6 +52,7 @@ public class DriverControls {
      * @return Driver interrupt command.
      */
     public boolean getStickInterupt() {
+		end = false;
 
 		if(stick.getX() >= 0.7) {
 			end = true;
@@ -154,7 +155,7 @@ public class DriverControls {
 		}
 	}
 
-	public boolean getSpinnyUp() {
+	public boolean getGetPositionControlCommand() {
 		if(stick.getRawButton(12)) {
 			return true;
 		}else {
@@ -162,7 +163,7 @@ public class DriverControls {
 		}
 	}
 
-	public boolean getControlPanelCommand() {
+	public boolean getRotationControlCommand() {
 		if(stick.getRawButton(11)) {
 			return true;
 		} else {

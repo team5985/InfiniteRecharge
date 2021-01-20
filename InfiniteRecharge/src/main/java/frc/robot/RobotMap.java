@@ -7,7 +7,6 @@
 
 
 package frc.robot;
-
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import frc.robot.config.Config;
 import frc.util.EncoderAdapter;
 import frc.util.SensoredSystem;
 import com.revrobotics.AlternateEncoderType;
@@ -24,6 +22,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -37,13 +36,25 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.*;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.RobotWrangler;
+
 import frc.util.*;
 
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
+
+import frc.util.*;
+import frc.util.sim.*;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.LimitSwitchGroup;
@@ -126,14 +137,16 @@ public class RobotMap {
 	// Left
 	static CANSparkMax leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
 	static CANSparkMax leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
+	//leftDriveB.follow(leftDriveA);	
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
-	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
+	static SparkGroup leftDriveMotors = new SparkGroup(leftDriveA, leftDriveB);
 
 	// Right
 	static CANSparkMax rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
 	static CANSparkMax rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
+	//rightDriveB.follow(rightDriveA);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
-	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
+	static SparkGroup rightDriveMotors = new SparkGroup(rightDriveA, rightDriveB);
 
 	/**
 	 * Indexer
@@ -144,10 +157,10 @@ public class RobotMap {
 	/**
 	 * Intake
 	 */
-	static WPI_TalonSRX intakeActuation = new WPI_TalonSRX(Constants.kItntakeActuatorCanID);
+	
 	static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
 	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
-	static Servo intakeServo = new Servo(0);
+	static Solenoid intakeActuator = new Solenoid(Constants.kPcmCanId, Constants.kIntakeFlapSolenoidChannel);
 
 	/**
 	 * Climber
@@ -173,17 +186,79 @@ public class RobotMap {
 	/**
 	 * @return the leftDrive
 	 */
-	public static SpeedControllerGroup getLeftDrive() {
+	public static SparkGroup getLeftDrive() {
 
 		return leftDriveMotors;
 	}
 
+	static PbTalonSrx controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
+	static SensoredSystem controlPanelSystem = new SensoredSystem(controlPanelMotor);
+
+	static Solenoid controlPanelSolenoid = new Solenoid(Constants.kPcmCanID,Constants.kControlPanelSolenoidAChannel);
+
 	/**
 	 * @return the Right Drive
 	 */
-	public static SpeedControllerGroup getRightDrive() {
+	public static SparkGroup getRightDrive() {
 
 		return rightDriveMotors;
+	} /*
+		 * // Initialise motor controllers leftDriveA = new
+		 * CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless); leftDriveB =
+		 * new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
+		 * //leftDriveC = new CANSparkMax(kLeftDriveCCanId, MotorType.kBrushless);
+		 * 
+		 * rightDriveA = new CANSparkMax(Constants.kRightDriveACanID,
+		 * MotorType.kBrushless); rightDriveB = new
+		 * CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless); //rightDriveC
+		 * = new CANSparkMax(kRightDriveCCanId, MotorType.kBrushless);
+		 * 
+		 * // Set brake/coast leftDriveA.setIdleMode(Config.kDriveIdleMode);
+		 * leftDriveB.setIdleMode(Config.kDriveIdleMode);
+		 * //leftDriveC.setIdleMode(Config.kDriveIdleMode);
+		 * 
+		 * rightDriveA.setIdleMode(Config.kDriveIdleMode);
+		 * rightDriveB.setIdleMode(Config.kDriveIdleMode);
+		 * //rightDriveC.setIdleMode(Config.kDriveIdleMode);
+		 * 
+		 * // Invert right side leftDriveA.setInverted(Config.kLeftDrivePhase);
+		 * leftDriveB.setInverted(Config.kLeftDrivePhase);
+		 * //leftDriveC.setInverted(Config.kLeftDrivePhase);
+		 * 
+		 * rightDriveA.setInverted(Config.kRightDrivePhase);
+		 * rightDriveB.setInverted(Config.kRightDrivePhase);
+		 * //rightDriveB.setInverted(Config.kRightDrivePhase);
+		 * 
+		 * 
+		 * // Set current limit to PDP fuses
+		 * leftDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 * leftDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 * //leftDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 * 
+		 * rightDriveA.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 * rightDriveB.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 * //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
+		 */
+
+	public static SensoredSystem getRobotWranglerSystem() {
+		PbSparkMax robotWranglerMotor;
+
+		if (Constants.kUseRobotWranglerNeoEncoder) {
+			robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless);
+		} else {
+			robotWranglerMotor = new PbSparkMax(Constants.kRobotWranglerSparkCanId, MotorType.kBrushless,
+					AlternateEncoderType.kQuadrature, 2048);
+			// if using alternate encoder with neo
+		}
+
+		SensoredSystem system = new SensoredSystem(robotWranglerMotor);
+		return system;
+
+	}
+
+	public static SensoredSystem getControlPanelSystem() {
+
+		return controlPanelSystem;
 	}
 
 	public static CANEncoder getLeftDriveEncoder() {
@@ -230,21 +305,30 @@ public class RobotMap {
 	// return limitSwitchGroup;
 	// }
 
-	public static WPI_TalonSRX getIntakeActuationSystem() {
-		intakeActuation.configMotionCruiseVelocity(Constants.kIntakeActuatorMotionCruiseVel); //3600
-		intakeActuation.configMotionAcceleration(Constants.kIntakeActuatorMotionAccel); //25000
-		intakeActuation.config_kF(0, Constants.kIntakeActuatorKf);
-		
-		return intakeActuation;
+	public static LimitSwitchGroup getRobotWranglerLimits() {
+		PbDioSwitch robotWranglerForwardLimit = new PbDioSwitch(Constants.kRobotWranglerForwardLimitDio);
+		PbDioSwitch robotWranglerReverseLimit = new PbDioSwitch(Constants.kRobotWranglerReverseLimitDio);
+		LimitSwitchGroup limitSwitchGroup = new LimitSwitchGroup(robotWranglerForwardLimit, robotWranglerReverseLimit);
+		return limitSwitchGroup;
+
+	}
+
+	public static Solenoid getControlPanelSolenoid() {
+    return controlPanelSolenoid;
 	}
 
 	public static SensoredSystem getIntakeSystem() {
 		return intakeSystem;
+
 	}
 	
-	public static Servo getIntakeServo() {
-		return intakeServo;
+	public static Solenoid getIntakeActuationSystem() {
+		return intakeActuator;
 	}
+
+
+    
+    //Set Idle mode
 
 	// Set Idle mode
 
@@ -268,13 +352,13 @@ public class RobotMap {
 
 		winchB.configFactoryDefault();
 		winchB.follow(winchA);
-		winchB.setInverted(InvertType.FollowMaster);
+		//winchB.setInverted(InvertType.FollowMaster);
 		winchC.configFactoryDefault();
 		winchC.follow(winchA);
-		winchC.setInverted(InvertType.OpposeMaster);
+		//winchC.setInverted(InvertType.OpposeMaster);
 		winchD.configFactoryDefault();
 		winchD.follow(winchA);
-		winchD.setInverted(InvertType.OpposeMaster);
+		//winchD.setInverted(InvertType.OpposeMaster);
 
 		return winchSystem;
 	}

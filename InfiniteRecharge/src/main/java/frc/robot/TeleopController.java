@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Climber.ClimberState;
+import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
+import frc.util.ColourSensor;
 import frc.util.JavaUtil;
 import frc.util.Luin;
 /**
@@ -31,6 +33,8 @@ public class TeleopController {
     private static Vision m_vision;
     private static Subsystem m_Subsystem;
     private static JavaUtil m_javaUtil;
+    private static ControlPanel m_controlPanel;
+    private static ColourSensor m_colourSensor;
 
     private static Luin m_luin;
 
@@ -72,6 +76,7 @@ public class TeleopController {
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
         m_javaUtil = JavaUtil.getInstance();
+        m_controlPanel = ControlPanel.getInstance();
     }
 
     public void callStateMachine() {
@@ -106,16 +111,7 @@ public class TeleopController {
         if(m_controls.getActionCommand()) {
             // System.out.println("action command");
             if(m_controls.getMechanismMode()) {
-                //m_intake.setDesiredState(IntakeState.INTAKING);
-                 //Check if the intake is extended
-                 if(m_javaUtil.getWithinTolerance(m_intake.getPosition(), Constants.kIntakeExtensionRevolutions, 0.5)) 
-                 {
-                     //Intake
-                     m_intake.setDesiredState(IntakeState.INTAKING);
-                 } else {
-                     //Extend the intake
-                     m_intake.setDesiredState(IntakeState.EXTENDED);
-                 }
+                
             } else {
                 //check if shooter ia at an acceptable speed
                 if(m_shooter.getShooterAcceptableSpeed(m_shooter.getShooterTargetSpeed())) {
@@ -135,11 +131,7 @@ public class TeleopController {
             
 
         } else {
-            if(m_intake.checkSafeRetraction()) {
-                m_intake.setDesiredState(IntakeState.RETRACTED);
-            } else {
-                m_intake.retractFlap();
-            }
+            m_intake.setDesiredState(IntakeState.IDLE);
             m_shooter.setDesiredState(ShooterState.IDLE);
         
         }
@@ -163,6 +155,16 @@ public class TeleopController {
             m_vision.disableVision();
             callDrive();
         }
+
+        if(m_controls.getRotationControlCommand()) { //12
+            m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
+        } else if(m_controls.getGetPositionControlCommand()) {
+            m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
+        } else if(m_controls.getStickInterupt()){
+            m_controlPanel.setDesiredState(ControlPanelState.RETRACTED);
+        }
+
+        
     }
 
     private void stEndgame() {        

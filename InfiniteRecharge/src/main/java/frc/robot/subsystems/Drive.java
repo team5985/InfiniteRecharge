@@ -9,13 +9,19 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.config.Config;
+import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
+import frc.util.SparkGroup;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -24,10 +30,23 @@ import frc.robot.RobotMap;
  */
 public class Drive extends Subsystem{
 
-    SpeedControllerGroup mLeftDrive;
-    SpeedControllerGroup mRightDrive;
+    SparkGroup mLeftDrive;
+    SparkGroup mRightDrive;
     CANEncoder mLeftEnc;
     CANEncoder mRightEnc;
+
+    public static AHRS _imu;
+
+    Joystick stick;
+    XboxController xbox = new XboxController(Config.kXboxPort);
+
+    ProfiledPIDController profiledDriveController = new ProfiledPIDController(
+        Constants.kEncoderDriveKp, 0.0, 0.0,
+        new TrapezoidProfile.Constraints(Constants.kDriveMaxSpeed, Constants.kDriveMaxAccel));
+    
+    ProfiledPIDController profiledTurnController = new ProfiledPIDController(
+        Constants.kGyroTurnKp, 0.0, 0.0, 
+        new TrapezoidProfile.Constraints(Constants.kDriveMaxTurnSpeed, Constants.kDriveMaxTurnAccel));
 
     public static Drive driveInstance;
     
@@ -43,17 +62,12 @@ public class Drive extends Subsystem{
         
     }
 
-    public void setSystem(SpeedControllerGroup leftDrive, SpeedControllerGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
+    public void setSystem(SparkGroup leftDrive, SparkGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
         mLeftDrive = leftDrive;
         mRightDrive = rightDrive;
         mLeftEnc = leftEncoder;
         mRightEnc = rightEncoder;
     }
-
-    public static AHRS _imu;
-
-    Joystick stick;
-    XboxController xbox = new XboxController(Config.kXboxPort);
   
     public double getPosition() {
         return getAvgEncoderDistance();
@@ -109,13 +123,15 @@ public class Drive extends Subsystem{
 
    /**
     * @param targetHeading
-    * @param maxRate
+    * @param maxRate not used
     * @return true when done
     */
     public boolean actionGyroTurn(double targetHeading, int maxRate) {
 		double currentRate = _imu.getRate();
 		double currentHeading = _imu.getYaw();
-		double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+        // double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+        profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
+        double steering = profiledTurnController.calculate(currentHeading, targetHeading);
 		arcadeDrive(1.0, steering, 0.0);
 
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
@@ -131,7 +147,7 @@ public class Drive extends Subsystem{
 	 */
 	public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
 		double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
-		double power = (distance - getAvgEncoderDistance()) * Constants.kEncoderDriveKp;
+        double power = profiledDriveController.calculate(getAvgEncoderDistance(), distance);
 		if (power >= 0 && power > maxPower) {
 			power = maxPower;
 		} else if (power < 0 && power < -maxPower) {
@@ -165,6 +181,14 @@ public class Drive extends Subsystem{
 		return Constants.kDriveEncoderConversionFactor * (mLeftEnc.getPosition() + -mRightEnc.getPosition()) / 2;
     }
 
+    /**
+     * Returns gyro in degrees
+     * @return gyro angle in degrees
+     */
+    public double getYaw() {
+        return _imu.getYaw();
+    }
+
     public void update() {
 
     }
@@ -174,4 +198,27 @@ public class Drive extends Subsystem{
         mRightEnc.setPosition(0.0);
         _imu.reset();
     }
+
+    /**
+     * Set the motor controllers' brakes on or off.
+     * @param brake True to enable brake mode, false to set to coast.
+     */
+	public void setBrakes(boolean brake) {
+        if (brake) {
+            mLeftDrive.setIdleMode(IdleMode.kBrake);
+            mRightDrive.setIdleMode(IdleMode.kBrake);
+        } else {
+            mLeftDrive.setIdleMode(IdleMode.kCoast);
+            mRightDrive.setIdleMode(IdleMode.kCoast);
+        }
+        
+	}
+
+    /**
+     * 
+     * @return True if motor controllers are both set to brake.
+     */
+	public boolean getBrakes() {
+		return mLeftDrive.getIdleMode() == IdleMode.kBrake && mRightDrive.getIdleMode() == IdleMode.kBrake;
+	}
 }

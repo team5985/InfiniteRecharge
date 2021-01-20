@@ -21,13 +21,21 @@ public class AutoController {
 
 	public enum AutoSelection {
 		DEFAULT,
-		LEAVELINE, SHOOT_AND_SCOOT, SCOOT_AND_SHOOT, SHOOT_THEN_PICKUP_CENTRE, SHOOT_RECIEVE_SHOOT, AUTO_NAV_SALOOM,
-		}
+		LEAVELINE,
+		SHOOT_AND_SCOOT,
+		SCOOT_AND_SHOOT,
+		SHOOT_THEN_PICKUP_CENTRE,
+		SHOOT_RECIEVE_SHOOT,
+		LEFT_TRENCH_ALL_BALL_AUTO,
+		
+	}
+		RIGHT_TRENCH_CROSS_FIELD_AUTO,
 
 	SendableChooser<AutoSelection> autoSelector;
 	AutoSelection selectedAuto;
-	AutoMode runningAuto;
+	static AutoMode runningAuto;
 	int currentStep = 0;
+	boolean autoPeriodicPermissible = false;
 
 	private AutoController() {
 		autoSelector = new SendableChooser<AutoSelection>();
@@ -44,24 +52,31 @@ public class AutoController {
 	public void initialiseAuto() {
 		selectedAuto = autoSelector.getSelected();
 		runningAuto = evaluateAutoSelection(selectedAuto);
-
-		TeleopController.getInstance().resetAllSensors();
-
 		currentStep = 0;
+
+		autoPeriodicPermissible = false; // wait until sensors are fully reset
+		TeleopController.getInstance().resetAllSensors();
+		try {
+			Thread.sleep(250);
+		} catch (Exception e) {
+			DriverStation.reportWarning(e.toString(), true);
+		}
+		autoPeriodicPermissible = true;
 	}
 
 	public void runAuto() {
-		try {
-			System.out.println("STEP: " + currentStep);
-			boolean stepComplete = runningAuto.runStep(currentStep);
-			if (stepComplete) {
-				currentStep++;
-			}
+		if (autoPeriodicPermissible) {
+			try {
+				System.out.println("STEP: " + currentStep);
+				boolean stepComplete = runningAuto.runStep(currentStep);
+				if (stepComplete) {
+					currentStep++;
+				}
 
-		} catch (NullPointerException e) {
-			DriverStation.reportWarning(e.toString(), true);
+			} catch (NullPointerException e) {
+				DriverStation.reportWarning(e.toString(), true);
+			}
 		}
-		
 	}
 
 	/**

@@ -6,18 +6,36 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.SparkMax;
+import edu.wpi.first.wpilibj.util.Color;
+// import edu.wpi.first.wpilibj.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.ControlPanel.ControlPanelState;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import frc.robot.TeleopController;
+
+import frc.util.ColourSensor;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
-import frc.robot.TeleopController;
-import frc.robot.auto.AutoMode;
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
+  ColourSensor colourSensor;
+  ControlPanel m_controlPanel;
+  Compressor comp;
+  //Solenoid solenoid;
   static Timer _timer = new Timer();
   
   RobotMap m_RobotMap;
@@ -25,6 +43,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+ 
     /* autoController.setDefaultOption("WIN", kDefaultAuto);
     autoController.addOption("Loose :(", kCustomAuto);
     SmartDashboard.putData("Auto choices", autoController);
@@ -38,16 +57,25 @@ public class Robot extends TimedRobot {
 
     Climber climber = Climber.getInstance();
     climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
-   
+
     Intake intake = Intake.getInstance();
-    intake.setSystem(RobotMap.getIntakeActuationSystem(), RobotMap.getIntakeSystem(), RobotMap.getIntakeServo());
-    
+    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
+
+    ControlPanel controlPanel = ControlPanel.getInstance();
+    ColourSensor colourSensor = ColourSensor.getInstance();
+        
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
+
+    Vision.getInstance();
     
+    comp = new Compressor(Constants.kPcmCanID);
     autoController = AutoController.getInstance();
     teleopController = TeleopController.getInstance();
-    autoController.initialiseAuto();
+    colourSensor = ColourSensor.getInstance();
+    LiveWindow.disableAllTelemetry();
+    //solenoid = new Solenoid(Constants.kPcmCanID, 7);
+    m_controlPanel = new ControlPanel();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
@@ -57,14 +85,15 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
     // SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
     // SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
-
-
-    // SmartDashboard.putNumber("Servo", 0.0);
   }
 
 
   @Override
+
   public void robotPeriodic() {
+    if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
+      Drive.getInstance().setBrakes(true);
+    }
   }
 
   @Override
@@ -104,9 +133,28 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
+    ControlPanel.getInstance().update();  //FIXME
+    
+    //The control panel can be setup more easily, and you don't need to call ColourSensor
+    ColourSensor.getInstance().update(); //FIXME
+    // Climber.getInstance().update();
+
+    //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
+
+  }
+
+
+  @Override
+  public void disabledInit() {
+    Drive.getInstance().setBrakes(true); 
+    Vision.getInstance().disableVision();
   }
 
   @Override
   public void testPeriodic() {
   }
 }
+
+  /*  colourSensor.update();
+   
+    solenoid.set(true); */
