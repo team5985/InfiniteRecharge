@@ -8,7 +8,7 @@ import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj.command.PrintCommand;
 import frc.robot.Constants;
 public class ColourSensor
 {   
