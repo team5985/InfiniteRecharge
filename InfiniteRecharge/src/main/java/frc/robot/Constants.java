@@ -207,7 +207,7 @@ public class Constants {
 
 	// Turning on the spot with the gyro
 	public static double kDriveMaxTurnSpeed = 12.12;
-	public static double kDriveMaxTurnSpeedAccel = 24.24; 
+	public static double kDriveMaxTurnAccel = 24.24; 
 
 	/** Climber **/
 	// Elevator
