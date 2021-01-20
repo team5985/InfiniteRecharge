@@ -114,14 +114,14 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static CANSparkMax leftDriveA = new PbSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
-	static CANSparkMax leftDriveB = new PbSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
 	static SparkGroup leftDriveMotors = new SparkGroup(leftDriveA, leftDriveB);
 
 	// Right
-	static PbSparkMax rightDriveA = new PbSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
-	static PbSparkMax rightDriveB = new PbSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
 	static SparkGroup rightDriveMotors = new SparkGroup(rightDriveA, rightDriveB);
 
