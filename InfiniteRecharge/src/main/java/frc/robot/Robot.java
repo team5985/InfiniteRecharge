@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    Drive.getInstance().setBrakes(false); 
+    Drive.getInstance().setBrakes(true); 
     Vision.getInstance().disableVision();
   }
 
