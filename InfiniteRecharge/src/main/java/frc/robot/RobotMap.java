@@ -126,15 +126,15 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static WPI_TalonFX leftDriveA = new WPI_TalonFX(Constants.kLeftDriveACanID);
-	static WPI_TalonFX leftDriveB = new WPI_TalonFX(Constants.kLeftDriveBCanID);
+	static CANSparkMax leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 	//leftDriveB.follow(leftDriveA);	
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
 	static SparkGroup leftDriveMotors = new SparkGroup(leftDriveA, leftDriveB);
 
 	// Right
-	static WPI_TalonFX rightDriveA = new WPI_TalonFX(Constants.kRightDriveACanID);
-	static WPI_TalonFX rightDriveB = new WPI_TalonFX(Constants.kRightDriveBCanID);
+	static CANSparkMax rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+	static CANSparkMax rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 	//rightDriveB.follow(rightDriveA);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
 	static SparkGroup rightDriveMotors = new SparkGroup(rightDriveA, rightDriveB);
