@@ -114,16 +114,16 @@ public class RobotMap {
 	 * Drivetrain
 	 */
 	// Left
-	static CANSparkMax leftDriveA = new CANSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
-	static CANSparkMax leftDriveB = new CANSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveA = new PbSparkMax(Constants.kLeftDriveACanID, MotorType.kBrushless);
+	static CANSparkMax leftDriveB = new PbSparkMax(Constants.kLeftDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID, MotorType.kBrushless);
-	static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
+	static SparkGroup leftDriveMotors = new SparkGroup(leftDriveA, leftDriveB);
 
 	// Right
-	static CANSparkMax rightDriveA = new CANSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
-	static CANSparkMax rightDriveB = new CANSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
+	static PbSparkMax rightDriveA = new PbSparkMax(Constants.kRightDriveACanID, MotorType.kBrushless);
+	static PbSparkMax rightDriveB = new PbSparkMax(Constants.kRightDriveBCanID, MotorType.kBrushless);
 	//static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID, MotorType.kBrushless);
-	static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
+	static SparkGroup rightDriveMotors = new SparkGroup(rightDriveA, rightDriveB);
 
 	/**
 	 * Indexer
@@ -163,7 +163,7 @@ public class RobotMap {
 	/**
 	 * @return the leftDrive
 	 */
-	public static SpeedControllerGroup getLeftDrive() {
+	public static SparkGroup getLeftDrive() {
 
 		return leftDriveMotors;
 	}
@@ -171,7 +171,7 @@ public class RobotMap {
 	/**
 	 * @return the Right Drive
 	 */
-	public static SpeedControllerGroup getRightDrive() {
+	public static SparkGroup getRightDrive() {
 
 		return rightDriveMotors;
 	}

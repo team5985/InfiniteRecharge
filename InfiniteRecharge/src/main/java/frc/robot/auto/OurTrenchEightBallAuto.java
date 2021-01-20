@@ -3,6 +3,7 @@ package frc.robot.auto;
 import frc.robot.AutoController.AutoSelection;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Vision;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 
 public class OurTrenchEightBallAuto extends AutoMode {
@@ -26,7 +27,11 @@ public class OurTrenchEightBallAuto extends AutoMode {
             double tx = Vision.getInstance().getAngleToTarget();
             double visionSteering = tx * Constants.kVisionTurnKp;
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
-            // TODO shoot the balls.
+            System.out.println("visionSteering: " + visionSteering);
+            // TODO shoot the balls and detect when all have been shot.
+            if (DriverStation.getInstance().getMatchTime() < 10) {
+                return true;
+            }
             break;
             
             case 1:
@@ -37,15 +42,15 @@ public class OurTrenchEightBallAuto extends AutoMode {
                 return true;
             }
             break;
-            /*
+            
             case 2:
             Drive.getInstance().actionSensorDrive(0.4, 0.0, 0.0);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
             if (Drive.getInstance().getAvgEncoderDistance() <= 0.1) {
-                return true;
+                return false;
             }
-            break;*/
+            break;
 
             default:
             return false;

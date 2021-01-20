@@ -33,7 +33,7 @@ public class AutoController {
 
 	SendableChooser<AutoSelection> autoSelector;
 	AutoSelection selectedAuto;
-	AutoMode runningAuto;
+	static AutoMode runningAuto;
 	int currentStep = 0;
 	boolean autoPeriodicPermissible = false;
 
@@ -95,6 +95,6 @@ public class AutoController {
 			}
 		}
 		
-		return new TrenchEightBallAuto();
+		return new OurTrenchEightBallAuto();
 	}
 }

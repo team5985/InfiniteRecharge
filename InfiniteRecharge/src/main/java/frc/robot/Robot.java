@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
     
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
+
+    Vision.getInstance();
     
     autoController = AutoController.getInstance();
     teleopController = TeleopController.getInstance();
@@ -58,6 +60,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    if (isEnabled() && !Drive.getInstance().getBrakes()) {
+      Drive.getInstance().setBrakes(true);
+    }
   }
 
   @Override
@@ -82,6 +87,11 @@ public class Robot extends TimedRobot {
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
+  }
+
+  @Override
+  public void disabledInit() {
+    Drive.getInstance().setBrakes(false);
   }
 
   @Override

@@ -9,13 +9,17 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.config.Config;
+import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
+import frc.util.SparkGroup;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -24,8 +28,8 @@ import frc.robot.RobotMap;
  */
 public class Drive extends Subsystem{
 
-    SpeedControllerGroup mLeftDrive;
-    SpeedControllerGroup mRightDrive;
+    SparkGroup mLeftDrive;
+    SparkGroup mRightDrive;
     CANEncoder mLeftEnc;
     CANEncoder mRightEnc;
 
@@ -43,7 +47,7 @@ public class Drive extends Subsystem{
         
     }
 
-    public void setSystem(SpeedControllerGroup leftDrive, SpeedControllerGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
+    public void setSystem(SparkGroup leftDrive, SparkGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
         mLeftDrive = leftDrive;
         mRightDrive = rightDrive;
         mLeftEnc = leftEncoder;
@@ -182,4 +186,27 @@ public class Drive extends Subsystem{
         mRightEnc.setPosition(0.0);
         _imu.reset();
     }
+
+    /**
+     * Set the motor controllers' brakes on or off.
+     * @param brake True to enable brake mode, false to set to coast.
+     */
+	public void setBrakes(boolean brake) {
+        if (brake) {
+            mLeftDrive.setIdleMode(IdleMode.kBrake);
+            mRightDrive.setIdleMode(IdleMode.kBrake);
+        } else {
+            mLeftDrive.setIdleMode(IdleMode.kCoast);
+            mRightDrive.setIdleMode(IdleMode.kCoast);
+        }
+        
+	}
+
+    /**
+     * 
+     * @return True if motor controllers are both set to brake.
+     */
+	public boolean getBrakes() {
+		return mLeftDrive.getIdleMode() == IdleMode.kBrake && mRightDrive.getIdleMode() == IdleMode.kBrake;
+	}
 }
