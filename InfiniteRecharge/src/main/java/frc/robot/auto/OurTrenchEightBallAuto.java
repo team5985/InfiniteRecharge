@@ -5,9 +5,9 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Vision;
 import frc.robot.Constants;
 
-public class TrenchEightBallAuto extends AutoMode {
-    private String name = "Trench Eight Ball Auto";
-    private AutoSelection autoType = AutoSelection.TRENCH_EIGHT_BALL_AUTO;
+public class OurTrenchEightBallAuto extends AutoMode {
+    private String name = "Our Trench Eight Ball Auto";
+    private AutoSelection autoType = AutoSelection.OUR_TRENCH_EIGHT_BALL_AUTO;
     
     @Override
     public boolean getExit() {
