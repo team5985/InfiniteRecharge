@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.config.Config;
 import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
@@ -32,6 +34,19 @@ public class Drive extends Subsystem{
     SparkGroup mRightDrive;
     CANEncoder mLeftEnc;
     CANEncoder mRightEnc;
+
+    public static AHRS _imu;
+
+    Joystick stick;
+    XboxController xbox = new XboxController(Config.kXboxPort);
+
+    ProfiledPIDController profiledDriveController = new ProfiledPIDController(
+        Constants.kEncoderDriveKp, 0.0, 0.0,
+        new TrapezoidProfile.Constraints(Constants.kDriveMaxSpeed, Constants.kDriveMaxAccel));
+    
+    ProfiledPIDController profiledTurnController = new ProfiledPIDController(
+        Constants.kGyroTurnKp, 0.0, 0.0, 
+        new TrapezoidProfile.Constraints(Constants.kDriveMaxTurnSpeed, Constants.kDriveMaxTurnAccel));
 
     public static Drive driveInstance;
     
@@ -53,11 +68,6 @@ public class Drive extends Subsystem{
         mLeftEnc = leftEncoder;
         mRightEnc = rightEncoder;
     }
-
-    public static AHRS _imu;
-
-    Joystick stick;
-    XboxController xbox = new XboxController(Config.kXboxPort);
   
     public double getPosition() {
         return getAvgEncoderDistance();
@@ -135,7 +145,7 @@ public class Drive extends Subsystem{
 	 */
 	public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
 		double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
-		double power = (distance - getAvgEncoderDistance()) * Constants.kEncoderDriveKp;
+        double power = profiledDriveController.calculate(distance - getAvgEncoderDistance(), distance);
 		if (power >= 0 && power > maxPower) {
 			power = maxPower;
 		} else if (power < 0 && power < -maxPower) {

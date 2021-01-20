@@ -198,8 +198,16 @@ public class Constants {
 	public static double kIntakeServoExtendedPos = 0;
 
 	public static double kDriveSquaredSteeringInputsExponent = 2.0;
-    public static double kDriveSquaredPowerInputsExponent = 2.0;
+	public static double kDriveSquaredPowerInputsExponent = 2.0;
+	
+	// Profiled PID Controller values for autonomous movements
+	// Driving to a distance
+	public static double kDriveMaxSpeed = 4.18;
+	public static double kDriveMaxAccel = 8.36;
 
+	// Turning on the spot with the gyro
+	public static double kDriveMaxTurnSpeed = 12.12;
+	public static double kDriveMaxTurnSpeedAccel = 24.24; 
 
 	/** Climber **/
 	// Elevator
