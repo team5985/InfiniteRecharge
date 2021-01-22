@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 
 public class RightTrenchAllBallAuto extends AutoMode {
-    private String name = "Left Trench All Ball Auto";
-    private AutoSelection autoType = AutoSelection.LEFT_TRENCH_ALL_BALL_AUTO;
+    private String name = "Right Trench All Ball Auto";
+    private AutoSelection autoType = AutoSelection.RIGHT_TRENCH_ALL_BALL_AUTO;
     
     @Override
     public boolean getExit() {

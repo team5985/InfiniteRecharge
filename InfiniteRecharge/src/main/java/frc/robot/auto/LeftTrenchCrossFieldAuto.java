@@ -6,9 +6,9 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Vision;
 
 
-public class LefttTrenchCrossFieldAuto extends AutoMode {
-    private String name = "Right Trench Cross Field Auto";
-    private AutoSelection autoType = AutoSelection.RIGHT_TRENCH_CROSS_FIELD_AUTO;
+public class LeftTrenchCrossFieldAuto extends AutoMode {
+    private String name = "Left Trench Cross Field Auto";
+    private AutoSelection autoType = AutoSelection.LEFT_TRENCH_CROSS_FIELD_AUTO;
     
     @Override
     public boolean getExit() {
@@ -74,9 +74,6 @@ public class LefttTrenchCrossFieldAuto extends AutoMode {
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
             // TODO shoot the balls.
             break;
-
-
-//turn you piece of shit
 
             default:
             return false;
