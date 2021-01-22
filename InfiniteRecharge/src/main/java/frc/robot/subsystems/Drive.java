@@ -129,9 +129,9 @@ public class Drive extends Subsystem{
     public boolean actionGyroTurn(double targetHeading, int maxRate) {
 		double currentRate = _imu.getRate();
 		double currentHeading = _imu.getYaw();
-        // double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
-        profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
-        double steering = profiledTurnController.calculate(currentHeading, targetHeading);
+        double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+        // profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
+        // double steering = profiledTurnController.calculate(currentHeading, targetHeading);
 		arcadeDrive(1.0, steering, 0.0);
 
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);

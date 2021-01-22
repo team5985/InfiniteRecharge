@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
     LiveWindow.disableAllTelemetry();
     //solenoid = new Solenoid(Constants.kPcmCanID, 7);
     m_controlPanel = new ControlPanel();
+    LiveWindow.disableAllTelemetry();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
@@ -116,10 +117,10 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
-    ControlPanel.getInstance().update();  //FIXME
+    // ControlPanel.getInstance().update();  //FIXME
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
-    ColourSensor.getInstance().update(); //FIXME
+    //ColourSensor.getInstance().update(); //FIXME
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));

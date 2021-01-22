@@ -34,7 +34,7 @@ public class LeftTrenchCrossFieldAuto extends AutoMode {
 
             case 1:
             Drive.getInstance().actionSensorDrive(0.69, 0.0, 0.0);
-
+            
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
             if (Drive.getInstance().getAvgEncoderDistance() <= 0.1) {
                 return true;
