@@ -91,20 +91,16 @@ public class Robot extends TimedRobot {
   @Override
 
   public void robotPeriodic() {
-    if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
+    /*if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
       Drive.getInstance().setBrakes(true);
     }
-  }
-
-  @Override
-  public void disabledInit() {
-    m_RobotMap.getInstance().setIdleCoast(true);
-
+  } */
   }
 
   @Override
   public void autonomousInit() {
     autoController.initialiseAuto();
+
   }
 
   @Override
@@ -136,7 +132,7 @@ public class Robot extends TimedRobot {
     ControlPanel.getInstance().update();  //FIXME
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
-    ColourSensor.getInstance().update(); //FIXME
+    //ColourSensor.getInstance().update(); //FIXME
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
@@ -146,8 +142,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    Drive.getInstance().setBrakes(true); 
     Vision.getInstance().disableVision();
+    m_RobotMap.getInstance().setIdleCoast(true);
+
   }
 
   @Override

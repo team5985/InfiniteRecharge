@@ -269,7 +269,7 @@ public class ControlPanel extends Subsystem
     */
     private void retractSpinner()
     {
-         controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
+         //controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
 
     }
 

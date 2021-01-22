@@ -129,9 +129,9 @@ public class Drive extends Subsystem{
     public boolean actionGyroTurn(double targetHeading, int maxRate) {
 		double currentRate = _imu.getRate();
 		double currentHeading = _imu.getYaw();
-        // double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
-        profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
-        double steering = profiledTurnController.calculate(currentHeading, targetHeading);
+        double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
+        //profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
+        //double steering = profiledTurnController.calculate(currentHeading, targetHeading);
 		arcadeDrive(1.0, steering, 0.0);
 
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
@@ -140,7 +140,7 @@ public class Drive extends Subsystem{
 
     /**
 	 * Drive at a given distance and gyro heading.
-	 * @param speed Maximum speed in m/s
+	 * @param maxPower
 	 * @param targetHeading in degrees.
 	 * @param distance in metres.
 	 * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
@@ -154,8 +154,9 @@ public class Drive extends Subsystem{
 			power = -maxPower;
 		}
 		
-		arcadeDrive(1.0, steering, power);
-		return encoderIsWithinDistance(distance, 0.05);//0.01
+        arcadeDrive(1.0, steering, power);
+        System.out.println("Power " + power);
+		return encoderIsWithinDistance(distance, 0.1);//0.01
     }
     public AHRS getImuInstance() {
 		if (_imu == null) {
@@ -170,6 +171,7 @@ public class Drive extends Subsystem{
 	 * @return Boolean true when within range.
 	 */
 	public boolean encoderIsWithinDistance(double distance, double threshRange) {
+        System.out.println("encoder " + getAvgEncoderDistance());
 		return Math.abs(distance - getAvgEncoderDistance()) < threshRange;
 	}
 

@@ -27,9 +27,10 @@ public class AutoController {
 		SHOOT_THEN_PICKUP_CENTRE,
 		SHOOT_RECIEVE_SHOOT,
 		LEFT_TRENCH_ALL_BALL_AUTO,
+		RIGHT_TRENCH_CROSS_FIELD_AUTO,
+		AUTO_NAV_SALOOM,
 		
 	}
-		RIGHT_TRENCH_CROSS_FIELD_AUTO,
 
 	SendableChooser<AutoSelection> autoSelector;
 	AutoSelection selectedAuto;

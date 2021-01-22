@@ -29,8 +29,7 @@ public class AutoNavSaloom extends AutoMode {
     public boolean runStep(int step) {
         switch(step) {
             case 0:
-            if(Drive.getInstance().actionSensorDrive(0.5, 0, 2)) {
-                System.out.println("Step done");
+            if(Drive.getInstance().actionSensorDrive(0.5, 0, 2.15)) {
                 return true;
             } else {
                 return false;
@@ -55,7 +54,7 @@ public class AutoNavSaloom extends AutoMode {
                 return false;
             }
             case 4: 
-            if(Drive.getInstance().actionSensorDrive(0.5, 0, 8.572)) {
+            if(Drive.getInstance().actionSensorDrive(0.5, 0, 8.3)) {
                 return true;
     
             } else {
@@ -68,7 +67,7 @@ public class AutoNavSaloom extends AutoMode {
                 return false;
             }
             case 6:
-            if(Drive.getInstance().actionSensorDrive(0.25, 90, 10.7)) {
+            if(Drive.getInstance().actionSensorDrive(0.25, 90, 10.25)) {
                 return true;
             } else {
                 return false;
@@ -80,7 +79,31 @@ public class AutoNavSaloom extends AutoMode {
                 return false;
             }
             case 8:
-            if(Drive.getInstance().actionSensorDrive(0.5, 0, 11.7)) {
+            if(Drive.getInstance().actionSensorDrive(0.5, 0, 11.75)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 9:
+            if(Drive.getInstance().actionGyroTurn(-90, 1)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 10:
+            if(Drive.getInstance().actionSensorDrive(0.5, -90, 13.5)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 11:
+            if(Drive.getInstance().actionGyroTurn(180, -180)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 12:
+            if(Drive.getInstance().actionSensorDrive(0.5, -180, 15)) {
                 return true;
             } else {
                 return false;
