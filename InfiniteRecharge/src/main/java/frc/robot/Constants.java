@@ -202,14 +202,14 @@ public class Constants {
 	
 	// Profiled PID Controller values for autonomous movements
 	// Driving to a distance
-	public static double kDriveMaxSpeed = 4.18;
-	public static double kDriveMaxAccel = 256.0;
+	public static double kDriveMaxSpeed = 100.18;
+	public static double kDriveMaxAccel = 2500.0;
 
 	// Turning on the spot with the gyro
 	public static double kDriveMaxTurnSpeed = 12.12;
-	public static double kDriveMaxTurnAccel = 24.24; 
+	public static double kDriveMaxTurnAccel = 50.24; 
 
-	/** Climber **/
+	/** Climber **/	
 	// Elevator
 	// public static final int kElevatorEncoderCountsPerRev = 42;
 	// public static final double kElevatorKp = 0.0254;  //FIXME
@@ -247,9 +247,9 @@ public class Constants {
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
 	public static final double kDriveTurnStictionConstant = 0.0; // FIXME
-	public static final double kGyroTurnKp = 0.004;
+	public static final double kGyroTurnKp = 0.0025;
 	public static final double kGyroDriveTurnKp = 0.012;  // FIXME
-	public static final double kEncoderDriveKp = 0.7;  // FIXME
+	public static final double kEncoderDriveKp = 0.35;  // FIXME
 	public static final double kDriveEncoderConversionFactor = 0.04354;
 
 }

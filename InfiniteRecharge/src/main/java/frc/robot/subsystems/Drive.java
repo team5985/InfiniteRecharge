@@ -75,7 +75,7 @@ public class Drive extends Subsystem{
 
     public boolean zeroPosition() {
         _imu.zeroYaw();
-        return false;
+        return true;
     }
 
 
@@ -222,5 +222,20 @@ public class Drive extends Subsystem{
      */
 	public boolean getBrakes() {
 		return mLeftDrive.getIdleMode() == IdleMode.kBrake && mRightDrive.getIdleMode() == IdleMode.kBrake;
-	}
+    }
+    
+    public boolean resetImu() {
+        _imu.reset();
+        return true;
+    }
+
+    public void calibrateImu() {
+        _imu.calibrate();
+    }
+
+    public boolean resetEncoders() {
+        mLeftEnc.setPosition(0);
+        mRightEnc.setPosition(0);
+        return true;
+    }
 }

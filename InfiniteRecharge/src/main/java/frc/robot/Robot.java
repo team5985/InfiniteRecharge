@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
   ColourSensor colourSensor;
   ControlPanel m_controlPanel;
   Compressor comp;
+  Drive m_drive;
   //Solenoid solenoid;
   static Timer _timer = new Timer();
   
@@ -123,7 +124,7 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void teleopPeriodic() {
-    m_RobotMap.getInstance().setIdleCoast(false);
+    RobotMap.getInstance().setIdleCoast(false);
 
     autoController.runAuto();
     Shooter.getInstance().update();
@@ -143,7 +144,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Vision.getInstance().disableVision();
+
     m_RobotMap.getInstance().setIdleCoast(true);
+    //m_drive.getInstance().resetImu();
 
   }
 

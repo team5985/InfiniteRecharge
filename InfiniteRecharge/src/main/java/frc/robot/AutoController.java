@@ -67,16 +67,16 @@ public class AutoController {
 
 	public void runAuto() {
 		if (autoPeriodicPermissible) {
-			try {
+			// try {
 				System.out.println("STEP: " + currentStep);
 				boolean stepComplete = runningAuto.runStep(currentStep);
 				if (stepComplete) {
 					currentStep++;
 				}
 
-			} catch (NullPointerException e) {
-				DriverStation.reportWarning(e.toString(), true);
-			}
+			// } catch (NullPointerException e) {
+			// 	DriverStation.reportWarning(e.toString(), true);
+			// }
 		}
 	}
 
