@@ -29,6 +29,7 @@ public class AutoController {
 		LEFT_TRENCH_ALL_BALL_AUTO,
 		RIGHT_TRENCH_CROSS_FIELD_AUTO,
 		AUTO_NAV_SALOOM,
+		AUTO_NAV_BOUNCE,
 		
 	}
 
@@ -96,6 +97,6 @@ public class AutoController {
 			}
 		}
 		
-		return new AutoNavSaloom();
+		return new AutoNavBounce();
 	}
 }
