@@ -22,7 +22,7 @@ public class AutoNavBounce extends AutoMode {
 
     @Override
     public void init() {
-        
+        Drive.getInstance().zeroEncoders();
     }
 
     @Override
@@ -72,15 +72,63 @@ public class AutoNavBounce extends AutoMode {
                 return false;
             }
             case 7:
-            if(Drive.getInstance().actionGyroTurn(-75, 1)) {
+            if(Drive.getInstance().actionGyroTurn(-90, 1)) {
                 return true;
             } else {
 
                 return false;
             }
             case 8:
-            if(Drive.getInstance().actionSensorDrive(-0.3, -75, 3.6)) {
+            if(Drive.getInstance().actionSensorDrive(0.8, -90, 6.9)) {
                 return true; 
+            } else {
+                return false;
+            }
+            case 9:
+            if(Drive.getInstance().actionSensorDrive(0.5, -90, 4.5)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 10:
+            if(Drive.getInstance().actionGyroTurn(0, 1)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 11:
+            if(Drive.getInstance().actionSensorDrive(0.5, 0, 7)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 12:
+            if(Drive.getInstance().actionGyroTurn(-90, 1)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 13:
+            if(Drive.getInstance().actionSensorDrive(0.8, -90, 9.5)) {
+                return true;
+            } else {
+                return false;
+            }   
+            case 14:
+            if(Drive.getInstance().actionSensorDrive(0.5, -90, 8.5)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 15:
+            if(Drive.getInstance().actionGyroTurn(0, 1)) {
+                return true;
+            } else {
+                return false;
+            }
+            case 16:
+            if(Drive.getInstance().actionSensorDrive(0.5, 0, 13)) {
+                return true;
             } else {
                 return false;
             }

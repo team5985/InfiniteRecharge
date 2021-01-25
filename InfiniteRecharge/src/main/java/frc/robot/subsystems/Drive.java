@@ -132,7 +132,8 @@ public class Drive extends Subsystem{
         double steering = (targetHeading - currentHeading) * Constants.kGyroTurnKp;
         //profiledTurnController.setConstraints(new TrapezoidProfile.Constraints(maxRate, Constants.kDriveMaxTurnAccel));
         //double steering = profiledTurnController.calculate(currentHeading, targetHeading);
-		arcadeDrive(1.0, steering, 0.0);
+        arcadeDrive(1.0, steering, 0.0);
+        System.out.println(getYaw());
 
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
 
@@ -156,7 +157,8 @@ public class Drive extends Subsystem{
 		
         arcadeDrive(1.0, steering, power);
         System.out.println("Power " + power);
-		return encoderIsWithinDistance(distance, 0.1);//0.01
+        System.out.println(getYaw());
+        return encoderIsWithinDistance(distance, 0.1);//0.01
     }
     public AHRS getImuInstance() {
 		if (_imu == null) {
@@ -199,6 +201,11 @@ public class Drive extends Subsystem{
         mLeftEnc.setPosition(0.0);
         mRightEnc.setPosition(0.0);
         _imu.reset();
+    }
+
+    public void zeroEncoders() {
+        mLeftEnc.setPosition(0);
+        mRightEnc.setPosition(0);
     }
 
     /**
