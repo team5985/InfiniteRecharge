@@ -84,7 +84,9 @@ public class RobotMap {
     public static final int kIndexerCanID = 22;
 	static RobotMap m_instance;
 
+	
 	// Encoders
+	//
 	// static EncoderAdapter shooterVelocityEncoder;
 
 	// Init controllers
