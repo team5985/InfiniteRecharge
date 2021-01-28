@@ -150,13 +150,18 @@ public class RobotMap {
 	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
 	static Solenoid intakeActuator = new Solenoid(Constants.kPcmCanId, Constants.kIntakeFlapSolenoidChannel);
 
+	/** 
+	 * Bar
+	 */
+	static WPI_TalonSRX barMotor = new WPI_TalonSRX(Constants.kBarCanID);
+
 	/**
 	 * Climber
 	 */
 	static WPI_TalonSRX winchA = new WPI_TalonSRX(Constants.kWinchACanId);  // Master
 	static WPI_VictorSPX winchB = new WPI_VictorSPX(Constants.kWinchBCanId);
 	static WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
-	static  WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
+	static WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
 
 	static PbDioEncoder winchEncoder = new PbDioEncoder(Constants.kWinchEncoderDioA, Constants.kWinchEncoderDioB);
 
@@ -247,6 +252,11 @@ public class RobotMap {
 	public static SensoredSystem getControlPanelSystem() {
 
 		return controlPanelSystem;
+	}
+
+	public static WPI_TalonSRX getBarMotor() {
+
+		return barMotor;
 	}
 
 	public static SpeedControllerGroup getShooter() {

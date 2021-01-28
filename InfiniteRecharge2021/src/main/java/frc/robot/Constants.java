@@ -206,4 +206,7 @@ public class Constants {
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
 
+	// Bar
+	public static final int kBarCanID = 27;
+
 }

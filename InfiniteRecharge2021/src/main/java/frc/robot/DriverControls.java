@@ -241,4 +241,12 @@ public class DriverControls {
 	public boolean getTeleopCommand() {
 		return stick.getRawButton(7);
 	}
+
+	public boolean getBarLeft() {
+		return (stick.getPOV()==270);
+	}
+
+	public boolean getBarRight() {
+		return (stick.getPOV()==90);
+	}
 }
