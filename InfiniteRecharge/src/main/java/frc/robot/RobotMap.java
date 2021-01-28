@@ -174,6 +174,11 @@ public class RobotMap {
 
 	static Solenoid buddySolenoid = new Solenoid(Constants.kPcmCanId, Constants.kBuddySolenoidPcmPort);
 
+
+
+	//Bar traversal
+
+	static WPI_VictorSPX barMotor = new WPI_VictorSPX(Constants.kBarMotorCanId);
 	/**
 	 * @return the leftDrive
 	 */
@@ -344,6 +349,10 @@ public class RobotMap {
 		//winchD.setInverted(InvertType.OpposeMaster);
 
 		return winchSystem;
+	}
+
+	public static WPI_VictorSPX getBarTraverser() {
+		return barMotor;
 	}
 
 	public static LimitSwitchGroup getClimberLimits() {

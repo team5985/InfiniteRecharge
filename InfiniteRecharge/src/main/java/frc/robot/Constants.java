@@ -30,6 +30,8 @@ public class Constants {
 	public static final int kWinchCCanId = 18;
 	public static final int kWinchDCanId = 19;
 
+	public static final int kBarMotorCanId = 20;
+
 	// DIO ports
 	public static final int kWinchEncoderDioA = 8;
 	public static final int kWinchEncoderDioB = 9;
@@ -239,4 +241,9 @@ public class Constants {
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
 
+
+	//Bar traverser
+	public static final double kBarLeftSpeed = 1;
+	public static final double kBarRightSpeed = kBarLeftSpeed * -1;
+	public static final double kBarIdleSpeed = 0;
 }

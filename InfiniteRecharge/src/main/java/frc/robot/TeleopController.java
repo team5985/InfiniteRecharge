@@ -15,6 +15,7 @@ import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter.ShooterState;
+import frc.robot.subsystems.Bar.BarStates;
 import frc.util.ColourSensor;
 import frc.util.JavaUtil;
 import frc.util.Luin;
@@ -35,6 +36,7 @@ public class TeleopController {
     private static JavaUtil m_javaUtil;
     private static ControlPanel m_controlPanel;
     private static ColourSensor m_colourSensor;
+    private static Bar m_traverser;
 
     private static Luin m_luin;
 
@@ -67,6 +69,7 @@ public class TeleopController {
         m_indexer = Indexer.getInstance();
         m_javaUtil = JavaUtil.getInstance();
         m_controlPanel = ControlPanel.getInstance();
+        m_traverser = Bar.getInstance();
     }
 
     public void callStateMachine() {
@@ -169,6 +172,15 @@ public class TeleopController {
 
             case PREPARED:
             
+        }
+        stTeleop();
+
+        if(m_controls.getBarLeftCommand()) {
+            m_traverser.setDesiredState(BarStates.LEFT);
+        } else if(m_controls.getBarRightCommand()) {
+            m_traverser.setDesiredState(BarStates.RIGHT); 
+        } else {
+            m_traverser.setDesiredState(BarStates.IDLE);
         }
         
         callDrive();

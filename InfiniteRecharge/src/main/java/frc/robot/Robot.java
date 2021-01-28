@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
     ColourSensor.getInstance().update(); //FIXME
+    Bar.getInstance().update();
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
