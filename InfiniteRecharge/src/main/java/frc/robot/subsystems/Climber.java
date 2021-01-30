@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
+import frc.robot.RobotMap;
 import frc.util.LimitSwitchAdapter;
 import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
@@ -29,17 +32,17 @@ public class Climber extends Subsystem {
     private ClimberState desiredState;
     private BuddyState buddyState;
     
-    ProfiledPIDController winchPidController;
-    Constraints winchPidConstraints;
+    // ProfiledPIDController winchPidController;
+    // Constraints winchPidConstraints;
 
     private Climber() {
         currentState = ClimberState.STOWED;
         desiredState = ClimberState.STOWED;
         buddyState = BuddyState.NO_BUDDY;
 
-        winchPidConstraints = new Constraints(Constants.kWinchMaxVelocity, Constants.kWinchMaxAccel);
-        winchPidController = new ProfiledPIDController(Constants.kWinchKp, 0.0, 0.0, winchPidConstraints);
-        winchPidController.reset(0.0);
+        // winchPidConstraints = new Constraints(Constants.kWinchMaxVelocity, Constants.kWinchMaxAccel);
+        // winchPidController = new ProfiledPIDController(Constants.kWinchKp, 0.0, 0.0, winchPidConstraints);
+        // winchPidController.reset(0.0);
     }
 
     public void setSystem(SensoredSystem winch, Solenoid buddyLock, LimitSwitchGroup limitGroup) {
@@ -85,7 +88,7 @@ public class Climber extends Subsystem {
             break;
 
             case PREPARING:
-            this.winchMoveTo(Constants.kElevatorTopHeightRotations);
+            // this.winchMoveTo(Constants.kElevatorTopHeightRotations);
             if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
                 currentState = ClimberState.PREPARED;
             } else {
@@ -95,7 +98,7 @@ public class Climber extends Subsystem {
             break;
 
             case PREPARED:
-            this.winchMoveTo(Constants.kElevatorTopHeightRotations);
+            // this.winchMoveTo(Constants.kElevatorTopHeightRotations);
             if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
                 currentState = ClimberState.PREPARED;
             }
@@ -103,12 +106,12 @@ public class Climber extends Subsystem {
             break;
 
             case CLIMB_LO:
-            this.winchMoveTo(Constants.kWinchLoClimbRotations);
+            // this.winchMoveTo(Constants.kWinchLoClimbRotations);
             currentState = ClimberState.CLIMB_LO;
             break;
 
             case CLIMB_HI:
-            this.winchMoveTo(Constants.kWinchHiClimbRotations);
+            // this.winchMoveTo(Constants.kWinchHiClimbRotations);
             currentState = ClimberState.CLIMB_HI;
             break;
 
@@ -186,29 +189,25 @@ public class Climber extends Subsystem {
     @Override
 	public boolean zeroPosition() {
 		if (!m_lowerLimit.get()) {
-            winchMove(-0.2);
+            // winchMove(-0.2);
             return false;
         } else {
-            winchMove(0.0);
+            // winchMove(0.0);
             m_winchMaster.setCounts(0);
             return true;
         }
     }
-    
-    private void winchMoveTo(double rotations) {
-        double speed = winchPidController.calculate(winchCountsToRotations(m_winchMaster.getCounts()), rotations);
-        winchMove(speed);
+
+    private void extendElevator() {
+        RobotMap.getWinchA().set(ControlMode.MotionMagic, winchCountsToRotations(Constants.kWinchElevatorUp));
     }
 
-    /**
-     * Move the winch manually, with protection for completely disallowing reversing and travelling past the lower limit switch.
-     * @param speed from -1.0 to 1.0
-     */
-    public void winchMove(double speed) {
-        if (m_lowerLimit.get() && speed < 0) {
-            speed = 0;
-        }
-        m_winchMaster.set(speed);
+    private void retractElevator() {
+        RobotMap.getWinchA().set(ControlMode.MotionMagic, winchCountsToRotations(Constants.kWinchElevatorDown));
+    }
+
+    private void climbElevator() {
+        RobotMap.getWinchA().set(ControlMode.MotionMagic, winchCountsToRotations(Constants.kWinchElevatorClimb));
     }
 
     private double winchCountsToRotations(int counts) {

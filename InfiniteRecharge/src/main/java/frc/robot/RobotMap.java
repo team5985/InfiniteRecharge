@@ -156,17 +156,18 @@ public class RobotMap {
 	/**
 	 * Climber
 	 */
-	static WPI_TalonSRX winchA = new WPI_TalonSRX(Constants.kWinchACanId);  // Master
-	static WPI_VictorSPX winchB = new WPI_VictorSPX(Constants.kWinchBCanId);
-	static WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
-	static  WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
-
+	// static WPI_TalonSRX winchA = new WPI_TalonSRX(Constants.kWinchACanId);  // Master
+	// static WPI_VictorSPX winchB = new WPI_VictorSPX(Constants.kWinchBCanId);
+	// static WPI_VictorSPX winchC = new WPI_VictorSPX(Constants.kWinchCCanId);
+	// static  WPI_VictorSPX winchD = new WPI_VictorSPX(Constants.kWinchDCanId);
+		static WPI_TalonFX winchA = new WPI_TalonFX(Constants.kWinchACanId);
+		static WPI_TalonFX winchB = new WPI_TalonFX(Constants.kWinchBCanId);
 	static PbDioEncoder winchEncoder = new PbDioEncoder(Constants.kWinchEncoderDioA, Constants.kWinchEncoderDioB);
 
 	// PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId, MotorType.kBrushless);
 	// SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
 
-	static SensoredSystem winchSystem = new SensoredSystem(winchA, winchEncoder);
+	// static SensoredSystem winchSystem = new SensoredSystem(winchA, winchEncoder);
 
 	static PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
 	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
@@ -323,29 +324,16 @@ public class RobotMap {
 	// return elevatorSystem;
 	// }
 
-	public static SensoredSystem getWinchSystem() {
-		winchA.configFactoryDefault();
-		SupplyCurrentLimitConfiguration iConfig = new SupplyCurrentLimitConfiguration(true, Constants.kWinchCurrentLimit, 0, 0);
-		winchA.configSupplyCurrentLimit(iConfig);
-		winchA.configPeakCurrentLimit(0);
-		winchA.enableCurrentLimit(true);
-		// winchA.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, 0, 0);
-		winchA.configOpenloopRamp(0.25);
-		winchA.configClosedloopRamp(0.25);
+	public static WPI_TalonFX getWinchA() {
 
-		winchB.configFactoryDefault();
-		winchB.follow(winchA);
-		//winchB.setInverted(InvertType.FollowMaster);
-		winchC.configFactoryDefault();
-		winchC.follow(winchA);
-		//winchC.setInverted(InvertType.OpposeMaster);
-		winchD.configFactoryDefault();
-		winchD.follow(winchA);
-		//winchD.setInverted(InvertType.OpposeMaster);
+		return winchA;
+	}
+	public static WPI_TalonFX getWinchB() {
 
-		return winchSystem;
+		return winchB;
 	}
 
+	
 	public static LimitSwitchGroup getClimberLimits() {
 		return elevatorLimitSwitchGroup;
     }

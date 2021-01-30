@@ -211,7 +211,7 @@ public class Constants {
 	public static final double kElevatorHeightTolerance = 0.125;
 
 	// Winch
-	public static final int kWinchEncoderCountsPerRev = 8192; // 8192 for REV encoder
+	public static final int kWinchEncoderCountsPerRev = 2048; // 8192 for REV encoder
 	public static final double kWinchMaxVelocity = 1.84;  // Revolutions per Second
 	public static final double kWinchMaxAccel = 7.37;  // rps/s
 	public static final double kWinchKp = 1.0;  //FIXME
@@ -223,6 +223,11 @@ public class Constants {
 	public static final double kWinchMinRotationsLimit = 0; //FIXME
 	
 	public static final int kWinchCurrentLimit = 30;
+
+	public static final int kWinchElevatorUp = 1000;
+	public static final int kWinchElevatorDown = 0;
+	public static final int kWinchElevatorClimb = 800;
+
 
 	// Sensors
 	public static final int kElevatorLowerLimitDio = 1;
