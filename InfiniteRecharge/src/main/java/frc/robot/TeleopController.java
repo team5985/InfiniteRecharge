@@ -35,6 +35,7 @@ public class TeleopController {
     private static JavaUtil m_javaUtil;
     private static ControlPanel m_controlPanel;
     private static ColourSensor m_colourSensor;
+    private static RobotMap m_robotMap;
 
     private static Luin m_luin;
 
@@ -101,6 +102,7 @@ public class TeleopController {
         if(m_controls.getActionCommand()) {
             System.out.println("action command");
             if(m_controls.getMechanismMode()) {
+                m_intake.setDesiredState(IntakeState.INTAKING);
                 
             } else {
                 //check if shooter ia at an acceptable speed
@@ -158,20 +160,17 @@ public class TeleopController {
     }
 
     private void stEndgame() {        
-        switch (m_climber.getCurrentState()) {
-            case STOWED:
-            m_climber.setDesiredState(ClimberState.PREPARED);
-            break;
-
-            case PREPARING:
-
-            break;
-
-            case PREPARED:
-            
+        if(m_controls.getAutoclimb()) {
+            if(!(m_climber.getTarget())) {
+                if(m_climber.getCurrentState() == ClimberState.CLIMBING) {
+                    m_climber.setDesiredState(ClimberState.LIFTING);
+                } else if(m_climber.getCurrentState() == ClimberState.STOWED) {
+                    m_climber.setDesiredState(ClimberState.CLIMBING);
+                } else {
+                    m_climber.setDesiredState(ClimberState.IDLE);
+                }
+            }
         }
-        
-        callDrive();
     }
 
     private void stVision() {

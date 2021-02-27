@@ -182,8 +182,8 @@ public class Constants {
   
 
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
-	public static final double kIntakeIntakingSpeed = -0.9;  // .85
-	public static final double kIntakeUnintakingSpeed = 0.8;
+	public static final double kIntakeIntakingSpeed = 0.9;  // .85
+	public static final double kIntakeUnintakingSpeed = -0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
 	public static final int kRightDriveACanID = 3;
@@ -239,4 +239,10 @@ public class Constants {
 	// Vision
 	public static final double kVisionTurnKp = 0.012;
 
+	public static final int kBarMotorCanId = 20;
+	public static final double kBarLeftSpeed = -1;
+	public static final double kBarRightSpeed = 1;
+
+	public static final double kClimbLowPos = 1000; 
+	public static final double kClimbHighPos = 2000;
 }
