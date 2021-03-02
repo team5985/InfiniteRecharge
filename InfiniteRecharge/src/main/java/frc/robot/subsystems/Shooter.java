@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import frc.robot.*;
 import frc.robot.config.*;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -33,6 +34,9 @@ public class Shooter extends Subsystem {
     static public Shooter getInstance() {
         if (m_instance == null) {
             m_instance = new Shooter();
+            RobotMap.getShooterA().configFactoryDefault();
+            RobotMap.getShooterB().configFactoryDefault();
+
         }
 
         return m_instance;
@@ -47,19 +51,15 @@ public class Shooter extends Subsystem {
         switch(desiredState) {
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
-                System.out.println(RobotMap.getShooterVelocityEncoder().getVelocity());
-               RobotMap.getShooterHoodSolenoid().set(true);
+                System.out.println(RobotMap.getShooterA().getSelectedSensorVelocity());
 
             break;
             case HOODUP: 
-                RobotMap.getShooterHoodSolenoid().set(true); //FIXME
             break;
             case HOODDOWN: 
-                RobotMap.getShooterHoodSolenoid().set(false); //FIXME
             break;
             default:
-                shooterPIDControl(Constants.kShooterIdleSpeed);
-                RobotMap.getShooterHoodSolenoid().set(false);
+                //stopShooter();
             break;
             
         }
@@ -86,12 +86,12 @@ public class Shooter extends Subsystem {
     }
    
     public void removeShooterJam() {
-        RobotMap.getShooter().set(-1);
+       // RobotMap.getShooter().set(-1);
         //Set indexer -1;
-        RobotMap.getIndexer().set(-1);
+        //RobotMap.getIndexer().set(-1);
     }
     public double getShooterRPM() {
-        return RobotMap.getShooterVelocityEncoder().getVelocity();
+        return RobotMap.getShooterA().getSelectedSensorVelocity();
     }
 
     /**
@@ -100,36 +100,9 @@ public class Shooter extends Subsystem {
      */
 
     public boolean shooterPIDControl(double targetVelocity) {
-        /*
-        *Based of the spark max example
-        */
+        RobotMap.getShooterA().set(ControlMode.PercentOutput, 1);
+        RobotMap.getShooterB().set(ControlMode.PercentOutput, -1);
 
-        //Set motor PID constants
-        RobotMap.getShooterAPIDController().setP(Constants.kShooterP);
-        RobotMap.getShooterAPIDController().setI(Constants.kShooterI);
-        RobotMap.getShooterAPIDController().setD(Constants.kShooterD);
-        RobotMap.getShooterAPIDController().setIZone(Constants.kShooterIz);
-        RobotMap.getShooterAPIDController().setFF(Constants.kShooterFF);
-        RobotMap.getShooterAPIDController().setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
-
-        RobotMap.getShooterBPIDController().setP(Constants.kShooterP);
-        RobotMap.getShooterBPIDController().setI(Constants.kShooterI);
-        RobotMap.getShooterBPIDController().setD(Constants.kShooterD);
-        RobotMap.getShooterBPIDController().setIZone(Constants.kShooterIz);
-        RobotMap.getShooterBPIDController().setFF(Constants.kShooterFF);
-        RobotMap.getShooterBPIDController().setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
-        
-        // double p = SmartDashboard.getNumber("P Gain", 0);
-        // double i = SmartDashboard.getNumber("I Gain", 0);
-        // double d = SmartDashboard.getNumber("D Gain", 0);
-        // double iz = SmartDashboard.getNumber("I Zone", 0);
-        // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-        // double max = SmartDashboard.getNumber("Max Output", 0);
-        // double min = SmartDashboard.getNumber("Min Output", 0);
-        
-        RobotMap.getShooterAPIDController().setReference(targetVelocity, ControlType.kVelocity);
-        RobotMap.getShooterBPIDController().setReference(-targetVelocity, ControlType.kVelocity);
-        System.out.println(targetVelocity);
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
@@ -137,7 +110,7 @@ public class Shooter extends Subsystem {
         if(getShooterRPM() >= targetRPM * 0.85) {
             return true;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -157,6 +130,12 @@ public class Shooter extends Subsystem {
 
     public void setShooterTargetSpeed(double rpm) {
         shooterTargetRPM = rpm;
+    }
+
+    void stopShooter() {
+        RobotMap.getShooterA().stopMotor();
+        RobotMap.getShooterB().stopMotor();
+
     }
 
 

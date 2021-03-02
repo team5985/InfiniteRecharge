@@ -1,9 +1,13 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.util.LimitSwitchAdapter;
 import frc.util.LimitSwitchGroup;
 import frc.util.SensoredSystem;
@@ -51,16 +55,10 @@ public class Climber extends Subsystem {
 
     public enum ClimberState {
         STOWED,
-        PREPARING,  // Elevator is up and hooks are not supported by bar
-        PREPARED,  // Elevator goes down but hooks are supported by bar
-        CLIMBING,  // 
-        CLIMB_LO,
-        CLIMB_HI,
-        ELEVATOR_MANUAL,
-        WINCH_MANUAL,
-        ZEROING,
+        CLIMBING,  // Elevator is up and hooks are not supported by bar
+        LIFTING,  // Elevator goes down but hooks are supported by bar
+        IDLE,
     }
-
     public enum BuddyState {
         BUDDY,  // Robot has a friend
         NO_BUDDY,  // Robot does not have a friend
@@ -70,72 +68,29 @@ public class Climber extends Subsystem {
     public void update() {
         switch(desiredState) {
             case STOWED:
-            m_winchMaster.stopMotor();
-            currentState = ClimberState.STOWED;
-            buddyState = BuddyState.NO_BUDDY;
+                RobotMap.getClimberA().set(ControlMode.MotionMagic, 0);
+                RobotMap.getClimberB().set(ControlMode.MotionMagic, 0);
+                currentState = desiredState;
             break;
+            case LIFTING:
+                RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
+                RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
+                if(RobotMap.getClimberA().isMotionProfileFinished()) {
+                    
+                }
+                currentState = desiredState;
 
-            case ZEROING:
-            if (this.zeroPosition()) {
-                desiredState = ClimberState.STOWED;
-                currentState = ClimberState.STOWED;
-            } else {
-                currentState = ClimberState.ZEROING;
-            }
             break;
+            case CLIMBING:
+                RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+                RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+                currentState = desiredState;
 
-            case PREPARING:
-            this.winchMoveTo(Constants.kElevatorTopHeightRotations);
-            if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
-                currentState = ClimberState.PREPARED;
-            } else {
-                currentState = ClimberState.PREPARING;
-            }
-            buddyState = BuddyState.NO_BUDDY;
             break;
-
-            case PREPARED:
-            this.winchMoveTo(Constants.kElevatorTopHeightRotations);
-            if(Math.abs(getPosition() - Constants.kElevatorTopHeightRotations) <= Constants.kElevatorHeightTolerance) {
-                currentState = ClimberState.PREPARED;
-            }
-            buddyState = BuddyState.NO_BUDDY;
-            break;
-
-            case CLIMB_LO:
-            this.winchMoveTo(Constants.kWinchLoClimbRotations);
-            currentState = ClimberState.CLIMB_LO;
-            break;
-
-            case CLIMB_HI:
-            this.winchMoveTo(Constants.kWinchHiClimbRotations);
-            currentState = ClimberState.CLIMB_HI;
-            break;
-
-            case ELEVATOR_MANUAL:
-            currentState = ClimberState.ELEVATOR_MANUAL;
-            break;
-
-            case WINCH_MANUAL:
-            currentState = ClimberState.WINCH_MANUAL;
-            break;
-
             default:
-            m_winchMaster.stopMotor();
-        }
-        
-        switch(buddyState) {
-            case BUDDY:
-            m_buddyLock.set(true);  // As this solenoid must be normally extended, "Forward" in this case means releasing the lock
-            break;
+                  
+                  currentState = desiredState;
 
-            case NO_BUDDY:
-            // be sad :(
-            m_buddyLock.set(false);  // As this solenoid must be normally extended, "Off" or "Reverse" in this case means locked
-            break;
-
-            default:
-            buddyState = BuddyState.NO_BUDDY;
             break;
         }
     }
@@ -209,6 +164,10 @@ public class Climber extends Subsystem {
             speed = 0;
         }
         m_winchMaster.set(speed);
+    }
+
+    public boolean getTarget() {
+        return RobotMap.getClimberA().isMotionProfileFinished();
     }
 
     private double winchCountsToRotations(int counts) {

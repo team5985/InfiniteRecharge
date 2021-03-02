@@ -83,9 +83,9 @@ public class Drive extends Subsystem{
 
     public void setMotors(double leftPower, double rightPower) {
         //set motors
-        mLeftDrive.set(leftPower * Config.kInvertDir);
+        RobotMap.leftDriveMotors.set(leftPower * Config.kInvertDir);
 
-        mRightDrive.set(rightPower * Config.kInvertDir);
+        RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
       
     }
 

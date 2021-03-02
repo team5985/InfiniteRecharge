@@ -18,6 +18,8 @@ public class Intake extends Subsystem {
     IntakeState currentState;
     IntakeState desiredState;
 
+    static RobotMap m_robotMap;
+
     DigitalInput indexerFlap = new DigitalInput(0);
 
     private static Solenoid m_intakeActuator;
@@ -53,20 +55,20 @@ public class Intake extends Subsystem {
             
 
             case INTAKING:
-            m_intakeActuator.set(true);    
-            m_intakeRoller.set(Constants.kIntakeIntakingSpeed);
+            m_robotMap.intakeActuator.set(true);    
+            m_robotMap.intakeMotor.set(Constants.kIntakeIntakingSpeed);
             currentState = desiredState;
             break;
 
             case UNINTAKING:
-            m_intakeActuator.set(true);
-            m_intakeRoller.set(Constants.kIntakeUnintakingSpeed);
+            m_robotMap.intakeActuator.set(true);
+            m_robotMap.intakeMotor.set(Constants.kIntakeUnintakingSpeed);
             currentState = desiredState;
             break;
             
             default:
-            m_intakeRoller.set(0);
-            m_intakeActuator.set(false);
+            m_robotMap.intakeMotor.set(0);
+            m_robotMap.intakeActuator.set(false);
             
 
         }

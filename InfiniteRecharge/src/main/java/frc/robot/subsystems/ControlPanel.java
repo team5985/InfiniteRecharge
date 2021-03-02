@@ -254,14 +254,14 @@ public class ControlPanel extends Subsystem
         MANUAL_CLOCKWISE,
         MANUAL_ANTICLOCKWISE,
     }
-	
+	//Solenoid controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
 
     /**
      * Extends our spinner
      */
     private void extendSpinner()
     {
-        controlPanelSolenoid.set(Constants.kControlPanelExtendedState);;
+       // controlPanelSolenoid.set(Constants.kControlPanelExtendedState);;
     }
 
     /**
@@ -269,7 +269,7 @@ public class ControlPanel extends Subsystem
     */
     private void retractSpinner()
     {
-         controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
+       //  controlPanelSolenoid.set(Constants.kControlPanelRetractedState);;
 
     }
 
