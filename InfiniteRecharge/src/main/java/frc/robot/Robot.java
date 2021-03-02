@@ -47,10 +47,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", autoController); */
 
     Drive drivetrain = Drive.getInstance();
-    drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
+    //drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
 
     Climber climber = Climber.getInstance();
-    climber.setSystem(RobotMap.getWinchSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+    //climber.setSystem(RobotMap.getIndexerSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
 
     Intake intake = Intake.getInstance();
     intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());

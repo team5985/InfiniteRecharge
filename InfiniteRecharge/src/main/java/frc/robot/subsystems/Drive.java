@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -86,7 +87,6 @@ public class Drive extends Subsystem{
         RobotMap.leftDriveMotors.set(leftPower * Config.kInvertDir);
 
         RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
-      
     }
 
     public void arcadeDrive(double throttle, double steering, double power) {
@@ -137,14 +137,14 @@ public class Drive extends Subsystem{
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
 
     }
-
+/*
     /**
 	 * Drive at a given distance and gyro heading.
 	 * @param speed Maximum speed in m/s
 	 * @param targetHeading in degrees.
 	 * @param distance in metres.
 	 * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
-	 */
+	 *
 	public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
 		double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
         double power = profiledDriveController.calculate(getAvgEncoderDistance(), distance);
@@ -157,6 +157,31 @@ public class Drive extends Subsystem{
 		arcadeDrive(1.0, steering, power);
 		return encoderIsWithinDistance(distance, 0.01);
     }
+     */
+
+
+/**
+ * Drive at a given distance and gyro heading.
+ * @param maxPower
+ * @param targetHeading in degrees.
+ * @param distance in metres.
+ * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
+ */
+public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
+    double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
+    double power = maxPower;
+    if (power >= 0 && power > maxPower) {
+        power = maxPower;
+    } else if (power < 0 && power < -maxPower) {
+        power = -maxPower;
+    }
+    
+    arcadeDrive(1.0, steering, power);
+    System.out.println("Power " + power);
+    System.out.println(getYaw());
+    return encoderIsWithinDistance(distance, 0.1);//0.01
+}
+
     public AHRS getImuInstance() {
 		if (_imu == null) {
 			_imu = new AHRS(SPI.Port.kMXP); // Must be over SPI so the JeVois can communicate through UART Serial.
@@ -170,7 +195,7 @@ public class Drive extends Subsystem{
 	 * @return Boolean true when within range.
 	 */
 	public boolean encoderIsWithinDistance(double distance, double threshRange) {
-		return Math.abs(distance - getAvgEncoderDistance()) < threshRange;
+		return /*Math.abs*/(distance - getAvgEncoderDistance()) < threshRange;
 	}
 
 	/**
@@ -178,7 +203,7 @@ public class Drive extends Subsystem{
 	 * @return average distance since reset in metres.
 	 */
 	public double getAvgEncoderDistance() {
-		return Constants.kDriveEncoderConversionFactor * (mLeftEnc.getPosition() + -mRightEnc.getPosition()) / 2;
+		return Constants.kDriveEncoderConversionFactor * (RobotMap.getLeftDriveA().getSelectedSensorPosition() + -RobotMap.getRightDriveA().getSelectedSensorPosition()) / 2;
     }
 
     /**
@@ -194,22 +219,28 @@ public class Drive extends Subsystem{
     }
     
     public void resetSensors() {
-        mLeftEnc.setPosition(0.0);
-        mRightEnc.setPosition(0.0);
+        RobotMap.getLeftDriveA().setSelectedSensorPosition(0.0);
+        RobotMap.getRightDriveA().setSelectedSensorPosition(0.0);
         _imu.reset();
     }
 
     /**
      * Set the motor controllers' brakes on or off.
      * @param brake True to enable brake mode, false to set to coast.
-     */
+     */ 
 	public void setBrakes(boolean brake) {
         if (brake) {
-            mLeftDrive.setIdleMode(IdleMode.kBrake);
-            mRightDrive.setIdleMode(IdleMode.kBrake);
+            RobotMap.getLeftDriveA().setNeutralMode(NeutralMode.Brake);
+            RobotMap.getLeftDriveB().setNeutralMode(NeutralMode.Brake);
+            RobotMap.getRightDriveA().setNeutralMode(NeutralMode.Brake);
+            RobotMap.getRightDriveB().setNeutralMode(NeutralMode.Brake);
+
+
         } else {
-            mLeftDrive.setIdleMode(IdleMode.kCoast);
-            mRightDrive.setIdleMode(IdleMode.kCoast);
+            RobotMap.getLeftDriveA().setNeutralMode(NeutralMode.Coast);
+            RobotMap.getLeftDriveB().setNeutralMode(NeutralMode.Coast);
+            RobotMap.getRightDriveA().setNeutralMode(NeutralMode.Coast);
+            RobotMap.getRightDriveB().setNeutralMode(NeutralMode.Coast);
         }
         
 	}
@@ -219,6 +250,6 @@ public class Drive extends Subsystem{
      * @return True if motor controllers are both set to brake.
      */
 	public boolean getBrakes() {
-		return mLeftDrive.getIdleMode() == IdleMode.kBrake && mRightDrive.getIdleMode() == IdleMode.kBrake;
+		return true;
 	}
 }

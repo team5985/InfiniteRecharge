@@ -59,7 +59,7 @@ public class Shooter extends Subsystem {
             case HOODDOWN: 
             break;
             default:
-                //stopShooter();
+                stopShooter();
             break;
             
         }

@@ -29,6 +29,7 @@ public class AutoController {
 		LEFT_TRENCH_CROSS_FIELD_AUTO,
 		RIGHT_TRENCH_ALL_BALL_AUTO,
 		RIGHT_TRENCH_ALL_BALL_REPOSITION_AUTO,
+		DISTTEST,
 		
 	}
 
@@ -96,6 +97,6 @@ public class AutoController {
 			}
 		}
 		
-		return new LeftTrenchCrossFieldAuto();
+		return new DistTest();
 	}
 }

@@ -161,9 +161,25 @@ public class RobotMap {
 	/**
 	 * @return the leftDrive
 	 */
-	public static SparkGroup getLeftDrive() {
+	public static SpeedControllerGroup getLeftDrive() {
 
 		return leftDriveMotors;
+	}
+
+	public static WPI_TalonFX getLeftDriveA() {
+		return leftDriveA;
+	}
+
+	public static WPI_TalonFX getRightDriveA() {
+		return rightDriveA;
+	}
+
+	public static WPI_TalonFX getLeftDriveB() {
+		return leftDriveB;
+	}
+
+	public static WPI_TalonFX getRightDriveB() {
+		return rightDriveB;
 	}
 
 	static PbTalonSrx controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
@@ -180,7 +196,7 @@ public class RobotMap {
 	/**
 	 * @return the Right Drive
 	 */
-	public static SparkGroup getRightDrive() {
+	public static SpeedControllerGroup getRightDrive() {
 
 		return rightDriveMotors;
 	} /*
@@ -226,13 +242,7 @@ public class RobotMap {
 		return controlPanelSystem;
 	}
 
-	public static CANEncoder getLeftDriveEncoder() {
-		return leftDriveA.getEncoder();
-	}
 
-	public static CANEncoder getRightDriveEncoder() {
-		return rightDriveA.getEncoder();
-	}
 
 	public static SpeedControllerGroup getShooter() {
 		return shooterMotors;
