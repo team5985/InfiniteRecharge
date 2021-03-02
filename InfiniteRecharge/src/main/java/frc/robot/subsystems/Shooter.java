@@ -100,8 +100,8 @@ public class Shooter extends Subsystem {
      */
 
     public boolean shooterPIDControl(double targetVelocity) {
-        RobotMap.getShooterA().set(ControlMode.PercentOutput, 0.5);
-        RobotMap.getShooterB().set(ControlMode.PercentOutput, -0.5);
+        RobotMap.getShooterA().set(ControlMode.PercentOutput, 1);
+        RobotMap.getShooterB().set(ControlMode.PercentOutput, -1);
 
         return getShooterAcceptableSpeed(targetVelocity);
     }
