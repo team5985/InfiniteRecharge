@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import frc.robot.*;
 import frc.robot.config.*;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -33,6 +34,9 @@ public class Shooter extends Subsystem {
     static public Shooter getInstance() {
         if (m_instance == null) {
             m_instance = new Shooter();
+            RobotMap.getShooterA().configFactoryDefault();
+            RobotMap.getShooterB().configFactoryDefault();
+
         }
 
         return m_instance;
@@ -55,7 +59,7 @@ public class Shooter extends Subsystem {
             case HOODDOWN: 
             break;
             default:
-                shooterPIDControl(Constants.kShooterIdleSpeed);
+                //stopShooter();
             break;
             
         }
@@ -82,9 +86,9 @@ public class Shooter extends Subsystem {
     }
    
     public void removeShooterJam() {
-        RobotMap.getShooter().set(-1);
+       // RobotMap.getShooter().set(-1);
         //Set indexer -1;
-        RobotMap.getIndexer().set(-1);
+        //RobotMap.getIndexer().set(-1);
     }
     public double getShooterRPM() {
         return RobotMap.getShooterA().getSelectedSensorVelocity();
@@ -96,6 +100,9 @@ public class Shooter extends Subsystem {
      */
 
     public boolean shooterPIDControl(double targetVelocity) {
+        RobotMap.getShooterA().set(ControlMode.PercentOutput, 0.5);
+        RobotMap.getShooterB().set(ControlMode.PercentOutput, -0.5);
+
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
@@ -103,7 +110,7 @@ public class Shooter extends Subsystem {
         if(getShooterRPM() >= targetRPM * 0.75) {
             return true;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -123,6 +130,12 @@ public class Shooter extends Subsystem {
 
     public void setShooterTargetSpeed(double rpm) {
         shooterTargetRPM = rpm;
+    }
+
+    void stopShooter() {
+        RobotMap.getShooterA().stopMotor();
+        RobotMap.getShooterB().stopMotor();
+
     }
 
 

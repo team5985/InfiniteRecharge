@@ -65,7 +65,7 @@ public class RobotMap {
 	public static final int kItntakeActuatorCanID = 10;
 	public static final int kShooterACanID = 12;
 	public static final int kShooterBCanID = 13;
-	public static final int kIndexerCanID = 22;
+	public static final int kIndexerCanID = 26;
 
 	// Encoders
 	// static EncoderAdapter shooterVelocityEncoder;
@@ -128,7 +128,8 @@ public class RobotMap {
 	/**
 	 * Indexer
 	 */
-	static WPI_VictorSPX indexerMotor = new WPI_VictorSPX(kIndexerCanID);
+	static WPI_TalonFX indexerMotor = new WPI_TalonFX(Constants.kIndexerCanID);
+	static Solenoid indexerFlap = new Solenoid(Constants.kPcmCanID, Constants.kIndexerFlapChannelId);
 	static SensoredSystem indexerSystem = new SensoredSystem(indexerMotor, null);
 
 	/**
@@ -226,14 +227,16 @@ public class RobotMap {
 	}
 
 	public static SpeedControllerGroup getShooter() {
-		// shooterMotorA.setInverted(false);
-		// shooterMotorB.setInverted(true);
 		return shooterMotors;
 	}
 
 
-	public static SensoredSystem getIndexer() {
-		return indexerSystem;
+	public static WPI_TalonFX getIndexer() {
+		return indexerMotor;
+	}
+
+	public static Solenoid getIndexerSolenoid() {
+		return indexerFlap;
 	}
 
 	// public static LimitSwitchGroup getRobotWranglerLimits() {
@@ -271,7 +274,7 @@ public class RobotMap {
 
 	// Set Idle mode
 
-	public static VictorSPX getIndexerSystem() {
+	public static WPI_TalonFX getIndexerSystem() {
 		return indexerMotor;
 	}
 
@@ -297,5 +300,8 @@ public class RobotMap {
 
 	public static WPI_TalonFX getShooterA() {
 		return shooterMotorA;
+	}
+	public static WPI_TalonFX getShooterB() {
+		return shooterMotorB;
 	}
 }

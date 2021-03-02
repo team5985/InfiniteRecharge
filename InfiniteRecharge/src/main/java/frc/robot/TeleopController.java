@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
@@ -98,11 +100,14 @@ public class TeleopController {
     private void stTeleop() {
         m_indexer.setDesiredState(IndexerState.IDLE);
         m_controls.getMechanismMode();
+        m_shooter.setDesiredState(ShooterState.IDLE);
+
         
         if(m_controls.getActionCommand()) {
             System.out.println("action command");
             if(m_controls.getMechanismMode()) {
                 m_intake.setDesiredState(IntakeState.INTAKING);
+                m_shooter.setDesiredState(ShooterState.SHOOTING);
                 
             } else {
                 //check if shooter ia at an acceptable speed

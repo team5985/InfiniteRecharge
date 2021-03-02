@@ -33,6 +33,7 @@ public class Constants {
 	// DIO ports
 	public static final int kWinchEncoderDioA = 8;
 	public static final int kWinchEncoderDioB = 9;
+	public static final int kIndexerFlapChannelId = 5;
 
 	// Robot Wrangler
 	public static final boolean kUseRobotWranglerNeoEncoder = true;
@@ -190,9 +191,9 @@ public class Constants {
 	public static final int kRightDriveBCanID = 4;
 
 
-	public static final int kIndexerCanID = 22;
-	public static final double kIndexerSpeed = 1; //FIXME
-	public static final double kIndexerAntijam = -0.5; //FIXME
+	public static final int kIndexerCanID = 26;
+	public static final double kIndexerSpeed = 0.5; //FIXME
+	public static final double kIndexerAntijam = -0.25; //FIXME
 
 	public static double  kIntakeServoRetractedPos = 1;
 	public static double kIntakeServoExtendedPos = 0;
