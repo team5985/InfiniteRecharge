@@ -60,7 +60,10 @@ public class Drive extends Subsystem{
     
     private Drive() {
         _imu = getImuInstance();
-        
+        RobotMap.getLeftDriveA().configOpenloopRamp(1.0);
+        RobotMap.getLeftDriveB().configOpenloopRamp(1.0);
+        RobotMap.getRightDriveA().configOpenloopRamp(1.0);
+        RobotMap.getRightDriveB().configOpenloopRamp(1.0);
     }
 
     public void setSystem(SparkGroup leftDrive, SparkGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
@@ -84,8 +87,10 @@ public class Drive extends Subsystem{
 
     public void setMotors(double leftPower, double rightPower) {
         //set motors
+        System.out.println("leftpower " + leftPower);
         RobotMap.leftDriveMotors.set(leftPower * Config.kInvertDir);
 
+        System.out.println("rightpower " + rightPower);
         RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
     }
 
@@ -137,14 +142,14 @@ public class Drive extends Subsystem{
 		return (Math.abs(targetHeading - currentHeading) <= Config.kDriveGyroTurnThresh) && (Math.abs(currentRate) <= Config.kDriveGyroRateThresh);
 
     }
-/*
+
     /**
 	 * Drive at a given distance and gyro heading.
 	 * @param speed Maximum speed in m/s
 	 * @param targetHeading in degrees.
 	 * @param distance in metres.
 	 * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
-	 *
+	 */
 	public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
 		double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
         double power = profiledDriveController.calculate(getAvgEncoderDistance(), distance);
@@ -153,34 +158,35 @@ public class Drive extends Subsystem{
 		} else if (power < 0 && power < -maxPower) {
 			power = -maxPower;
 		}
-		
+        
+        System.out.println("POWER: " + power);
 		arcadeDrive(1.0, steering, power);
-		return encoderIsWithinDistance(distance, 0.01);
+		return encoderIsWithinDistance(distance, 0.05);
     }
-     */
 
 
-/**
- * Drive at a given distance and gyro heading.
- * @param maxPower
- * @param targetHeading in degrees.
- * @param distance in metres.
- * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
- */
-public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
-    double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
-    double power = maxPower;
-    if (power >= 0 && power > maxPower) {
-        power = maxPower;
-    } else if (power < 0 && power < -maxPower) {
-        power = -maxPower;
-    }
-    
-    arcadeDrive(1.0, steering, power);
-    System.out.println("Power " + power);
-    System.out.println(getYaw());
-    return encoderIsWithinDistance(distance, 0.1);//0.01
-}
+// /**
+//  * Drive at a given distance and gyro heading.
+//  * @param maxPower
+//  * @param targetHeading in degrees.
+//  * @param distance in metres.
+//  * @return True when driven to given distance, within a threshold. @see getEncoderWithinDistance()
+//  */
+// public boolean actionSensorDrive(double maxPower, double targetHeading, double distance) {
+    // double steering = (targetHeading - _imu.getYaw()) * Constants.kGyroDriveTurnKp;
+    // double power = maxPower;
+    // if (power >= 0 && power > maxPower) {
+        // power = maxPower;
+    // } else if (power < 0 && power < -maxPower) {
+        // power = -maxPower;
+    // }
+    // 
+    // arcadeDrive(1.0, steering, power);
+    // System.out.println("Power " + power);
+    // System.out.println("Steering " + steering);
+    // System.out.println(getYaw());
+    // return encoderIsWithinDistance(distance, 0.1);//0.01
+// }
 
     public AHRS getImuInstance() {
 		if (_imu == null) {

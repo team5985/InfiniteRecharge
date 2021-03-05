@@ -49,19 +49,23 @@ public class Indexer extends Subsystem {
             case INDEXING:
                 RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
                 RobotMap.getIndexerSolenoid().set(true);
-                
+                RobotMap.getThroat().set(Constants.kThroatSpeed);  // The throat is part of the indexer logic even though it is mechanically on the shooter
                 
                 currentState = desiredState;
             break;
+
             case UNINDEXING:
                 RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
                 RobotMap.getIndexerSolenoid().set(false);
-                currentState = desiredState;
+                RobotMap.getThroat().set(-Constants.kThroatSpeed);
 
+                currentState = desiredState;
             break;
+
             default: 
                 RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed * -1);
-                                RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getThroat().set(0.0);
                 currentState = desiredState;
             break;
                 

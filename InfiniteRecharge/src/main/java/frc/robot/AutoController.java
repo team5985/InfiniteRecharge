@@ -97,6 +97,6 @@ public class AutoController {
 			}
 		}
 		
-		return new DistTest();
+		return new LeftTrenchCrossFieldAuto();
 	}
 }

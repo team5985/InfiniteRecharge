@@ -120,7 +120,7 @@ public class TeleopController {
                 m_shooter.setDesiredState(ShooterState.SHOOTING);
                 
             } else {
-                //check if shooter ia at an acceptable speed
+                //check if shooter is at an acceptable speed
                 if(m_shooter.getShooterAcceptableSpeed(m_shooter.getShooterTargetSpeed())) {
                      
                     //READY - AIM - FIRE!

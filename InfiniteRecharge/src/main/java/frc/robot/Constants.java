@@ -21,6 +21,9 @@ public class Constants {
 	public static final double kShooterSpeedOffsetOffset = 0.1;
 
 	// CAN IDs
+	public static final int kShooterACanID = 12;
+	public static final int kShooterBCanID = 13;
+	public static final int kThroatCanID = 29;
 	public static final int kPcmCanId = 50;
 	public static final int kRobotWranglerSparkCanId = 148;
 
@@ -46,7 +49,7 @@ public class Constants {
     public static double kShooterMaxOutput = 1; 
     public static double kShooterMinOutput = -1;
 	public static double kShootermaxRPM = 5700;
-	public static double kShooterDefaultRPM = 5700;
+	public static double kShooterDefaultRPM = 5270;
 	public static double kShooterMinRPM = 3000;
 	public static double kShooterHysteresis = 10;
 	public static double kShooterIdleSpeed = 0;
@@ -195,6 +198,8 @@ public class Constants {
 	public static final double kIndexerSpeed = 0.5; //FIXME
 	public static final double kIndexerAntijam = -0.25; //FIXME
 
+	public static final double kThroatSpeed = -1.0;
+
 	public static double  kIntakeServoRetractedPos = 1;
 	public static double kIntakeServoExtendedPos = 0;
 
@@ -203,8 +208,8 @@ public class Constants {
 	
 	// Profiled PID Controller values for autonomous movements
 	// Driving to a distance
-	public static double kDriveMaxSpeed = 400.18;
-	public static double kDriveMaxAccel = 256.0;
+	public static double kDriveMaxSpeed = 4.18;
+	public static double kDriveMaxAccel = 4.0;
 
 	// Turning on the spot with the gyro
 	public static double kDriveMaxTurnSpeed = 12.12;
@@ -246,12 +251,12 @@ public class Constants {
 	//Shooter RPM
 
 	// Vision
-	public static final double kVisionTurnKp = 0.012;
+	public static final double kVisionTurnKp = 0.024; // 0.012 for 2 centre nitrile
 	public static final double kDriveTurnStictionConstant = 0.0; // FIXME
-	public static final double kGyroTurnKp = 0.004;
+	public static final double kGyroTurnKp = 0.007; // 0.004 for 2 centre nitrile
 	public static final double kGyroDriveTurnKp = 0.012;  // FIXME
-	public static final double kEncoderDriveKp = 0.03;  // FIXME
-	public static final double kDriveEncoderConversionFactor = 0.00089291;
+	public static final double kEncoderDriveKp = 0.7;  // FIXME
+	public static final double kDriveEncoderConversionFactor = 0.000023077; //1; //0.00089291;
 
 	public static final int kBarMotorCanId = 20;
 	public static final double kBarLeftSpeed = -1;

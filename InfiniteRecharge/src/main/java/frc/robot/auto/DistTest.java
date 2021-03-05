@@ -21,11 +21,14 @@ public class DistTest extends AutoMode {
     public boolean runStep(int step) {
         switch(step) {
             case 0:
-            if(Drive.getInstance().actionSensorDrive(0.5, 0, 0.25)) {
-                Drive.getInstance().setMotors(0, 0);
+            if(Drive.getInstance().actionSensorDrive(0.5, 0, 1)) {
                 return true;
             }
-            
+            break;
+
+            case 1:
+            Drive.getInstance().actionSensorDrive(0.5, 0.0, 0.0);
+            return false;
 
     }
     return false;

@@ -22,6 +22,7 @@ import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TeleopController;
 
 import frc.util.ColourSensor;
@@ -88,6 +89,9 @@ public class Robot extends TimedRobot {
     if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
       Drive.getInstance().setBrakes(true);
     }
+
+    SmartDashboard.putNumber("Gyro", Drive.getInstance().getYaw());
+    SmartDashboard.putNumber("AvgEncDistance", Drive.getInstance().getAvgEncoderDistance());
   }
 
   @Override
@@ -124,7 +128,7 @@ public class Robot extends TimedRobot {
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
-
+    
   }
 
 

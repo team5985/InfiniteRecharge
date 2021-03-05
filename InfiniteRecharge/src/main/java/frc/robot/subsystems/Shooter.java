@@ -64,8 +64,14 @@ public class Shooter extends Subsystem {
             
         }
     }
-        
     
+    /**
+     * Use this to persistently set the desired shooting RPM
+     * @param rpm
+     */
+    public void setShooterSpeed(double rpm) {
+      shooterTargetRPM = rpm;
+    }
 
     public double getPosition() {
         return 0.0;
@@ -91,7 +97,7 @@ public class Shooter extends Subsystem {
         //RobotMap.getIndexer().set(-1);
     }
     public double getShooterRPM() {
-        return RobotMap.getShooterA().getSelectedSensorVelocity();
+        return RobotMap.getShooterA().getSelectedSensorVelocity() * 600 / 2048;
     }
 
     /**
@@ -100,18 +106,14 @@ public class Shooter extends Subsystem {
      */
 
     public boolean shooterPIDControl(double targetVelocity) {
-        RobotMap.getShooterA().set(ControlMode.PercentOutput, 1);
-        RobotMap.getShooterB().set(ControlMode.PercentOutput, -1);
+        RobotMap.getShooterA().set(ControlMode.PercentOutput, targetVelocity/Constants.kShooterDefaultRPM);
+        RobotMap.getShooterB().set(ControlMode.PercentOutput, -targetVelocity/Constants.kShooterDefaultRPM);
 
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        if(getShooterRPM() >= targetRPM * 0.85) {
-            return true;
-        } else {
-            return true;
-        }
+        return (getShooterRPM() >= targetRPM * 0.85);
     }
 
 

@@ -11,6 +11,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.EncoderAdapter;
 import frc.util.SensoredSystem;
@@ -60,13 +61,6 @@ import frc.util.SolenoidAdapter;
  */
 
 public class RobotMap {
-
-	public static final int kIntakeCanID = 9;
-	public static final int kItntakeActuatorCanID = 10;
-	public static final int kShooterACanID = 12;
-	public static final int kShooterBCanID = 13;
-	public static final int kIndexerCanID = 26;
-
 	// Encoders
 	// static EncoderAdapter shooterVelocityEncoder;
 
@@ -102,8 +96,8 @@ public class RobotMap {
 	// Set up motor controllers - Declaration
 
 	// Shooter
-	public static WPI_TalonFX shooterMotorA = new WPI_TalonFX(kShooterACanID);
-	public static WPI_TalonFX shooterMotorB = new WPI_TalonFX(kShooterBCanID);
+	public static WPI_TalonFX shooterMotorA = new WPI_TalonFX(Constants.kShooterACanID);
+	public static WPI_TalonFX shooterMotorB = new WPI_TalonFX(Constants.kShooterBCanID);
 	static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB);
 
 	/**
@@ -115,6 +109,7 @@ public class RobotMap {
 	// leftDriveB.follow(leftDriveA);
 	// static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID,
 	// MotorType.kBrushless);
+	
 	public static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
 
 	// Right
@@ -131,6 +126,8 @@ public class RobotMap {
 	static WPI_TalonFX indexerMotor = new WPI_TalonFX(Constants.kIndexerCanID);
 	static Solenoid indexerFlap = new Solenoid(Constants.kPcmCanID, Constants.kIndexerFlapChannelId);
 	static SensoredSystem indexerSystem = new SensoredSystem(indexerMotor, null);
+
+	static WPI_VictorSPX throatMotor = new WPI_VictorSPX(Constants.kThroatCanID);
 
 	/**
 	 * Intake
@@ -246,6 +243,10 @@ public class RobotMap {
 
 	public static SpeedControllerGroup getShooter() {
 		return shooterMotors;
+	}
+
+	public static SpeedController getThroat() {
+		return throatMotor;
 	}
 
 
