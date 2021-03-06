@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
   }
 
   public void robotPeriodic() {
-    LED.getInstance().update();    
+    //LED.getInstance().update();    
 
     if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
       Drive.getInstance().setBrakes(true);
