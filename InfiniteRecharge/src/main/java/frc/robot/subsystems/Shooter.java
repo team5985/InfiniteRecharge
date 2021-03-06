@@ -135,8 +135,7 @@ public class Shooter extends Subsystem {
     }
 
     void stopShooter() {
-        RobotMap.getShooterA().stopMotor();
-        RobotMap.getShooterB().stopMotor();
+        shooterPIDControl(Constants.kShooterIdleSpeed);
 
     }
 

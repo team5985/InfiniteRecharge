@@ -16,6 +16,7 @@ import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
+import frc.robot.subsystems.LED.LEDState;
 import frc.robot.subsystems.Shooter.ShooterState;
 import frc.util.ColourSensor;
 import frc.util.JavaUtil;
@@ -38,6 +39,7 @@ public class TeleopController {
     private static ControlPanel m_controlPanel;
     private static ColourSensor m_colourSensor;
     private static RobotMap m_robotMap;
+    private static LED m_LED;
 
     private static Luin m_luin;
 
@@ -80,6 +82,7 @@ public class TeleopController {
         m_indexer = Indexer.getInstance();
         m_javaUtil = JavaUtil.getInstance();
         m_controlPanel = ControlPanel.getInstance();
+        m_LED = LED.getInstance();
     }
 
     public void callStateMachine() {
@@ -117,7 +120,7 @@ public class TeleopController {
             // System.out.println("action command");
             if(m_controls.getMechanismMode()) {
                 m_intake.setDesiredState(IntakeState.INTAKING);
-                m_shooter.setDesiredState(ShooterState.SHOOTING);
+                //m_shooter.setDesiredState(ShooterState.SHOOTING);
                 
             } else {
                 //check if shooter is at an acceptable speed

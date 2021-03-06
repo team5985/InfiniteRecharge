@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -19,6 +20,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
+import frc.robot.subsystems.LED.DesiredColour;
+import frc.robot.subsystems.LED.LEDState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -42,6 +45,10 @@ public class Robot extends TimedRobot {
 
 
   public void robotInit() {
+
+    LED.getInstance().setColour(DesiredColour.RED);
+
+
  
     /* autoController.setDefaultOption("WIN", kDefaultAuto);
     autoController.addOption("Loose :(", kCustomAuto);
@@ -83,9 +90,9 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
   }
 
-  @Override
-
   public void robotPeriodic() {
+    LED.getInstance().update();    
+
     if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
       Drive.getInstance().setBrakes(true);
     }
@@ -121,6 +128,7 @@ public class Robot extends TimedRobot {
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
+
     // ControlPanel.getInstance().update();  //FIXME
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor

@@ -52,7 +52,7 @@ public class Constants {
 	public static double kShooterDefaultRPM = 5270;
 	public static double kShooterMinRPM = 3000;
 	public static double kShooterHysteresis = 10;
-	public static double kShooterIdleSpeed = 0;
+	public static double kShooterIdleSpeed = 2000;
 	public static double kShooterP = 6e-5; 
     public static double kShooterI = 0;
     public static double kShooterD = 0; 
@@ -97,6 +97,7 @@ public class Constants {
 	public static final double kControlPanelTargetRotations = 4;
 	public static final double kControlPanelHysteresis = 0.5;
 
+	public static final int kLED1PwmPort = 0;
 
 	/**
      * Colour RED seen at the control panel.
@@ -186,8 +187,8 @@ public class Constants {
   
 
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
-	public static final double kIntakeIntakingSpeed = 0.9;  // .85
-	public static final double kIntakeUnintakingSpeed = -0.8;
+	public static final double kIntakeIntakingSpeed = -0.9;  // .85
+	public static final double kIntakeUnintakingSpeed = 0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
 	public static final int kRightDriveACanID = 3;
