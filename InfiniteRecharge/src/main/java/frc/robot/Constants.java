@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.util.Color;
  * Add your docs here.
  */
 public class Constants {
+	//FIXME
+	public static final int kLEDPwmPort = 0;
+
 
 	public static final int kXboxPort = 1;
 	public static final int kJoystickPort = 0;

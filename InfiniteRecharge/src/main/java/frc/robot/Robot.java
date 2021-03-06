@@ -25,35 +25,44 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.TeleopController;
-
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.util.ColourSensor;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.LED;
 
 public class Robot extends TimedRobot {
-  AutoController autoController;
+LED led1;
+/*  AutoController autoController;
   TeleopController teleopController;
   ColourSensor colourSensor;
   ControlPanel m_controlPanel;
   Compressor comp;
+*/
+  //TO BE DELETED FIXME
+/*
   //Solenoid solenoid;
   static Timer _timer = new Timer();
   Joystick js = new Joystick(Constants.kJoystickPort);
 
-
+*/
   public void robotInit() {
  
     /* autoController.setDefaultOption("WIN", kDefaultAuto);
     autoController.addOption("Loose :(", kCustomAuto);
     SmartDashboard.putData("Auto choices", autoController);
     CameraServer.getInstance().startAutomaticCapture(); */
-  
+  /*
 
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
     
+*/
+led1 = new LED(6,Constants.kLEDPwmPort, 100);
     
+/*
     CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
     comp = new Compressor(Constants.kPcmCanID);
@@ -62,11 +71,11 @@ public class Robot extends TimedRobot {
     colourSensor = ColourSensor.getInstance();
     LiveWindow.disableAllTelemetry();
     //solenoid = new Solenoid(Constants.kPcmCanID, 7);
-    m_controlPanel = new ControlPanel();
+    m_controlPanel = new ControlPanel(); */
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
-
+/*
     SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
     SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
     SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
@@ -76,6 +85,7 @@ public class Robot extends TimedRobot {
 
 
     SmartDashboard.putNumber("Servo", 0.0);
+    */
   }
 
   @Override
@@ -93,17 +103,24 @@ public class Robot extends TimedRobot {
 
  @Override
   public void teleopInit() {
-    comp.start();
+   /// comp.start();
 
   }
 
 
   @Override
   public void teleopPeriodic() {
+
+    /*
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
+*/ 
+    //TO BE DELETED FIXME   
+    // BLUE LIGHTBLUE GREEN DARKBLUE LIGHTGREEN RED YELLOW
+    led1.setDesiredState(LED.LEDState.CYCLING);
+    led1.update();    
     //ControlPanel.getInstance().update();  //FIXME
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
@@ -111,7 +128,6 @@ public class Robot extends TimedRobot {
     // Climber.getInstance().update();
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
-
   }
 
 
