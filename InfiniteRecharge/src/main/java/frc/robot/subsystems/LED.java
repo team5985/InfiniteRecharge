@@ -48,6 +48,7 @@ public class LED{
     public void update() {
         switch(desiredState) {
             case SOLID:
+            led.setData(ledBuffer);
             led.start();
             currentState = desiredState;
             break;
@@ -98,7 +99,6 @@ public class LED{
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 255, 255, 0);
             }  
-            led.setData(ledBuffer);
             break;
             case RED:
             for (var i = 0; i < ledBuffer.getLength(); i++) {
@@ -112,42 +112,36 @@ public class LED{
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 0, 128, 0);
             }  
-            led.setData(ledBuffer);
             break;   
             case  LIGHTGREEN:
             for (var i = 0; i < ledBuffer.getLength(); i++) {
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 0, 255, 0);
             }
-            led.setData(ledBuffer);
             break;
             case DARKBLUE:
             for (var i = 0; i < ledBuffer.getLength(); i++) {
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 0, 0, 139);
             }
-            led.setData(ledBuffer);
             break;
             case BLUE:
             for (var i = 0; i < ledBuffer.getLength(); i++) {
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 0, 0, 255);
             }
-            led.setData(ledBuffer);
             break;
             case LIGHTBLUE:
             for (var i = 0; i < ledBuffer.getLength(); i++) {
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 0, 191, 255);
             }
-            led.setData(ledBuffer);
             break;
             case BLACK:
             for (var i = 0; i < ledBuffer.getLength(); i++) {
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, 0, 0, 0);
             }
-            led.setData(ledBuffer);
             break;
             }
     }
