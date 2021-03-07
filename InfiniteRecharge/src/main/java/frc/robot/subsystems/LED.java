@@ -32,8 +32,23 @@ public class LED{
         IDLE,
     }
 
-    private LED() {
+    public void ledInit() {
+        // PWM port 9
+        // Must be a PWM header, not MXP or DIO
+        led = new AddressableLED(9);
+    
+        // Reuse buffer
+        // Default to a length of 60, start empty output
+        // Length is expensive to set, so only set it once, then just update data
         ledBuffer = new AddressableLEDBuffer(60);
+        led.setLength(ledBuffer.getLength());
+    
+        // Set the data
+        led.setData(ledBuffer);
+        led.start();
+      }
+
+    private LED() {
     }
 
 
@@ -48,16 +63,6 @@ public class LED{
         BLACK,
     }
 
-    public LED(int ledLENGTH, int port, int hue) {
-        currentState = LEDState.IDLE;
-        desiredState = LEDState.IDLE;
-        ledLength = ledLENGTH;
-        ledBuffer = new AddressableLEDBuffer(ledLength);
-        led.setLength(ledBuffer.getLength());
-        rainbowFirstPixelHue = hue;
-        LED led = new LED(6,Constants.kLED1PwmPort, 100);
-
-       }
 
 
     public void update() {
