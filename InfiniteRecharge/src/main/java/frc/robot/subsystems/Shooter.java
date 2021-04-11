@@ -29,8 +29,11 @@ public class Shooter extends Subsystem {
 
     private ShooterState currentState;
     private ShooterState desiredState;
-    private double shooterTargetRPM = Constants.kShooterDefaultRPM;
+    int shooterZoneIndex = 0;
+    double[] shooterZoneSpeed = {6000, 6000, 3125, 3175};
+    private double shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
 
+  
     static public Shooter getInstance() {
         if (m_instance == null) {
             m_instance = new Shooter();
@@ -48,10 +51,12 @@ public class Shooter extends Subsystem {
     }
 
     public void update() {
+        shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];
         switch(desiredState) {
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
                 System.out.println(RobotMap.getShooterA().getSelectedSensorVelocity());
+                System.out.println("Selected shooter speed = " + shooterZoneSpeed[shooterZoneIndex] + "current speed = " + RobotMap.getShooterA().getSelectedSensorVelocity() / 2048 * 600);
 
             break;
             case HOODUP: 
@@ -106,14 +111,14 @@ public class Shooter extends Subsystem {
      */
 
     public boolean shooterPIDControl(double targetVelocity) {
-        RobotMap.getShooterA().set(ControlMode.PercentOutput, targetVelocity/Constants.kShooterDefaultRPM);
-        RobotMap.getShooterB().set(ControlMode.PercentOutput, -targetVelocity/Constants.kShooterDefaultRPM);
+        RobotMap.getShooterA().set(ControlMode.PercentOutput, -targetVelocity/6000);
+        RobotMap.getShooterB().set(ControlMode.PercentOutput, targetVelocity/6000);
 
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        return (getShooterRPM() >= targetRPM * 0.85);
+        return (getShooterRPM() <= -targetRPM * 0.7);
     }
 
 
@@ -137,6 +142,10 @@ public class Shooter extends Subsystem {
     void stopShooter() {
         shooterPIDControl(Constants.kShooterIdleSpeed);
 
+    }
+
+    public void setShooterZoneIndex(int index) {
+        shooterZoneIndex = index;
     }
 
 

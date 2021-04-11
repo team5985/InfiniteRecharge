@@ -86,4 +86,27 @@ public class Indexer extends Subsystem {
         desiredState = state;
         return currentState;
     }
+
+    private boolean idleIndexerCheck() {
+        boolean invertIndexer = false;
+        if(!(invertIndexer)) {
+            if(RobotMap.getIndexer().getSelectedSensorPosition() >= -2048*9*10) {
+                invertIndexer = true;
+            } 
+        } else {
+            if(RobotMap.getIndexer().getSelectedSensorPosition() <= 2048*9*10) {
+                invertIndexer = false;
+            }
+        }
+        return invertIndexer;
+    }
+
+    private void idleIndexer() {
+        if(!(idleIndexerCheck())) {
+            RobotMap.getIndexer().set(0.3);
+        } else {
+            RobotMap.getIndexer().set(-0.3);
+        }
+    }
 }
+

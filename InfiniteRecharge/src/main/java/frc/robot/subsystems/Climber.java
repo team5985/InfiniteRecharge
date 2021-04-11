@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
@@ -32,6 +33,7 @@ public class Climber extends Subsystem {
     private ClimberState currentState;
     private ClimberState desiredState;
     private BuddyState buddyState;
+    private IdleState idleState;
     
     ProfiledPIDController winchPidController;
     Constraints winchPidConstraints;
@@ -40,6 +42,7 @@ public class Climber extends Subsystem {
         currentState = ClimberState.STOWED;
         desiredState = ClimberState.STOWED;
         buddyState = BuddyState.NO_BUDDY;
+        idleState = IdleState.IDLE;
 
         winchPidConstraints = new Constraints(Constants.kWinchMaxVelocity, Constants.kWinchMaxAccel);
         winchPidController = new ProfiledPIDController(Constants.kWinchKp, 0.0, 0.0, winchPidConstraints);
@@ -64,8 +67,19 @@ public class Climber extends Subsystem {
         NO_BUDDY,  // Robot does not have a friend
     }
 
+    /**
+     * Responsible for setitng the neutral modes of the motors.
+     */
+
+    public enum IdleState {
+        UP, //Winch A = Coast, Winch B = Brake
+        DOWN, //Winch A = Brake, Winch B = Coasr
+        IDLE, //Winch A = Brake, Winch B = Brake
+    }
+
     @Override
     public void update() {
+        setIdleMode();
         switch(desiredState) {
             case STOWED:
                 RobotMap.getClimberA().set(ControlMode.MotionMagic, 0);
@@ -93,7 +107,24 @@ public class Climber extends Subsystem {
 
             break;
         }
+
+        switch(idleState) {
+            case UP:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Coast);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Brake);
+            break;
+            case DOWN:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Brake);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Coast);
+            break;
+            default:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Brake);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Brake);
+            break;
+        }
     }
+
+
 
     /**
      * @return Position in rotations, where calibration position is 0 and becomes positive as the lift goes up
@@ -176,5 +207,15 @@ public class Climber extends Subsystem {
 
     public void resetSensors() {
         m_winchMaster.setCounts(0);
+    }
+
+    private void setIdleMode() {
+        if(currentState == ClimberState.IDLE) {
+            idleState = IdleState.IDLE;
+        } else if(Math.abs(RobotMap.getClimberA().getMotorOutputPercent()) >= 0.05) {
+            idleState = IdleState.UP;
+        } else if(Math.abs(RobotMap.getClimberB().getMotorOutputPercent()) >= 0.1) {
+            idleState = IdleState.DOWN;
+        }
     }
 }

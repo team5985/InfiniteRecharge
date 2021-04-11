@@ -117,7 +117,8 @@ public class Robot extends TimedRobot {
 
  @Override
   public void teleopInit() {
-    comp.start();
+    RobotMap.getIndexer().setSelectedSensorPosition(9);
+        comp.start();
 
   }
 

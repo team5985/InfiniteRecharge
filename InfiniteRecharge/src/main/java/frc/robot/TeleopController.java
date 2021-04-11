@@ -111,6 +111,7 @@ public class TeleopController {
     //States
 
     private void stTeleop() {
+        m_controls.updateShooterIndex();
         m_indexer.setDesiredState(IndexerState.IDLE);
         m_controls.getMechanismMode();
         m_shooter.setDesiredState(ShooterState.IDLE);
@@ -172,6 +173,10 @@ public class TeleopController {
             m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
         } else if(m_controls.getStickInterupt()){
             m_controlPanel.setDesiredState(ControlPanelState.RETRACTED);
+        }
+
+        if(m_controls.getClimbUp()) {
+            
         }
 
         

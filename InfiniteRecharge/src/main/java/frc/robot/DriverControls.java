@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber.BuddyState;
 import frc.robot.Constants;
 
@@ -21,7 +22,8 @@ import frc.robot.Constants;
  */
 public class DriverControls {
 
-    Joystick stick;
+	Joystick stick;
+	Joystick pad;
 	XboxController xBox;
 	
 	boolean end = false;
@@ -39,7 +41,9 @@ public class DriverControls {
     
 
     public DriverControls() {
-         stick = new Joystick(Constants.kJoystickPort);
+		 stick = new Joystick(Constants.kJoystickPort);
+		 pad = new Joystick(2);
+
          xBox = new XboxController(Constants.kXboxPort);
 
          SmartDashboard.setDefaultNumber("Power Gain", 2.0);
@@ -78,7 +82,7 @@ public class DriverControls {
 	public double getDrivePower() {
 		double power = -stick.getY();
 		Constants.kDriveSquaredPowerInputsExponent = SmartDashboard.getNumber("Power Gain", 2.0);
-		return Math.pow(Math.abs(power), Constants.kDriveSquaredPowerInputsExponent) * Math.signum(power);
+		return power;//Math.pow(Math.abs(power), Constants.kDriveSquaredPowerInputsExponent) * Math.signum(power);
 	}
 
 	/**
@@ -88,7 +92,7 @@ public class DriverControls {
 	public double getDriveSteering() {
 		double steering = stick.getX();
 		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 2.0);
-		return Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
+		return steering;//Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
 	}
 
 	/**
@@ -241,4 +245,23 @@ public class DriverControls {
 	public boolean getTeleopCommand() {
 		return stick.getRawButton(7);
 	}
+
+	public boolean getClimbUp() {
+		return stick.getRawButton(10);
+	}
+
+	public void updateShooterIndex() {
+		if(pad.getRawButton(7))	{
+			Shooter.getInstance().setShooterZoneIndex(0);
+		} else if(pad.getRawButton(8))	{
+			Shooter.getInstance().setShooterZoneIndex(1);
+		} else if(pad.getRawButton(9))	{
+			Shooter.getInstance().setShooterZoneIndex(2);
+		} else if(pad.getRawButton(10))	{
+			Shooter.getInstance().setShooterZoneIndex(3);
+		} else if(pad.getRawButton(11))	{
+			Shooter.getInstance().setShooterZoneIndex(4);
+		} 
+	}
+
 }
