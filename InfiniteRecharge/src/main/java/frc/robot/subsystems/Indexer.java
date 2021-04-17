@@ -47,7 +47,7 @@ public class Indexer extends Subsystem {
         
         switch(currentState) {
             case INDEXING:
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
+                RobotMap.getIndexer().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
                 RobotMap.getIndexerSolenoid().set(true);
                 RobotMap.getThroat().set(Constants.kThroatSpeed);  // The throat is part of the indexer logic even though it is mechanically on the shooter
                 
@@ -55,15 +55,21 @@ public class Indexer extends Subsystem {
             break;
 
             case UNINDEXING:
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
+                RobotMap.getIndexer().set(ControlMode.PercentOutput, Constants.kIndexerSpeed * -1);
                 RobotMap.getIndexerSolenoid().set(false);
                 RobotMap.getThroat().set(-Constants.kThroatSpeed);
 
                 currentState = desiredState;
             break;
 
+            case INTAKING:
+                RobotMap.getIndexer().set(-0.3);
+                RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getThroat().set(0);
+            break;
+
             default: 
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed * -1);
+                RobotMap.getIndexer().set(0);
                 RobotMap.getIndexerSolenoid().set(false);
                 RobotMap.getThroat().set(0.0);
                 currentState = desiredState;
@@ -77,6 +83,7 @@ public class Indexer extends Subsystem {
         INDEXING,
         UNINDEXING,
         IDLE,
+        INTAKING,
     }
 
     public IndexerState getCurrentState() {
@@ -85,28 +92,6 @@ public class Indexer extends Subsystem {
     public IndexerState setDesiredState(IndexerState state) {
         desiredState = state;
         return currentState;
-    }
-
-    private boolean idleIndexerCheck() {
-        boolean invertIndexer = false;
-        if(!(invertIndexer)) {
-            if(RobotMap.getIndexer().getSelectedSensorPosition() >= -2048*9*10) {
-                invertIndexer = true;
-            } 
-        } else {
-            if(RobotMap.getIndexer().getSelectedSensorPosition() <= 2048*9*10) {
-                invertIndexer = false;
-            }
-        }
-        return invertIndexer;
-    }
-
-    private void idleIndexer() {
-        if(!(idleIndexerCheck())) {
-            RobotMap.getIndexer().set(0.3);
-        } else {
-            RobotMap.getIndexer().set(-0.3);
-        }
     }
 }
 

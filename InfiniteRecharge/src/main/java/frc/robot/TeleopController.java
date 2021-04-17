@@ -112,7 +112,6 @@ public class TeleopController {
 
     private void stTeleop() {
         m_controls.updateShooterIndex();
-        m_indexer.setDesiredState(IndexerState.IDLE);
         m_controls.getMechanismMode();
         m_shooter.setDesiredState(ShooterState.IDLE);
 
@@ -121,9 +120,11 @@ public class TeleopController {
             // System.out.println("action command");
             if(m_controls.getMechanismMode()) {
                 m_intake.setDesiredState(IntakeState.INTAKING);
+                m_indexer.setDesiredState(IndexerState.INTAKING);
                 //m_shooter.setDesiredState(ShooterState.SHOOTING);
                 
             } else {
+                m_indexer.setDesiredState(IndexerState.IDLE);
                 //check if shooter is at an acceptable speed
                 if(m_shooter.getShooterAcceptableSpeed(m_shooter.getShooterTargetSpeed())) {
                      
@@ -144,6 +145,7 @@ public class TeleopController {
         } else {
             m_intake.setDesiredState(IntakeState.IDLE);
             m_shooter.setDesiredState(ShooterState.IDLE);
+            m_indexer.setDesiredState(IndexerState.IDLE);
         
         }
 

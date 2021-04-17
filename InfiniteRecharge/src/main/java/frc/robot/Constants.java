@@ -214,7 +214,7 @@ public class Constants {
 
 	// Turning on the spot with the gyro
 	public static double kDriveMaxTurnSpeed = 12.12;
-	public static double kDriveMaxTurnAccel = 24.24; 
+	public static double kDriveMaxTurnAccel = 24.24;
 
 	/** Climber **/
 	// Elevator
@@ -265,4 +265,9 @@ public class Constants {
 
 	public static final double kClimbLowPos = 1000; 
 	public static final double kClimbHighPos = 2000;
+
+	//Vision
+	public static final double kA1 = 20; // Angle of the limelight from the robot chassie (degrees)
+	public static final double kH1 = 0.65; //Height of the limelight lense (metres)
+	public static final double kH2 = 2.47; //height of the middle of the target (metres)
 }

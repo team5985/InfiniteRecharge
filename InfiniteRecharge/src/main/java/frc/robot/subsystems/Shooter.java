@@ -31,7 +31,7 @@ public class Shooter extends Subsystem {
     private ShooterState desiredState;
     int shooterZoneIndex = 0;
     double[] shooterZoneSpeed = {6000, 6000, 3125, 3175};
-    private double shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
+    private double shooterTargetRPM = 5800;//shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
 
   
     static public Shooter getInstance() {
@@ -51,7 +51,8 @@ public class Shooter extends Subsystem {
     }
 
     public void update() {
-        shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];
+        //System.out.println(Vision.getInstance().getDistanceToTarget() + "m to target");
+        //shooterTargetRPM = 6000;//= shooterZoneSpeed[shooterZoneIndex];
         switch(desiredState) {
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
@@ -75,7 +76,7 @@ public class Shooter extends Subsystem {
      * @param rpm
      */
     public void setShooterSpeed(double rpm) {
-      shooterTargetRPM = rpm;
+      //shooterTargetRPM = rpm;
     }
 
     public double getPosition() {
@@ -111,14 +112,14 @@ public class Shooter extends Subsystem {
      */
 
     public boolean shooterPIDControl(double targetVelocity) {
-        RobotMap.getShooterA().set(ControlMode.PercentOutput, -targetVelocity/6000);
-        RobotMap.getShooterB().set(ControlMode.PercentOutput, targetVelocity/6000);
+        RobotMap.getShooterA().set(ControlMode.PercentOutput, -(targetVelocity/6380));
+        RobotMap.getShooterB().set(ControlMode.PercentOutput, (targetVelocity/6380));
 
         return getShooterAcceptableSpeed(targetVelocity);
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        return (getShooterRPM() <= -targetRPM * 0.7);
+        return (Math.abs(getShooterRPM()) >= Math.abs(shooterTargetRPM * 0.080));
     }
 
 
@@ -136,7 +137,7 @@ public class Shooter extends Subsystem {
     }
 
     public void setShooterTargetSpeed(double rpm) {
-        shooterTargetRPM = rpm;
+        //shooterTargetRPM = rpm;
     }
 
     void stopShooter() {

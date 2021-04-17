@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 
 public class Vision {
     private static Vision mInstance;
@@ -38,5 +39,16 @@ public class Vision {
 
     public void blindLuin() {
       setPipeline(1);
+    }
+    /**
+     * 
+     * @return distance in metres to target
+     */
+    public double getDistanceToTarget() {
+      if(true) {
+        return (Constants.kH2 - Constants.kH1) / Math.tan(Constants.kA1 + getAngleToTarget());
+      } else {
+        return 0;
+      }
     }
 }
