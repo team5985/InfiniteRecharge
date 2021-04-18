@@ -128,6 +128,8 @@ public class RobotMap {
 		// rightDriveA.setNeutralMode(NeutralMode.Coast);
 		// rightDriveB.setNeutralMode(NeutralMode.Coast);
 
+		// leftDriveA.setNeutralMode(NeutralMode.Brake);
+		// leftDriveB.setNeutralMode(NeutralMode.Brake);
 		// rightDriveA.setNeutralMode(NeutralMode.Brake);
 		// rightDriveB.setNeutralMode(NeutralMode.Brake);
 
