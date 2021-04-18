@@ -31,6 +31,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -119,6 +120,39 @@ public class RobotMap {
 	// static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID,
 	// MotorType.kBrushless);
 	public static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
+
+	static
+	{
+		// leftDriveA.setNeutralMode(NeutralMode.Coast);
+		// leftDriveB.setNeutralMode(NeutralMode.Coast);
+		// rightDriveA.setNeutralMode(NeutralMode.Coast);
+		// rightDriveB.setNeutralMode(NeutralMode.Coast);
+
+		// rightDriveA.setNeutralMode(NeutralMode.Brake);
+		// rightDriveB.setNeutralMode(NeutralMode.Brake);
+
+		// TalonFXConfiguration config = new TalonFXConfiguration();
+
+		// leftDriveA.getAllConfigs(config);
+		// System.out.println("LeftA Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// leftDriveA.configAllSettings(config);
+
+		// leftDriveB.getAllConfigs(config);
+		// System.out.println("LeftB Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// leftDriveB.configAllSettings(config);
+
+		// rightDriveA.getAllConfigs(config);
+		// System.out.println("RightA Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// rightDriveA.configAllSettings(config);
+
+		// rightDriveB.getAllConfigs(config);
+		// System.out.println("RightB Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// rightDriveB.configAllSettings(config);
+	}
 
 	/**
 	 * Indexer
