@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
   }
 
   public void robotPeriodic() {
-    //LED.getInstance().update();    
+    //LED.getInstance().update();
 
     if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
       Drive.getInstance().setBrakes(true);
@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    Drive.getInstance().updateUltrasonics();
     autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
@@ -125,6 +126,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    Drive.getInstance().updateUltrasonics();
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
     Indexer.getInstance().update();
@@ -143,12 +145,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    Vision.getInstance().disableVision();
     Drive.getInstance().setBrakes(true); 
     Vision.getInstance().disableVision();
   }
 
   @Override
+  public void disabledPeriodic() {
+  Drive.getInstance().updateUltrasonics();
+  }
+
+  @Override
   public void testPeriodic() {
+  Drive.getInstance().updateUltrasonics();
   }
 }
 

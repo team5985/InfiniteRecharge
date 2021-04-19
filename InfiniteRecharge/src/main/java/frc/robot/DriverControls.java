@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber.BuddyState;
+import frc.robot.subsystems.Drive.UltrasonicState;
 import frc.robot.Constants;
 
 /**
@@ -262,6 +264,27 @@ public class DriverControls {
 		} else if(pad.getRawButton(11))	{
 			Shooter.getInstance().setShooterZoneIndex(4);
 		} 
+	}
+
+	public Drive.UltrasonicState getUltrasonicState()
+	{
+		if (stick.getPOV() == 45)
+		{
+			return UltrasonicState.FWD_RIGHT;
+		}
+		if (stick.getPOV() == 135)
+		{
+			return UltrasonicState.REV_RIGHT;
+		}
+		if (stick.getPOV() == 225)
+		{
+			return UltrasonicState.REV_LEFT;
+		}
+		if (stick.getPOV() == 315)
+		{
+			return UltrasonicState.FWD_LEFT;
+		}
+		return UltrasonicState.IDLE;
 	}
 
 }
