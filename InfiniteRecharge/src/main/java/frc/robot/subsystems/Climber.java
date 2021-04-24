@@ -74,30 +74,55 @@ public class Climber extends Subsystem {
     public enum IdleState {
         UP, //Winch A = Coast, Winch B = Brake
         DOWN, //Winch A = Brake, Winch B = Coasr
-        IDLE, //Winch A = Brake, Winch B = Brake
+        IDLE,  // Winch A = Brake, Winch B = Brake
+        SAFE,
     }
 
     @Override
     public void update() {
-        setIdleMode();
+        //setIdleMode();
         switch(desiredState) {
             case STOWED:
-                RobotMap.getClimberA().set(ControlMode.MotionMagic, 0);
-                RobotMap.getClimberB().set(ControlMode.MotionMagic, 0);
+                idleState = IdleState.IDLE;
+                if(RobotMap.getClimberLimit().get()) {
+                    RobotMap.getClimberA().set(ControlMode.MotionMagic, 0);
+                    RobotMap.getClimberB().set(ControlMode.MotionMagic, 0);
+                    //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+                } else {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
+                }
                 currentState = desiredState;
             break;
             case LIFTING:
-                RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
-                RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
-                if(RobotMap.getClimberA().isMotionProfileFinished()) {
-                    
+            //System.out.println("UP!!!!!");
+
+            idleState = IdleState.UP;
+
+                if(RobotMap.getClimberLimit().get()) {
+                    //RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
+                    //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
+                    RobotMap.getClimberB().set(ControlMode.MotionMagic, -Constants.kElevatorHighPos);
+                    RobotMap.getClimberA().stopMotor();
+                } else {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
                 }
                 currentState = desiredState;
 
             break;
             case CLIMBING:
-                RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
-                RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+            idleState = IdleState.DOWN;
+
+                if(/*RobotMap.getClimberLimit().get()*/ true) {
+                    RobotMap.getClimberA().set(ControlMode.MotionMagic, -Constants.kClimbHighPos);
+                    RobotMap.getClimberB().stopMotor();
+
+                    //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+                } else {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
+                }
                 currentState = desiredState;
 
             break;
@@ -115,6 +140,10 @@ public class Climber extends Subsystem {
             break;
             case DOWN:
                 RobotMap.getClimberA().setNeutralMode(NeutralMode.Brake);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Coast);
+            break;
+            case SAFE:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Coast);
                 RobotMap.getClimberB().setNeutralMode(NeutralMode.Coast);
             break;
             default:
@@ -171,14 +200,10 @@ public class Climber extends Subsystem {
 
     @Override
 	public boolean zeroPosition() {
-		if (!m_lowerLimit.get()) {
-            winchMove(-0.2);
-            return false;
-        } else {
-            winchMove(0.0);
-            m_winchMaster.setCounts(0);
-            return true;
-        }
+        RobotMap.getClimberA().setSelectedSensorPosition(0);
+        RobotMap.getClimberB().setSelectedSensorPosition(0);
+        return RobotMap.getClimberLimit().get();
+
     }
     
     private void winchMoveTo(double rotations) {
@@ -208,7 +233,7 @@ public class Climber extends Subsystem {
     public void resetSensors() {
         m_winchMaster.setCounts(0);
     }
-
+/*
     private void setIdleMode() {
         if(currentState == ClimberState.IDLE) {
             idleState = IdleState.IDLE;
@@ -217,5 +242,5 @@ public class Climber extends Subsystem {
         } else if(Math.abs(RobotMap.getClimberB().getMotorOutputPercent()) >= 0.1) {
             idleState = IdleState.DOWN;
         }
-    }
+    } */
 }

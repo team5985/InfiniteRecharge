@@ -144,7 +144,7 @@ public class DriverControls {
 		}
 	}
 	public boolean getAutoclimb() {
-		if(Config.kPreventAccidentalClimb) {
+		if(/*Config.kPreventAccidentalClimb*/false) {
 			if(stick.getRawButton(7) && stick.getRawButton(8) == true) {
 				return true;
 			} else {
@@ -250,6 +250,10 @@ public class DriverControls {
 		return stick.getRawButton(10);
 	}
 
+	public boolean getClimbDown() {
+		return stick.getRawButton(11);
+	}
+
 	public void updateShooterIndex() {
 		if(pad.getRawButton(7))	{
 			Shooter.getInstance().setShooterZoneIndex(0);
@@ -262,6 +266,13 @@ public class DriverControls {
 		} else if(pad.getRawButton(11))	{
 			Shooter.getInstance().setShooterZoneIndex(4);
 		} 
+	}
+
+	public boolean getBarLeft() {
+		return stick.getPOV() == 270;
+	}
+	public boolean getBarRight() {
+		return stick.getPOV() == 90;
 	}
 
 }

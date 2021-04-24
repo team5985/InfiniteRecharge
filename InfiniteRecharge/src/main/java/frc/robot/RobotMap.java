@@ -5,53 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Servo;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import frc.util.EncoderAdapter;
-import frc.util.SensoredSystem;
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.*;
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.EncoderType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.CANPIDController;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
-import com.ctre.phoenix.motorcontrol.can.*;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
-import frc.robot.subsystems.RobotWrangler;
-
-import frc.util.*;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
-import frc.util.*;
-import frc.util.sim.*;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
-import frc.util.PbSolenoid;
-import frc.util.PbSparkMax;
 import frc.util.PbTalonSrx;
 import frc.util.SensoredSystem;
-import frc.util.SolenoidAdapter;
 
 /**
  * Contains and constructs all of the devices on the robot. This should be kept
@@ -87,11 +54,7 @@ public class RobotMap {
 	/**
 	 * DIO Ports
 	 */
-	static final int leftDriveEncADioPort = 0;
-	static final int leftDriveEncBDioPort = 1;
 
-	static final int rightDriveEncADioPort = 2;
-	static final int rightDriveEncBDioPort = 3;
 
 	// Set up motor controllers - Declaration
 
@@ -143,11 +106,11 @@ public class RobotMap {
 	static WPI_TalonFX winchA = new WPI_TalonFX(Constants.kWinchACanId); // Master
 	static WPI_TalonFX winchB = new WPI_TalonFX(Constants.kWinchBCanId);
 
+	public static DigitalInput climbLimit = new DigitalInput(3);
 
 	// PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId,
 	// MotorType.kBrushless);
 	// SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
-
 
 	static PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
 	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
@@ -239,8 +202,6 @@ public class RobotMap {
 		return controlPanelSystem;
 	}
 
-
-
 	public static SpeedControllerGroup getShooter() {
 		return shooterMotors;
 	}
@@ -248,7 +209,6 @@ public class RobotMap {
 	public static SpeedController getThroat() {
 		return throatMotor;
 	}
-
 
 	public static WPI_TalonFX getIndexer() {
 		return indexerMotor;
@@ -311,6 +271,10 @@ public class RobotMap {
 
 	public static WPI_TalonFX getClimberB() {
 		return winchB;
+	}
+
+	public static DigitalInput getClimberLimit() {
+		return climbLimit;
 	}
 
 	public static Solenoid getClimberSolenoid() {

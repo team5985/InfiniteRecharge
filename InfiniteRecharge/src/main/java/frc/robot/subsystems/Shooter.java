@@ -119,7 +119,7 @@ public class Shooter extends Subsystem {
     }
 
     public boolean getShooterAcceptableSpeed(double targetRPM) {
-        return (Math.abs(getShooterRPM()) >= Math.abs(shooterTargetRPM * 0.080));
+        return (Math.abs(getShooterRPM()) >= Math.abs(shooterTargetRPM * 0.75));
     }
 
 

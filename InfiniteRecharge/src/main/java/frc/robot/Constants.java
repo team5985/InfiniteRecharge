@@ -264,7 +264,8 @@ public class Constants {
 	public static final double kBarRightSpeed = 1;
 
 	public static final double kClimbLowPos = 1000; 
-	public static final double kClimbHighPos = 2000;
+	public static final double kClimbHighPos = 120000;
+	public static final double kElevatorHighPos = 250000;
 
 	//Vision
 	public static final double kA1 = 20; // Angle of the limelight from the robot chassie (degrees)

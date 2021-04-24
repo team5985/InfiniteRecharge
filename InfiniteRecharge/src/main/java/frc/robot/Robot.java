@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
         
-    CameraServer.getInstance().startAutomaticCapture(0);
+    //CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
 
     Vision.getInstance();
@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     RobotMap.getIndexer().setSelectedSensorPosition(9);
         comp.start();
+    Climber.getInstance().zeroPosition();
 
   }
 
@@ -134,7 +135,9 @@ public class Robot extends TimedRobot {
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
     //ColourSensor.getInstance().update(); //FIXME
-    // Climber.getInstance().update();
+    Climber.getInstance().update();
+    Bar.getInstance().update();
+
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
     
