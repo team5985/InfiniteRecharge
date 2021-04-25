@@ -100,6 +100,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Gyro", Drive.getInstance().getYaw());
     SmartDashboard.putNumber("AvgEncDistance", Drive.getInstance().getAvgEncoderDistance());
+    SmartDashboard.putNumber("Distance Left", Drive.getInstance().getUSLeft());
+    SmartDashboard.putNumber("Distance Right", Drive.getInstance().getUSRight());
   }
 
   @Override
