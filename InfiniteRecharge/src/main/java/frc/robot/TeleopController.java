@@ -15,6 +15,7 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.Bar.BarStates;
 import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
+import frc.robot.subsystems.Drive.UltrasonicState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.LED.LEDState;
@@ -113,7 +114,7 @@ public class TeleopController {
 
     private void stTeleop() {
         m_controls.updateShooterIndex();
-        m_controls.getMechanismMode();
+        //m_controls.getMechanismMode();
         m_shooter.setDesiredState(ShooterState.IDLE);
 
         
@@ -167,7 +168,15 @@ public class TeleopController {
             m_vision.blindLuin();
         } else {
             m_vision.disableVision();
-            callDrive();
+            UltrasonicState usState = m_controls.getUltrasonicState();
+            if (usState == UltrasonicState.IDLE)
+            {
+                callDrive();
+            }
+            else
+            {
+                m_drive.ultrasonicDrive(usState);
+            }
         }
 
         if(m_controls.getRotationControlCommand()) { //12

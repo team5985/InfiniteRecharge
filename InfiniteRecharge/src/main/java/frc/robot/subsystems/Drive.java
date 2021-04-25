@@ -14,16 +14,19 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.config.Config;
 import frc.util.PbSparkMax;
 import frc.util.SensoredSystem;
 import frc.util.SparkGroup;
+import frc.util.UltrasonicI2C;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -37,6 +40,9 @@ public class Drive extends Subsystem{
     CANEncoder mLeftEnc;
     CANEncoder mRightEnc;
 
+    UltrasonicI2C usi2cl;
+    UltrasonicI2C usi2cr;
+  
     public static AHRS _imu;
 
     Joystick stick;
@@ -58,13 +64,28 @@ public class Drive extends Subsystem{
         }
         return driveInstance;
     }
+
+    public enum UltrasonicState {
+        IDLE,
+        FWD_LEFT,
+        FWD_RIGHT,
+        REV_LEFT,
+        REV_RIGHT
+    }
     
     private Drive() {
         _imu = getImuInstance();
-        // RobotMap.getLeftDriveA().configOpenloopRamp(1.0);
-        // RobotMap.getLeftDriveB().configOpenloopRamp(1.0);
-        // RobotMap.getRightDriveA().configOpenloopRamp(1.0);
-        // RobotMap.getRightDriveB().configOpenloopRamp(1.0);
+        I2C.Port i2cp = I2C.Port.kOnboard;
+        I2C usLinkl = new I2C(i2cp, 0x13);
+        I2C usLinkr = new I2C(i2cp, 0x14);
+        usi2cl = new UltrasonicI2C(usLinkl);
+        usi2cr = new UltrasonicI2C(usLinkr);
+    }
+
+    public void updateUltrasonics()
+    {
+        usi2cl.update();
+        usi2cr.update();
     }
 
     public void setSystem(SparkGroup leftDrive, SparkGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
@@ -148,7 +169,133 @@ public class Drive extends Subsystem{
         double rightPower = (power - steering) * throttle;
         //Write to motors
         setMotors(leftPower, -rightPower);
-        
+        lastUSState = UltrasonicState.IDLE;
+    }
+
+    private double outSpeed = 0;
+    private double lastError = 0;
+    private UltrasonicState lastUSState = UltrasonicState.IDLE;
+
+    public void ultrasonicDrive(UltrasonicState aState)
+    {
+        boolean reverse = false;
+        boolean right = false;
+        if (lastUSState == UltrasonicState.IDLE)
+        {
+            outSpeed = 0;
+        }
+        if (aState != lastUSState)
+        {
+            lastError = 0;
+            lastUSState = aState;
+        }
+        if (aState == UltrasonicState.FWD_LEFT)
+        {
+            reverse = false;
+            right = false;
+        }
+        else if (aState == UltrasonicState.FWD_RIGHT)
+        {
+            reverse = false;
+            right = true;
+        }
+        else if (aState == UltrasonicState.REV_LEFT)
+        {
+            reverse = true;
+            right = false;
+        }
+        else if (aState == UltrasonicState.REV_RIGHT)
+        {
+            reverse = true;
+            right = true;
+        }
+        else
+        {
+            // This should never happen - if it does then this method was called but the ultrasonics are in IDLE mode.
+            setMotors(0, 0);
+            return;
+        }
+
+        UltrasonicI2C.usResults resultsr = usi2cr.getResults();
+        UltrasonicI2C.usResults resultsl = usi2cl.getResults();
+  
+        double aimPos = 300; // how far away from the wall we want to be in mm
+        double pgain = 0.00025; // how fast we correct ourselves
+        double dgain = 0.005; // differential gain
+        double speed = 1;
+        double leftPower;
+        double rightPower;
+        double accRate = 0.08;
+  
+        double power = speed;
+        if (reverse)
+        {
+            power = -speed;
+        }
+  
+        outSpeed = outSpeed + Math.min( Math.max((power - outSpeed), -accRate), accRate);
+  
+        double dirPGain = pgain;
+        double dirDGain = dgain;
+        if (outSpeed < 0)
+        {
+            dirPGain = -dirPGain;
+            dirDGain = -dirDGain;
+        }
+        double error = 0;
+        if (right)
+        {
+            error = resultsr.getResult() - aimPos; // how far off from aimPos we are
+        }
+        else   
+        {
+            error = aimPos - resultsl.getResult(); // how far off from aimPos we are
+        }
+        double delta = 0;
+        if ((right && resultsr.getNew()) || (!right && resultsl.getNew()))
+        {
+            delta = error - lastError; // the change between error and lastError
+            lastError = error;
+        }
+        double steering = (error * dirPGain) + (delta * dirDGain);
+        // double pOutput = error * dirPGain;
+        // double dOutput = delta * dirDGain;
+        // SmartDashboard.putNumber("pOutput", pOutput);
+        // SmartDashboard.putNumber("dOutput", dOutput);
+        // SmartDashboard.putNumber("Error", error);
+        leftPower = outSpeed - steering;
+        rightPower = steering + outSpeed;
+        steerPriority(leftPower, rightPower);
+    }
+  
+    private void steerPriority(double left, double right)
+    {
+        if (left - right > 2)
+        {
+            left = 1;
+            right = -1;
+        }
+        else if (right - left > 2)
+        {
+            left = -1;
+            right = 1;
+        }
+        else if (Math.max(right, left) > 1)
+        {
+            left = left - (Math.max(right,left) - 1);
+            right = right - (Math.max(right,left) - 1);
+        }
+        else if (Math.min(right, left) < -1)
+        {
+            left = left - (Math.min(right,left) + 1);
+            right = right - (Math.min(right,left) + 1);
+        }
+        SmartDashboard.putNumber("leftPower", left);
+        SmartDashboard.putNumber("rightPower", left);
+        SmartDashboard.putNumber("SteerLeft", left-right);
+        // leftDrive.set(-left);
+        // rightDrive.set(right);
+        setMotors(left, -right);
     }
 
    /**
