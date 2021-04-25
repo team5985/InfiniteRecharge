@@ -24,7 +24,7 @@ public class LeaveLine extends AutoMode {
             Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
-            if (Drive.getInstance().getAvgEncoderDistance() >= 1.0) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 5.0) {
                 return true;
             }
             break;

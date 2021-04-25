@@ -16,7 +16,7 @@ public class AutoController {
 	}
 
 	public AutoMode[] autoModes = new AutoMode[] {
-		new RightTrenchAllBallAuto(),
+		new RightTrenchAllBallRepositionAuto(),
 	};
 
 	public enum AutoSelection {
@@ -97,6 +97,6 @@ public class AutoController {
 			}
 		}
 		
-		return new LeftTrenchCrossFieldAuto();
+		return new RightTrenchAllBallRepositionAuto();
 	}
 }

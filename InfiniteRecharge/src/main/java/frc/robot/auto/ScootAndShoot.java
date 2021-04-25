@@ -23,7 +23,7 @@ public class ScootAndShoot extends AutoMode {
 
     @Override
     public void init() {
-        
+        Drive.getInstance().resetSensors();
     }
 
     @Override
@@ -35,9 +35,9 @@ public class ScootAndShoot extends AutoMode {
             
             Shooter.getInstance().setDesiredState(ShooterState.IDLE);
             Indexer.getInstance().setDesiredState(IndexerState.IDLE);
-            Drive.getInstance().arcadeDrive(-1.0, 0.0, 0.4);
+            Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
-            if (Drive.getInstance().getAvgEncoderDistance() <= -2) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 1.5) {
                 return true;
             }
             break;
@@ -64,8 +64,8 @@ public class ScootAndShoot extends AutoMode {
 
             case 2:
             Drive.getInstance().arcadeDrive(0.0, 0.0, 0.0);
-            Shooter.getInstance().setDesiredState(ShooterState.IDLE);
-            Indexer.getInstance().setDesiredState(IndexerState.IDLE);
+            //Shooter.getInstance().setDesiredState(ShooterState.IDLE);
+            //Indexer.getInstance().setDesiredState(IndexerState.IDLE);
             Vision.getInstance().disableVision();
 
             break;
