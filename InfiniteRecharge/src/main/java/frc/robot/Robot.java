@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
+import frc.robot.subsystems.Drive.gameMode;
 import frc.robot.subsystems.LED.DesiredColour;
 import frc.robot.subsystems.LED.LEDState;
 import edu.wpi.first.wpilibj.Timer;
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
         
-    CameraServer.getInstance().startAutomaticCapture(0);
+    //CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
 
     Vision.getInstance();
@@ -103,6 +104,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    Drive.getInstance().setGameMode(Drive.gameMode.AUTO);
     autoController.initialiseAuto();
   }
 
@@ -118,8 +120,10 @@ public class Robot extends TimedRobot {
 
  @Override
   public void teleopInit() {
+    Drive.getInstance().setGameMode(Drive.gameMode.TELEOP);
     RobotMap.getIndexer().setSelectedSensorPosition(9);
         comp.start();
+    Climber.getInstance().zeroPosition();
 
   }
 
@@ -136,7 +140,9 @@ public class Robot extends TimedRobot {
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
     //ColourSensor.getInstance().update(); //FIXME
-    // Climber.getInstance().update();
+    Climber.getInstance().update();
+    Bar.getInstance().update();
+
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
     
@@ -145,7 +151,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    Vision.getInstance().disableVision();
+    Drive.getInstance().setGameMode(Drive.gameMode.DISABLED);
     Drive.getInstance().setBrakes(true); 
     Vision.getInstance().disableVision();
   }
@@ -153,6 +159,10 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
   Drive.getInstance().updateUltrasonics();
+  }
+
+  public void testInit() {
+    Drive.getInstance().setGameMode(Drive.gameMode.TEST);
   }
 
   @Override

@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Config;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Bar.BarStates;
 import frc.robot.subsystems.Climber.ClimberState;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Drive.UltrasonicState;
@@ -41,7 +42,7 @@ public class TeleopController {
     private static ColourSensor m_colourSensor;
     private static RobotMap m_robotMap;
     private static LED m_LED;
-
+    private static Bar m_bar;
     private static Luin m_luin;
 
     private RobotState currentState;
@@ -133,6 +134,7 @@ public class TeleopController {
                     m_shooter.setDesiredState(ShooterState.SHOOTING);
                     m_indexer.setDesiredState(IndexerState.INDEXING);
                    
+                
                 } else {
                     //Let shooter keep spinning up
                     m_shooter.setDesiredState(ShooterState.SHOOTING);
@@ -140,14 +142,13 @@ public class TeleopController {
                 }
             }
 
-                
-            
-
-        } else {
+        } else if (!m_controls.getMechanismMode()) {
             m_intake.setDesiredState(IntakeState.IDLE);
             m_shooter.setDesiredState(ShooterState.IDLE);
             m_indexer.setDesiredState(IndexerState.IDLE);
         
+        } else {
+            m_intake.setDesiredState(IntakeState.IDLE);
         }
 
         // if (m_controls.getWinchUp()) {
@@ -190,6 +191,33 @@ public class TeleopController {
             
         }
 
+        if(m_controls.getBarLeft()) {
+            m_bar.getInstance().setDesiredState(BarStates.LEFT);
+        } else if (m_controls.getBarRight()) {
+            m_bar.getInstance().setDesiredState(BarStates.RIGHT);
+        } else {
+            m_bar.getInstance().setDesiredState(BarStates.IDLE);
+        }
+
+        if(m_controls.getAutoclimb()) {
+            if(!(m_climber.getTarget())) {
+                if(m_climber.getCurrentState() == ClimberState.CLIMBING) {
+                    m_climber.setDesiredState(ClimberState.LIFTING);
+                } else if(m_climber.getCurrentState() == ClimberState.STOWED) {
+                    m_climber.setDesiredState(ClimberState.CLIMBING);
+                } else {
+                    m_climber.setDesiredState(ClimberState.IDLE);
+                }
+            }
+        }
+
+        if(m_controls.getClimbUp()) {
+            m_climber.setDesiredState(ClimberState.LIFTING);
+        } else if(m_controls.getClimbDown()) {
+            m_climber.setDesiredState(ClimberState.CLIMBING);
+        } else {
+            m_climber.setDesiredState(ClimberState.IDLE);
+        }
         
     }
 

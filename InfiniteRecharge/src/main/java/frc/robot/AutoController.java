@@ -16,7 +16,7 @@ public class AutoController {
 	}
 
 	public AutoMode[] autoModes = new AutoMode[] {
-		new LeaveLine(),
+		new RightTrenchAllBallAuto(),
 	};
 
 	public enum AutoSelection {

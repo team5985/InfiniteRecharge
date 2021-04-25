@@ -36,24 +36,28 @@ public class RightTrenchAllBallAuto extends AutoMode {
             
             case 1:
             Vision.getInstance().disableVision();
-            Drive.getInstance().actionSensorDrive(1.0, 0.0, 6.0);
+            Drive.getInstance().actionSensorDrive(1.0, 0.0, 8.0);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
-            if (Drive.getInstance().getAvgEncoderDistance() >= 5.9) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 7.9) {
                 return true;
             }
             break;
             
             case 2:
-            Drive.getInstance().actionSensorDrive(1.0, 0.0, 0.0);
+            Drive.getInstance().actionSensorDrive(1.0, 0.0, 2.0);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
             if (Drive.getInstance().getAvgEncoderDistance() <= 0.1) {
                 return true;
             }
             break;
-
             case 3:
+                if(Drive.getInstance().actionSensorDrive(1, 0, 5)) {
+                return true;
+                }
+            break;
+            case 4:
             tx = Vision.getInstance().getAngleToTarget();
             visionSteering = tx * Constants.kVisionTurnKp;
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);

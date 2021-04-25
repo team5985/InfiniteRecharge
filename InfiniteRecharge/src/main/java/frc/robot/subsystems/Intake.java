@@ -69,13 +69,15 @@ public class Intake extends Subsystem {
 
             case INTAKING_RETRACTED:
             m_robotMap.intakeActuator.set(false);
-            m_robotMap.intakeMotor.set(Constants.kIntakeIntakingSpeed);
+            m_robotMap.intakeMotor.set(0);
             currentState = desiredState;
             break;
             
             default:
             m_robotMap.intakeMotor.set(0);
             m_robotMap.intakeActuator.set(false);
+            currentState = desiredState;
+
             break;
 
         }

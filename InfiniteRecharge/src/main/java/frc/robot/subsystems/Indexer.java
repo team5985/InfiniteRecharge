@@ -66,10 +66,12 @@ public class Indexer extends Subsystem {
                 RobotMap.getIndexer().set(-0.3);
                 RobotMap.getIndexerSolenoid().set(false);
                 RobotMap.getThroat().set(0);
+                currentState = desiredState;
+
             break;
 
             default: 
-                RobotMap.getIndexer().set(0);
+                RobotMap.getIndexer().set(ControlMode.PercentOutput, 0);
                 RobotMap.getIndexerSolenoid().set(false);
                 RobotMap.getThroat().set(0.0);
                 currentState = desiredState;
