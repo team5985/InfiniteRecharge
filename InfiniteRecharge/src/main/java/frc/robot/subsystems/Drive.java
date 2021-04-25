@@ -61,10 +61,10 @@ public class Drive extends Subsystem{
     
     private Drive() {
         _imu = getImuInstance();
-        RobotMap.getLeftDriveA().configOpenloopRamp(1.0);
-        RobotMap.getLeftDriveB().configOpenloopRamp(1.0);
-        RobotMap.getRightDriveA().configOpenloopRamp(1.0);
-        RobotMap.getRightDriveB().configOpenloopRamp(1.0);
+        // RobotMap.getLeftDriveA().configOpenloopRamp(1.0);
+        // RobotMap.getLeftDriveB().configOpenloopRamp(1.0);
+        // RobotMap.getRightDriveA().configOpenloopRamp(1.0);
+        // RobotMap.getRightDriveB().configOpenloopRamp(1.0);
     }
 
     public void setSystem(SparkGroup leftDrive, SparkGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
@@ -86,13 +86,59 @@ public class Drive extends Subsystem{
 
     //Drive control
 
+    private double lastLeftSPeed = 0;
+    private double lastRightSPeed = 0;
+    private double autoRampRateFwd = 0.02;
+    private double autoRampRateRev = 0.02;
+    private double manRampRateFwd = 0.05;
+    private double manRampRateRev = 0.5;
+    static public enum gameMode {
+        DISABLED,
+        TELEOP,
+        AUTO,
+        TEST
+    };
+    private gameMode currentMode = gameMode.DISABLED;
+    public void setGameMode(gameMode aMode)
+    {
+        currentMode = aMode;
+    }
+
     public void setMotors(double leftPower, double rightPower) {
+        if (currentMode == gameMode.AUTO)
+        {
+            double leftDiff = leftPower - lastLeftSPeed;
+            leftDiff = Math.min(leftDiff, autoRampRateRev);
+            leftDiff = Math.max(leftDiff, -autoRampRateFwd);
+            leftPower = lastLeftSPeed + leftDiff;
+
+            double rightDiff = rightPower - lastRightSPeed;
+            rightDiff = Math.min(rightDiff, autoRampRateRev);
+            rightDiff = Math.max(rightDiff, -autoRampRateFwd);
+            rightPower = lastRightSPeed + rightDiff;
+        }
+        else
+        {
+            double leftDiff = leftPower - lastLeftSPeed;
+            leftDiff = Math.min(leftDiff, manRampRateFwd);
+            leftDiff = Math.max(leftDiff, -manRampRateRev);
+            leftPower = lastLeftSPeed + leftDiff;
+
+            double rightDiff = rightPower - lastRightSPeed;
+            rightDiff = Math.min(rightDiff, manRampRateFwd);
+            rightDiff = Math.max(rightDiff, -manRampRateRev);
+            rightPower = lastRightSPeed + rightDiff;
+        }
+        System.out.println("Mode - " + currentMode);
         //set motors
         System.out.println("leftpower " + leftPower);
         RobotMap.leftDriveMotors.set(leftPower * Config.kInvertDir);
 
         System.out.println("rightpower " + rightPower);
         RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
+
+        lastLeftSPeed = leftPower;
+        lastRightSPeed = rightPower;
     }
 
     public void arcadeDrive(double throttle, double steering, double power) {
