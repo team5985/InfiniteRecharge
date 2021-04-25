@@ -16,20 +16,23 @@ public class AutoController {
 	}
 
 	public AutoMode[] autoModes = new AutoMode[] {
-		new RightTrenchAllBallRepositionAuto(),
+		new LeaveLine(),
+		new RightTrenchAllBallAuto(),
+		new ScootAndShoot(),
+		new ShootAndScoot(),	
 	};
 
 	public enum AutoSelection {
-		DEFAULT,
+		//DEFAULT,
 		LEAVELINE,
 		SHOOT_AND_SCOOT,
 		SCOOT_AND_SHOOT,
-		SHOOT_THEN_PICKUP_CENTRE,
-		SHOOT_RECIEVE_SHOOT,
-		LEFT_TRENCH_CROSS_FIELD_AUTO,
+		//SHOOT_THEN_PICKUP_CENTRE,
+		//SHOOT_RECIEVE_SHOOT,
+		//LEFT_TRENCH_CROSS_FIELD_AUTO,
 		RIGHT_TRENCH_ALL_BALL_AUTO,
-		RIGHT_TRENCH_ALL_BALL_REPOSITION_AUTO,
-		DISTTEST,
+		//RIGHT_TRENCH_ALL_BALL_REPOSITION_AUTO,
+		//DISTTEST,
 		
 	}
 
@@ -44,16 +47,34 @@ public class AutoController {
 		
 		// Add each auto to the dashboard dropdown menu
 		for (AutoSelection auto : AutoSelection.values()) {
-			autoSelector.addOption(auto.name(), auto);
+			if (auto == AutoSelection.LEAVELINE)
+			{
+				autoSelector.setDefaultOption(auto.name(), auto);
+			}
+			else
+			{
+				autoSelector.addOption(auto.name(), auto);
+			}
 		}
-		autoSelector.setDefaultOption(AutoSelection.DEFAULT.name(), AutoSelection.DEFAULT);
 
 		SmartDashboard.putData("Auto Selector", autoSelector);
 	}
 
 	public void initialiseAuto() {
 		selectedAuto = autoSelector.getSelected();
-		runningAuto = evaluateAutoSelection(selectedAuto);
+		SmartDashboard.putString("Sel auto", "" + selectedAuto);
+		//runningAuto = //evaluateAutoSelection(selectedAuto);
+		if(selectedAuto == AutoSelection.LEAVELINE) {
+			runningAuto = new LeaveLine();
+		} else if(selectedAuto == AutoSelection.RIGHT_TRENCH_ALL_BALL_AUTO) {
+			runningAuto = new RightTrenchAllBallAuto();
+		} else if(selectedAuto == AutoSelection.SCOOT_AND_SHOOT) {
+			runningAuto = new ScootAndShoot();
+		} else if(selectedAuto == AutoSelection.SHOOT_AND_SCOOT) {
+			runningAuto = new ShootAndScoot();
+		} else {
+			runningAuto = null;
+		}
 		currentStep = 0;
 
 		autoPeriodicPermissible = false; // wait until sensors are fully reset
@@ -67,6 +88,7 @@ public class AutoController {
 	}
 
 	public void runAuto() {
+		SmartDashboard.putString("Selected auto", "" + runningAuto);
 		if (autoPeriodicPermissible) {
 			try {
 				System.out.println("STEP: " + currentStep);
@@ -88,15 +110,17 @@ public class AutoController {
 		return runningAuto.getExit();
 	}
 
-	private AutoMode evaluateAutoSelection(AutoSelection autoType) {
-		AutoMode retval = null;
+	// private AutoMode evaluateAutoSelection(AutoSelection autoType) {
+	// 	AutoMode retval = null;
 		
-		for (AutoMode mode : autoModes) {
-			if (mode.getAutoType() == autoType) {
-				return mode;
-			}
-		}
+	// 	for (AutoMode mode : autoModes) {
+	// 		System.out.println("Auto " + mode + " type " + autoType);
+	// 		if (mode.getAutoType() == autoType) {
+	// 			return mode;
+	// 		}
+	// 	}
 		
-		return new RightTrenchAllBallRepositionAuto();
-	}
+		
+		
+	// }
 }

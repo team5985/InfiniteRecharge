@@ -13,9 +13,26 @@ import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Shooter.ShooterState;
 
 public class ScootAndShoot extends AutoMode {
-    private String name = "Move off Line then shoot";
-    private AutoSelection autoType = AutoSelection.SCOOT_AND_SHOOT;
-    
+    static {
+        name = "Move off Line then shoot";
+        autoType = AutoSelection.SCOOT_AND_SHOOT;
+    }
+        /**
+     * Returns String of the name of the auto mode.
+     * @return Name of auto mode.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns what the auto does as type AutoSelection.
+     * @return Type of auto mode.
+     */
+    public AutoSelection getAutoType() {
+        return autoType;
+    }
+
     @Override
     public boolean getExit() {
         return false;

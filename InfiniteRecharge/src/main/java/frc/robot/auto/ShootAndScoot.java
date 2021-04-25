@@ -12,8 +12,10 @@ import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Shooter.ShooterState;
 
 public class ShootAndScoot extends AutoMode {
-    private String name = "Shoot and Move off Line";
-    private AutoSelection autoType = AutoSelection.SHOOT_AND_SCOOT;
+    static {
+        name = "Shoot and Move off Line";
+        autoType = AutoSelection.SHOOT_AND_SCOOT;
+    }
     
     @Override
     public boolean getExit() {

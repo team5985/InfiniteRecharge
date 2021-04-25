@@ -4,8 +4,10 @@ import frc.robot.AutoController.AutoSelection;
 import frc.robot.subsystems.Drive;
 
 public class LeaveLine extends AutoMode {
-    private String name = "Leave Line";
-    private AutoSelection autoType = AutoSelection.LEAVELINE;
+    static {
+        name = "Leave Line";
+        autoType = AutoSelection.LEAVELINE;
+    }
     
     @Override
     public boolean getExit() {
