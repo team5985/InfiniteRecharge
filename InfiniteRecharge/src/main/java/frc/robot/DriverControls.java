@@ -27,6 +27,9 @@ public class DriverControls {
 	Joystick stick;
 	Joystick pad;
 	XboxController xBox;
+
+	double steering;
+	double power;
 	
 	boolean end = false;
 	boolean mode = false;
@@ -50,8 +53,6 @@ public class DriverControls {
 
          SmartDashboard.setDefaultNumber("Power Gain", 2.0);
 		 SmartDashboard.setDefaultNumber("Steering Gain", 2.0);
-		 SmartDashboard.setDefaultBoolean("Buddy Climb", getBoolBuddyState());
-		 updateBuddyState();
     }
     /**
      * Returns true if the joystick has been jerked beyond 0.7.
@@ -77,12 +78,34 @@ public class DriverControls {
 		
 	}
 
+	public double deadZoneY(double input) {
+		double output = input;
+
+		if(stick.getY() <= 0.05 && stick.getY() >= -0.05) {
+			output = 0;
+		}
+		return output;
+		
+	}
+
+	public double deadZoneX(double input) {
+		double output = input;
+
+		if(stick.getX() <= 0.1 && stick.getX() >= -0.1) {
+			output = 0;
+		}
+		return output;
+		
+	}
+
+	
+
 	/**
 	 * Get driver power command.
 	 * @return Y from -1 to 1.
 	 */
 	public double getDrivePower() {
-		double power = -stick.getY();
+		 power = -(deadZoneY(stick.getY()));
 		Constants.kDriveSquaredPowerInputsExponent = SmartDashboard.getNumber("Power Gain", 2.0);
 		return power;//Math.pow(Math.abs(power), Constants.kDriveSquaredPowerInputsExponent) * Math.signum(power);
 	}
@@ -92,7 +115,7 @@ public class DriverControls {
 	 * @return X from -1 to 1.
 	 */
 	public double getDriveSteering() {
-		double steering = stick.getX();
+		steering = (deadZoneX(stick.getX()));
 		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 2.0);
 		return steering;//Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
 	}
@@ -105,6 +128,13 @@ public class DriverControls {
 		return ((-stick.getThrottle() + 1) / 2);
 	}
 
+	/**
+	 * @return Traverser speed from -1 to 1.
+	 *  */ 
+	public double getTraverserThrottle() {
+		return xBox.getX(Hand.kLeft);
+	}
+
 	//Button presses
 
 	//Intake/Shooter mode
@@ -114,16 +144,16 @@ public class DriverControls {
 	 * @return true for intake, false for shooter
 	 */
 	public boolean getMechanismMode() {
-	if(stick.getRawButton(3)) {
-		mode = false;
-	} else if(stick.getRawButton(4)) {
+	if(stick.getTrigger()) {
 		mode = true;
+	} else if(xBox.getAButton()) {
+		mode = false;
 	}
 	return mode;
 }
 
 	public boolean getActionCommand() {
-		if(stick.getTrigger()) {
+		if(stick.getTrigger() || xBox.getAButton()) {
 			return true;
 		} else {
 			return false;
@@ -138,31 +168,10 @@ public class DriverControls {
 		}
 	}
 
-	public boolean getTrenchRunCommand() {
-		if(stick.getRawButton(5)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean getAutoclimb() {
-		if(/*Config.kPreventAccidentalClimb*/false) {
-			if(stick.getRawButton(7) && stick.getRawButton(8) == true) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if(stick.getRawButton(8)) {
-				return true;
-			}else {
-				return false;
-			}
-		}
-	}
-
+	
+	
 	public boolean getGetPositionControlCommand() {
-		if(stick.getRawButton(12)) {
+		if(xBox.getBButton()) {
 			return true;
 		}else {
 			return false;
@@ -170,132 +179,105 @@ public class DriverControls {
 	}
 
 	public boolean getRotationControlCommand() {
-		if(stick.getRawButton(11)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public double getShooterSpeedOffset() {
-		if(xBox.getBumper(Hand.kLeft)) {
-			shooterSpeedOffset = shooterSpeedOffset - Constants.kShooterSpeedOffsetOffset;
-		}else if(xBox.getBumper(Hand.kRight)) {
-			shooterSpeedOffset = shooterSpeedOffset + Constants.kShooterSpeedOffsetOffset;
-		}
-		return shooterSpeedOffset;
-		
-	}
-
-	public boolean getHoodUpCommand() {
-		if(xBox.getYButton()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean getHoodDownCommand() {
-		if(xBox.getAButton()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean getIntakeOut() {
 		if(xBox.getXButton()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	// public double getShooterSpeedOffset() {
+	// 	if(xBox.getBumper(Hand.kLeft)) {
+	// 		shooterSpeedOffset = shooterSpeedOffset - Constants.kShooterSpeedOffsetOffset;
+	// 	}else if(xBox.getBumper(Hand.kRight)) {
+	// 		shooterSpeedOffset = shooterSpeedOffset + Constants.kShooterSpeedOffsetOffset;
+	// 	}
+	// 	return shooterSpeedOffset;
+		
+	// }
 
-	public boolean getIntakeIn() {
-		if(xBox.getBButton()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	//AntiJam 2000
-	public boolean getAntiJam() {
-		if(stick.getRawButton(6)) {
+	//left
+	public boolean getIntakeAntiJam() {
+		if(xBox.getPOV() == 270) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-
-	private boolean getBoolBuddyState() {
-		if(true == true) { //TODO
+	//down
+	public boolean getIndexerAntiJam() {
+		if(xBox.getPOV() == 180) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-	private void updateBuddyState() {
-		if(SmartDashboard.getBoolean("Buddy Climb", false)) {
-			
+	//right
+	public boolean getShooterAntiJam() {
+		if(xBox.getPOV() == 90) {
+			return false; //FIXME change to true to redefine this
 		} else {
-			
+			return false;
 		}
 	}
+
 
 	public boolean getTeleopCommand() {
 		return stick.getRawButton(7);
 	}
-
-	public boolean getClimbUp() {
-		return stick.getRawButton(10);
-	}
-
-	public boolean getClimbDown() {
+	/**
+	 * 
+	 * @return button 11 for confirm climb
+	 */
+	private boolean getClimbConfirmation() {
 		return stick.getRawButton(11);
 	}
 
+	public boolean getClimbUp() {
+		return (stick.getRawButton(10) && getClimbConfirmation());
+	}
+
+	public boolean getClimbDown() {
+		return (stick.getRawButton(11) && getClimbConfirmation());
+	}
+
 	public void updateShooterIndex() {
-		if(pad.getRawButton(7))	{
+		if(xBox.getXButton())	{
 			Shooter.getInstance().setShooterZoneIndex(0);
-		} else if(pad.getRawButton(8))	{
+		} else if(xBox.getYButton())	{
 			Shooter.getInstance().setShooterZoneIndex(1);
-		} else if(pad.getRawButton(9))	{
+		} else if(xBox.getBButton())	{
 			Shooter.getInstance().setShooterZoneIndex(2);
-		} else if(pad.getRawButton(10))	{
-			Shooter.getInstance().setShooterZoneIndex(3);
-		} else if(pad.getRawButton(11))	{
-			Shooter.getInstance().setShooterZoneIndex(4);
 		} 
 	}
 
 	public Drive.UltrasonicState getUltrasonicState()
 	{
-		if (stick.getPOV() == 45)
-		{
-			return UltrasonicState.FWD_RIGHT;
-		}
-		if (stick.getPOV() == 135)
-		{
-			return UltrasonicState.REV_RIGHT;
-		}
-		if (stick.getPOV() == 225)
-		{
-			return UltrasonicState.REV_LEFT;
-		}
-		if (stick.getPOV() == 315)
-		{
-			return UltrasonicState.FWD_LEFT;
-		}
-		return UltrasonicState.IDLE;
-	}
+		//TODO uncomment and tune this as there is an issue and the sensors
+		//are too unreliable for comp. Forced into idle mode to prevent accidental
+		//triggering
 
-	public boolean getBarLeft() {
-		return stick.getPOV() == 270;
-	}
-	public boolean getBarRight() {
-		return stick.getPOV() == 90;
+
+		// if (stick.getPOV() == 45)
+		// {
+		// 	return UltrasonicState.FWD_RIGHT;
+		// }
+		// if (stick.getPOV() == 135)
+		// {
+		// 	return UltrasonicState.REV_RIGHT;
+		// }
+		// if (stick.getPOV() == 225)
+		// {
+		// 	return UltrasonicState.REV_LEFT;
+		// }
+		// if (stick.getPOV() == 315)
+		// {
+		// 	return UltrasonicState.FWD_LEFT;
+		// }
+
+		return UltrasonicState.IDLE;
 	}
 
 }

@@ -95,7 +95,7 @@ public class Climber extends Subsystem {
                 currentState = desiredState;
             break;
             case LIFTING:
-            //System.out.println("UP!!!!!");
+            //System.out.println("UP!!!!!"); 
 
             idleState = IdleState.UP;
 

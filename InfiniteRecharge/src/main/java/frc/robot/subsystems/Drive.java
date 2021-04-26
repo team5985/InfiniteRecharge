@@ -222,7 +222,7 @@ public class Drive extends Subsystem{
         double aimPos = 300; // how far away from the wall we want to be in mm
         double pgain = 0.00025; // how fast we correct ourselves
         double dgain = 0.005; // differential gain
-        double speed = 1;
+        double speed = 0.7;
         double leftPower;
         double rightPower;
         double accRate = 0.08;

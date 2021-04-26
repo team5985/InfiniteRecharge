@@ -142,6 +142,14 @@ public class TeleopController {
                 }
             }
 
+        } else if(m_controls.getShooterAntiJam()) {
+            m_shooter.setDesiredState(ShooterState.ANTIJAM);
+            
+        } else if(m_controls.getIndexerAntiJam()) {
+            m_indexer.setDesiredState(IndexerState.INTAKING);
+        } else if(m_controls.getIntakeAntiJam()) {
+            m_intake.setDesiredState(IntakeState.UNINTAKING);
+            m_indexer.setDesiredState(IndexerState.INTAKING);
         } else if (!m_controls.getMechanismMode()) {
             m_intake.setDesiredState(IntakeState.IDLE);
             m_shooter.setDesiredState(ShooterState.IDLE);
@@ -191,25 +199,7 @@ public class TeleopController {
             
         }
 
-        if(m_controls.getBarLeft()) {
-            m_bar.getInstance().setDesiredState(BarStates.LEFT);
-        } else if (m_controls.getBarRight()) {
-            m_bar.getInstance().setDesiredState(BarStates.RIGHT);
-        } else {
-            m_bar.getInstance().setDesiredState(BarStates.IDLE);
-        }
-
-        if(m_controls.getAutoclimb()) {
-            if(!(m_climber.getTarget())) {
-                if(m_climber.getCurrentState() == ClimberState.CLIMBING) {
-                    m_climber.setDesiredState(ClimberState.LIFTING);
-                } else if(m_climber.getCurrentState() == ClimberState.STOWED) {
-                    m_climber.setDesiredState(ClimberState.CLIMBING);
-                } else {
-                    m_climber.setDesiredState(ClimberState.IDLE);
-                }
-            }
-        }
+    
 
         if(m_controls.getClimbUp()) {
             m_climber.setDesiredState(ClimberState.LIFTING);
@@ -218,21 +208,14 @@ public class TeleopController {
         } else {
             m_climber.setDesiredState(ClimberState.IDLE);
         }
+
+        
         
     }
 
     private void stEndgame() {        
-        if(m_controls.getAutoclimb()) {
-            if(!(m_climber.getTarget())) {
-                if(m_climber.getCurrentState() == ClimberState.CLIMBING) {
-                    m_climber.setDesiredState(ClimberState.LIFTING);
-                } else if(m_climber.getCurrentState() == ClimberState.STOWED) {
-                    m_climber.setDesiredState(ClimberState.CLIMBING);
-                } else {
-                    m_climber.setDesiredState(ClimberState.IDLE);
-                }
-            }
-        }
+        
+        
     }
 
     private void stVision() {
@@ -245,10 +228,10 @@ public class TeleopController {
 
     //Transitions
     private void trEndgame() {
-        if(DriverControls.getDriverControlsInstance().getAutoclimb()) {
-            desiredState = RobotState.ENDGAME;
+        // if(DriverControls.getDriverControlsInstance().getAutoclimb()) {
+        //     desiredState = RobotState.ENDGAME;
             
-        }
+        // }
     }
 
     private void trVictory() {
