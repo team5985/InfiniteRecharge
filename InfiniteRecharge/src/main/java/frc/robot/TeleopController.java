@@ -142,6 +142,14 @@ public class TeleopController {
                 }
             }
 
+        } else if(m_controls.getShooterAntiJam()) {
+            m_shooter.setDesiredState(ShooterState.ANTIJAM);
+            
+        } else if(m_controls.getIndexerAntiJam()) {
+            m_indexer.setDesiredState(IndexerState.INTAKING);
+        } else if(m_controls.getIntakeAntiJam()) {
+            m_intake.setDesiredState(IntakeState.UNINTAKING);
+            m_indexer.setDesiredState(IndexerState.INTAKING);
         } else if (!m_controls.getMechanismMode()) {
             m_intake.setDesiredState(IntakeState.IDLE);
             m_shooter.setDesiredState(ShooterState.IDLE);
@@ -200,6 +208,8 @@ public class TeleopController {
         } else {
             m_climber.setDesiredState(ClimberState.IDLE);
         }
+
+        
         
     }
 

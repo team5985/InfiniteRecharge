@@ -87,6 +87,6 @@ public class Bar extends Subsystem{
     }
 
     private void setBarSpeed() {
-        RobotMap.getBarMotor().set(ControlMode.PercentOutput, m_controls.getTraverserThrottle());
+        RobotMap.getBarMotor().set(ControlMode.PercentOutput, m_controls.getDriverControlsInstance().getTraverserThrottle());
     }
 }

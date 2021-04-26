@@ -27,6 +27,9 @@ public class DriverControls {
 	Joystick stick;
 	Joystick pad;
 	XboxController xBox;
+
+	double steering;
+	double power;
 	
 	boolean end = false;
 	boolean mode = false;
@@ -75,12 +78,34 @@ public class DriverControls {
 		
 	}
 
+	public double deadZoneY(double input) {
+		double output = input;
+
+		if(stick.getY() <= 0.05 && stick.getY() >= -0.05) {
+			output = 0;
+		}
+		return output;
+		
+	}
+
+	public double deadZoneX(double input) {
+		double output = input;
+
+		if(stick.getX() <= 0.1 && stick.getX() >= -0.1) {
+			output = 0;
+		}
+		return output;
+		
+	}
+
+	
+
 	/**
 	 * Get driver power command.
 	 * @return Y from -1 to 1.
 	 */
 	public double getDrivePower() {
-		double power = -stick.getY();
+		 power = -(deadZoneY(stick.getY()));
 		Constants.kDriveSquaredPowerInputsExponent = SmartDashboard.getNumber("Power Gain", 2.0);
 		return power;//Math.pow(Math.abs(power), Constants.kDriveSquaredPowerInputsExponent) * Math.signum(power);
 	}
@@ -90,7 +115,7 @@ public class DriverControls {
 	 * @return X from -1 to 1.
 	 */
 	public double getDriveSteering() {
-		double steering = stick.getX();
+		steering = (deadZoneX(stick.getX()));
 		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 2.0);
 		return steering;//Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
 	}
@@ -107,7 +132,7 @@ public class DriverControls {
 	 * @return Traverser speed from -1 to 1.
 	 *  */ 
 	public double getTraverserThrottle() {
-		return xBox.getY(Hand.kLeft);
+		return xBox.getX(Hand.kLeft);
 	}
 
 	//Button presses
@@ -120,9 +145,9 @@ public class DriverControls {
 	 */
 	public boolean getMechanismMode() {
 	if(stick.getTrigger()) {
-		mode = false;
-	} else if(xBox.getAButton()) {
 		mode = true;
+	} else if(xBox.getAButton()) {
+		mode = false;
 	}
 	return mode;
 }
@@ -192,7 +217,7 @@ public class DriverControls {
 	//right
 	public boolean getShooterAntiJam() {
 		if(xBox.getPOV() == 90) {
-			return true;
+			return false; //FIXME change to true to redefine this
 		} else {
 			return false;
 		}
@@ -219,37 +244,39 @@ public class DriverControls {
 	}
 
 	public void updateShooterIndex() {
-		if(pad.getRawButton(7))	{
+		if(xBox.getXButton())	{
 			Shooter.getInstance().setShooterZoneIndex(0);
-		} else if(pad.getRawButton(8))	{
+		} else if(xBox.getYButton())	{
 			Shooter.getInstance().setShooterZoneIndex(1);
-		} else if(pad.getRawButton(9))	{
+		} else if(xBox.getBButton())	{
 			Shooter.getInstance().setShooterZoneIndex(2);
-		} else if(pad.getRawButton(10))	{
-			Shooter.getInstance().setShooterZoneIndex(3);
-		} else if(pad.getRawButton(11))	{
-			Shooter.getInstance().setShooterZoneIndex(4);
 		} 
 	}
 
 	public Drive.UltrasonicState getUltrasonicState()
 	{
-		if (stick.getPOV() == 45)
-		{
-			return UltrasonicState.FWD_RIGHT;
-		}
-		if (stick.getPOV() == 135)
-		{
-			return UltrasonicState.REV_RIGHT;
-		}
-		if (stick.getPOV() == 225)
-		{
-			return UltrasonicState.REV_LEFT;
-		}
-		if (stick.getPOV() == 315)
-		{
-			return UltrasonicState.FWD_LEFT;
-		}
+		//TODO uncomment and tune this as there is an issue and the sensors
+		//are too unreliable for comp. Forced into idle mode to prevent accidental
+		//triggering
+
+
+		// if (stick.getPOV() == 45)
+		// {
+		// 	return UltrasonicState.FWD_RIGHT;
+		// }
+		// if (stick.getPOV() == 135)
+		// {
+		// 	return UltrasonicState.REV_RIGHT;
+		// }
+		// if (stick.getPOV() == 225)
+		// {
+		// 	return UltrasonicState.REV_LEFT;
+		// }
+		// if (stick.getPOV() == 315)
+		// {
+		// 	return UltrasonicState.FWD_LEFT;
+		// }
+
 		return UltrasonicState.IDLE;
 	}
 
