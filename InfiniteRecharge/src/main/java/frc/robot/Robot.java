@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
 
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
-        
+         
     //CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
 
