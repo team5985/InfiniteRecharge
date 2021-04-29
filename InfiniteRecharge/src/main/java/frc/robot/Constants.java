@@ -264,7 +264,7 @@ public class Constants {
 	public static final double kBarRightSpeed = 1;
 
 	public static final double kClimbLowPos = 1000; 
-	public static final double kClimbHighPos = 120000;
+	public static final double kClimbHighPos = 100000;
 	public static final double kElevatorHighPos = 250000;
 
 	//Vision
