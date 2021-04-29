@@ -132,7 +132,11 @@ public class DriverControls {
 	 * @return Traverser speed from -1 to 1.
 	 *  */ 
 	public double getTraverserThrottle() {
-		return xBox.getX(Hand.kLeft);
+		if(xBox.getX(Hand.kLeft) <= 0.05 && xBox.getX(Hand.kLeft) >= -0.05) {
+			return 0;
+		} else {
+			return xBox.getX(Hand.kLeft);
+		}
 	}
 
 	//Button presses
@@ -236,12 +240,13 @@ public class DriverControls {
 	}
 
 	public boolean getClimbUp() {
-		return (stick.getRawButton(10) && getClimbConfirmation());
+		return (xBox.getPOV() == 0 && getClimbConfirmation());
 	}
 
 	public boolean getClimbDown() {
-		return (stick.getRawButton(11) && getClimbConfirmation());
+		return (xBox.getPOV() == 180 && getClimbConfirmation());
 	}
+
 
 	public void updateShooterIndex() {
 		if(xBox.getXButton())	{

@@ -196,12 +196,6 @@ public class TeleopController {
         }
 
         if(m_controls.getClimbUp()) {
-            
-        }
-
-    
-
-        if(m_controls.getClimbUp()) {
             m_climber.setDesiredState(ClimberState.LIFTING);
         } else if(m_controls.getClimbDown()) {
             m_climber.setDesiredState(ClimberState.CLIMBING);
