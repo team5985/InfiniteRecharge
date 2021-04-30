@@ -252,7 +252,7 @@ public class Constants {
 	//Shooter RPM
 
 	// Vision
-	public static final double kVisionTurnKp = 0.024; // 0.012 for 2 centre nitrile
+	public static final double kVisionTurnKp = 0.029;//was 0.024; // 0.012 for 2 centre nitrile
 	public static final double kDriveTurnStictionConstant = 0.0; // FIXME
 	public static final double kGyroTurnKp = 0.007; // 0.004 for 2 centre nitrile
 	public static final double kGyroDriveTurnKp = 0.012;  // FIXME
@@ -265,7 +265,9 @@ public class Constants {
 
 	public static final double kClimbLowPos = 1000; 
 	public static final double kClimbHighPos = 100000;
-	public static final double kElevatorHighPos = 250000;
+	public static final double kElevatorHighPos = 255000;
+
+	public static final double kElevatorClimbSpeed = 0.5;
 
 	//Vision
 	public static final double kA1 = 20; // Angle of the limelight from the robot chassie (degrees)

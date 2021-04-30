@@ -33,7 +33,7 @@ public class Shooter extends Subsystem {
     private ShooterState desiredState;
     int shooterZoneIndex = 0;
     double[] shooterZoneSpeed = {5800, 5300, 4800};
-    private double shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
+    private double shooterTargetRPM = 3025;//shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
 
   
     static public Shooter getInstance() {
@@ -53,9 +53,9 @@ public class Shooter extends Subsystem {
     }
 
     public void update() {
-        shooterTargetRPM = (SmartDashboard.getNumber("Shooter RPM", 5800*2))/2;
+        //shooterTargetRPM = (SmartDashboard.getNumber("Shooter RPM", 5800*2))/2;
         //System.out.println(Vision.getInstance().getDistanceToTarget() + "m to target");
-        shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];
+        //shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];
         switch(desiredState) {
 
             case SHOOTING: 

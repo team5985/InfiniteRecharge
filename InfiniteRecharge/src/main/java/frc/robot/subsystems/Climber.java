@@ -81,6 +81,7 @@ public class Climber extends Subsystem {
 
     @Override
     public void update() {
+        System.out.println("Climber is " + RobotMap.getClimberA().getSelectedSensorPosition());
         //setIdleMode();
         switch(desiredState) {
             case STOWED:
@@ -116,7 +117,7 @@ public class Climber extends Subsystem {
             idleState = IdleState.DOWN;
 
                 if(/*RobotMap.getClimberLimit().get()*/ true) {
-                    RobotMap.getClimberA().set(ControlMode.PercentOutput, -0.2);
+                    RobotMap.getClimberA().set(ControlMode.PercentOutput, -Constants.kElevatorClimbSpeed);
                     RobotMap.getClimberB().stopMotor();
 
                     //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
