@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.revrobotics.ColorMatch;
 
-
+import edu.wpi.first.hal.util.UncleanStatusException;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Constants;
@@ -30,11 +30,19 @@ public class ControlPanel extends Subsystem
     private int NumberOfEarlyScans;
     private int SecondarySpinCheck;
 
+    Solenoid controlPanelSolenoid;
+
     public ControlPanel(){
         desiredState = ControlPanelState.RETRACTED;
         randomFMS = 0;
         NumberOfEarlyScans = 0;
         SecondarySpinCheck = 0;
+
+        try {
+            controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
+        } catch(UncleanStatusException e) {
+            
+        }
     }
 
     public static ControlPanel getInstance() {

@@ -29,6 +29,7 @@ public class Intake extends Subsystem {
     public enum IntakeState {
         INTAKING,
         UNINTAKING,
+        INTAKING_RETRACTED,
         IDLE,
     }
 
@@ -65,11 +66,19 @@ public class Intake extends Subsystem {
             m_robotMap.intakeMotor.set(Constants.kIntakeUnintakingSpeed);
             currentState = desiredState;
             break;
+
+            case INTAKING_RETRACTED:
+            m_robotMap.intakeActuator.set(false);
+            m_robotMap.intakeMotor.set(0);
+            currentState = desiredState;
+            break;
             
             default:
             m_robotMap.intakeMotor.set(0);
             m_robotMap.intakeActuator.set(false);
-            
+            currentState = desiredState;
+
+            break;
 
         }
     }
@@ -106,4 +115,6 @@ public class Intake extends Subsystem {
         return true;
     }
 
+	public void resetSensors() {
+	}
 }

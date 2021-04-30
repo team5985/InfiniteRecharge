@@ -1,6 +1,8 @@
+
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
@@ -32,6 +34,7 @@ public class Climber extends Subsystem {
     private ClimberState currentState;
     private ClimberState desiredState;
     private BuddyState buddyState;
+    private IdleState idleState;
     
     ProfiledPIDController winchPidController;
     Constraints winchPidConstraints;
@@ -40,6 +43,7 @@ public class Climber extends Subsystem {
         currentState = ClimberState.STOWED;
         desiredState = ClimberState.STOWED;
         buddyState = BuddyState.NO_BUDDY;
+        idleState = IdleState.IDLE;
 
         winchPidConstraints = new Constraints(Constants.kWinchMaxVelocity, Constants.kWinchMaxAccel);
         winchPidController = new ProfiledPIDController(Constants.kWinchKp, 0.0, 0.0, winchPidConstraints);
@@ -64,36 +68,98 @@ public class Climber extends Subsystem {
         NO_BUDDY,  // Robot does not have a friend
     }
 
+    /**
+     * Responsible for setitng the neutral modes of the motors.
+     */
+
+    public enum IdleState {
+        UP, //Winch A = Coast, Winch B = Brake
+        DOWN, //Winch A = Brake, Winch B = Coasr
+        IDLE,  // Winch A = Brake, Winch B = Brake
+        SAFE,
+    }
+
     @Override
     public void update() {
+        System.out.println("Climber is " + RobotMap.getClimberA().getSelectedSensorPosition());
+        //setIdleMode();
         switch(desiredState) {
             case STOWED:
-                RobotMap.getClimberA().set(ControlMode.MotionMagic, 0);
-                RobotMap.getClimberB().set(ControlMode.MotionMagic, 0);
+                idleState = IdleState.IDLE;
+                if(RobotMap.getClimberLimit().get()) {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
+                    //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+                } else {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
+                }
                 currentState = desiredState;
             break;
             case LIFTING:
-                RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
-                RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
-                if(RobotMap.getClimberA().isMotionProfileFinished()) {
-                    
+            //System.out.println("UP!!!!!"); 
+
+            idleState = IdleState.UP;
+
+                if(RobotMap.getClimberLimit().get()) {
+                    //RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
+                    //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
+                    RobotMap.getClimberB().set(ControlMode.MotionMagic, -Constants.kElevatorHighPos);
+                    RobotMap.getClimberA().stopMotor();
+                } else {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
                 }
                 currentState = desiredState;
 
             break;
             case CLIMBING:
-                RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
-                RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+            idleState = IdleState.DOWN;
+
+                if(/*RobotMap.getClimberLimit().get()*/ true) {
+                    RobotMap.getClimberA().set(ControlMode.PercentOutput, -Constants.kElevatorClimbSpeed);
+                    RobotMap.getClimberB().stopMotor();
+
+                    //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
+                } else {
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
+                }
                 currentState = desiredState;
 
             break;
             default:
-                  
+                idleState = IdleState.IDLE;
+
+                RobotMap.getClimberA().stopMotor();
+                RobotMap.getClimberB().stopMotor();
+
                   currentState = desiredState;
 
             break;
         }
+
+        switch(idleState) {
+            case UP:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Coast);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Brake);
+            break;
+            case DOWN:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Brake);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Coast);
+            break;
+            case SAFE:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Coast);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Coast);
+            break;
+            default:
+                RobotMap.getClimberA().setNeutralMode(NeutralMode.Brake);
+                RobotMap.getClimberB().setNeutralMode(NeutralMode.Brake);
+            break;
+        }
     }
+
+
 
     /**
      * @return Position in rotations, where calibration position is 0 and becomes positive as the lift goes up
@@ -140,14 +206,10 @@ public class Climber extends Subsystem {
 
     @Override
 	public boolean zeroPosition() {
-		if (!m_lowerLimit.get()) {
-            winchMove(-0.2);
-            return false;
-        } else {
-            winchMove(0.0);
-            m_winchMaster.setCounts(0);
-            return true;
-        }
+        RobotMap.getClimberA().setSelectedSensorPosition(0);
+        RobotMap.getClimberB().setSelectedSensorPosition(0);
+        return RobotMap.getClimberLimit().get();
+
     }
     
     private void winchMoveTo(double rotations) {
@@ -167,10 +229,26 @@ public class Climber extends Subsystem {
     }
 
     public boolean getTarget() {
-        return RobotMap.getClimberA().isMotionProfileFinished();
+        return true;//RobotMap.getClimberA().isMotionProfileFinished();
     }
 
     private double winchCountsToRotations(int counts) {
         return counts / Constants.kWinchEncoderCountsPerRev;
     }
+
+    public void resetSensors() {
+        m_winchMaster.setCounts(0);
+    }
+/*
+    private void setIdleMode() {
+        if(currentState == ClimberState.IDLE) {
+            idleState = IdleState.IDLE;
+        } else if(Math.abs(RobotMap.getClimberA().getMotorOutputPercent()) >= 0.05) {
+            idleState = IdleState.UP;
+        } else if(Math.abs(RobotMap.getClimberB().getMotorOutputPercent()) >= 0.1) {
+            idleState = IdleState.DOWN;
+        }
+    } */
 }
+
+    

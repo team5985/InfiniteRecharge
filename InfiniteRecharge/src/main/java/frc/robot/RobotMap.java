@@ -5,52 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import frc.util.EncoderAdapter;
-import frc.util.SensoredSystem;
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.*;
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.EncoderType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.CANPIDController;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import frc.robot.subsystems.RobotWrangler;
-
-import frc.util.*;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
-import frc.util.*;
-import frc.util.sim.*;
-
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
-import frc.util.PbSolenoid;
-import frc.util.PbSparkMax;
 import frc.util.PbTalonSrx;
 import frc.util.SensoredSystem;
-import frc.util.SolenoidAdapter;
 
 /**
  * Contains and constructs all of the devices on the robot. This should be kept
@@ -60,13 +37,6 @@ import frc.util.SolenoidAdapter;
  */
 
 public class RobotMap {
-
-	public static final int kIntakeCanID = 9;
-	public static final int kItntakeActuatorCanID = 10;
-	public static final int kShooterACanID = 12;
-	public static final int kShooterBCanID = 13;
-	public static final int kIndexerCanID = 26;
-
 	// Encoders
 	// static EncoderAdapter shooterVelocityEncoder;
 
@@ -93,17 +63,13 @@ public class RobotMap {
 	/**
 	 * DIO Ports
 	 */
-	static final int leftDriveEncADioPort = 0;
-	static final int leftDriveEncBDioPort = 1;
 
-	static final int rightDriveEncADioPort = 2;
-	static final int rightDriveEncBDioPort = 3;
 
 	// Set up motor controllers - Declaration
 
 	// Shooter
-	public static WPI_TalonFX shooterMotorA = new WPI_TalonFX(kShooterACanID);
-	public static WPI_TalonFX shooterMotorB = new WPI_TalonFX(kShooterBCanID);
+	public static WPI_TalonFX shooterMotorA = new WPI_TalonFX(Constants.kShooterACanID);
+	public static WPI_TalonFX shooterMotorB = new WPI_TalonFX(Constants.kShooterBCanID);
 	static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB);
 
 	/**
@@ -115,6 +81,7 @@ public class RobotMap {
 	// leftDriveB.follow(leftDriveA);
 	// static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID,
 	// MotorType.kBrushless);
+	
 	public static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
 
 	// Right
@@ -125,12 +92,49 @@ public class RobotMap {
 	// MotorType.kBrushless);
 	public static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
 
+	static
+	{
+		// leftDriveA.setNeutralMode(NeutralMode.Coast);
+		// leftDriveB.setNeutralMode(NeutralMode.Coast);
+		// rightDriveA.setNeutralMode(NeutralMode.Coast);
+		// rightDriveB.setNeutralMode(NeutralMode.Coast);
+
+		// leftDriveA.setNeutralMode(NeutralMode.Brake);
+		// leftDriveB.setNeutralMode(NeutralMode.Brake);
+		// rightDriveA.setNeutralMode(NeutralMode.Brake);
+		// rightDriveB.setNeutralMode(NeutralMode.Brake);
+
+		// TalonFXConfiguration config = new TalonFXConfiguration();
+
+		// leftDriveA.getAllConfigs(config);
+		// System.out.println("LeftA Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// leftDriveA.configAllSettings(config);
+
+		// leftDriveB.getAllConfigs(config);
+		// System.out.println("LeftB Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// leftDriveB.configAllSettings(config);
+
+		// rightDriveA.getAllConfigs(config);
+		// System.out.println("RightA Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// rightDriveA.configAllSettings(config);
+
+		// rightDriveB.getAllConfigs(config);
+		// System.out.println("RightB Ramp - " + config.openloopRamp);
+		// config.openloopRamp = 0;
+		// rightDriveB.configAllSettings(config);
+	}
+
 	/**
 	 * Indexer
 	 */
 	static WPI_TalonFX indexerMotor = new WPI_TalonFX(Constants.kIndexerCanID);
 	static Solenoid indexerFlap = new Solenoid(Constants.kPcmCanID, Constants.kIndexerFlapChannelId);
 	static SensoredSystem indexerSystem = new SensoredSystem(indexerMotor, null);
+
+	static WPI_VictorSPX throatMotor = new WPI_VictorSPX(Constants.kThroatCanID);
 
 	/**
 	 * Intake
@@ -146,11 +150,11 @@ public class RobotMap {
 	static WPI_TalonFX winchA = new WPI_TalonFX(Constants.kWinchACanId); // Master
 	static WPI_TalonFX winchB = new WPI_TalonFX(Constants.kWinchBCanId);
 
+	public static DigitalInput climbLimit = new DigitalInput(3);
 
 	// PbSparkMax elevatorMotor = new PbSparkMax(Constants.kElevatorMotorCanId,
 	// MotorType.kBrushless);
 	// SensoredSystem elevatorSystem = new SensoredSystem(elevatorMotor);
-
 
 	static PbDioSwitch elevatorUpperLimit = new PbDioSwitch(Constants.kElevatorUpperLimitDio);
 	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
@@ -164,6 +168,22 @@ public class RobotMap {
 	public static SpeedControllerGroup getLeftDrive() {
 
 		return leftDriveMotors;
+	}
+
+	public static WPI_TalonFX getLeftDriveA() {
+		return leftDriveA;
+	}
+
+	public static WPI_TalonFX getRightDriveA() {
+		return rightDriveA;
+	}
+
+	public static WPI_TalonFX getLeftDriveB() {
+		return leftDriveB;
+	}
+
+	public static WPI_TalonFX getRightDriveB() {
+		return rightDriveB;
 	}
 
 	static PbTalonSrx controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
@@ -230,6 +250,9 @@ public class RobotMap {
 		return shooterMotors;
 	}
 
+	public static SpeedController getThroat() {
+		return throatMotor;
+	}
 
 	public static WPI_TalonFX getIndexer() {
 		return indexerMotor;
@@ -292,6 +315,10 @@ public class RobotMap {
 
 	public static WPI_TalonFX getClimberB() {
 		return winchB;
+	}
+
+	public static DigitalInput getClimberLimit() {
+		return climbLimit;
 	}
 
 	public static Solenoid getClimberSolenoid() {

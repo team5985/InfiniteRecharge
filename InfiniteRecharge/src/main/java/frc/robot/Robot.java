@@ -6,24 +6,27 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.SparkMax;
-
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ControlPanel.ControlPanelState;
+import frc.robot.subsystems.Drive.gameMode;
+import frc.robot.subsystems.LED.DesiredColour;
+import frc.robot.subsystems.LED.LEDState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TeleopController;
 
 import frc.util.ColourSensor;
@@ -37,86 +40,136 @@ public class Robot extends TimedRobot {
   ColourSensor colourSensor;
   ControlPanel m_controlPanel;
   Compressor comp;
+  ErrorHandeling m_errors;
   //Solenoid solenoid;
   static Timer _timer = new Timer();
   Joystick js = new Joystick(Constants.kJoystickPort);
 
 
   public void robotInit() {
+
+    LED.getInstance().setColour(DesiredColour.RED);
+
+
  
     /* autoController.setDefaultOption("WIN", kDefaultAuto);
     autoController.addOption("Loose :(", kCustomAuto);
-    SmartDashboard.putData("Auto choices", autoController);
-    CameraServer.getInstance().startAutomaticCapture(); */
-  
+    SmartDashboard.putData("Auto choices", autoController); */
+
+    Drive drivetrain = Drive.getInstance();
+    //drivetrain.setSystem(RobotMap.getLeftDrive(), RobotMap.getRightDrive(), RobotMap.getLeftDriveEncoder(), RobotMap.getRightDriveEncoder());
+
+    Climber climber = Climber.getInstance();
+    //climber.setSystem(RobotMap.getIndexerSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
+
+    Intake intake = Intake.getInstance();
+    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
 
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
-    
-    
-    CameraServer.getInstance().startAutomaticCapture(0);
+         
+    //CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
+
+    Vision.getInstance();
+    
     comp = new Compressor(Constants.kPcmCanID);
-    autoController = new AutoController();
-    teleopController = new TeleopController();
+    autoController = AutoController.getInstance();
+    teleopController = TeleopController.getInstance();
     colourSensor = ColourSensor.getInstance();
     LiveWindow.disableAllTelemetry();
     //solenoid = new Solenoid(Constants.kPcmCanID, 7);
     m_controlPanel = new ControlPanel();
+    LiveWindow.disableAllTelemetry();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
     //RobotWrangler.setSystem(RobotMap.getRobotWranglerSystem()); // The Robot gives each Subsystem its physical devices that it will control
 
-    SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
-    SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
-    SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
-    SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
-    SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
-
-
-
-    SmartDashboard.putNumber("Servo", 0.0);
+    // SmartDashboard.putNumber("Shooter P Gain", Constants.kShooterP);
+    // SmartDashboard.putNumber("Shooter I Gain", Constants.kShooterI);
+    // SmartDashboard.putNumber("Shooter D Gain", Constants.kShooterD);
+    // SmartDashboard.putNumber("Shooter I Zone", Constants.kShooterIz);
+    // SmartDashboard.putNumber("Shooter Feed Forward", Constants.kShooterFF);
   }
 
-  @Override
-
   public void robotPeriodic() {
+    //LED.getInstance().update();
+    //m_errors.GetInstance().checkCan();
+
+    if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
+      Drive.getInstance().setBrakes(true);
+    }
+
+    SmartDashboard.putNumber("Gyro", Drive.getInstance().getYaw());
+    SmartDashboard.putNumber("AvgEncDistance", Drive.getInstance().getAvgEncoderDistance());
   }
 
   @Override
   public void autonomousInit() {
+    Drive.getInstance().setGameMode(Drive.gameMode.AUTO);
+    autoController.initialiseAuto();
   }
 
   @Override
   public void autonomousPeriodic() {
+    Drive.getInstance().updateUltrasonics();
+    autoController.runAuto();
+    Shooter.getInstance().update();
+    Indexer.getInstance().update();
+    Intake.getInstance().update();
+    
   }
 
  @Override
   public void teleopInit() {
-    comp.start();
+    Drive.getInstance().setGameMode(Drive.gameMode.TELEOP);
+    RobotMap.getIndexer().setSelectedSensorPosition(9);
+        comp.start();
+    Climber.getInstance().zeroPosition();
 
   }
 
 
   @Override
   public void teleopPeriodic() {
+    Drive.getInstance().updateUltrasonics();
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
-    //ControlPanel.getInstance().update();  //FIXME
+
+    // ControlPanel.getInstance().update();  //FIXME
     
     //The control panel can be setup more easily, and you don't need to call ColourSensor
     //ColourSensor.getInstance().update(); //FIXME
-    // Climber.getInstance().update();
+    Climber.getInstance().update();
+    Bar.getInstance().update();
+
 
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
-
+    
   }
 
 
   @Override
+  public void disabledInit() {
+    Drive.getInstance().setGameMode(Drive.gameMode.DISABLED);
+    Drive.getInstance().setBrakes(true); 
+    Vision.getInstance().disableVision();
+  }
+
+  @Override
+  public void disabledPeriodic() {
+  Drive.getInstance().updateUltrasonics();
+  }
+
+  public void testInit() {
+    Drive.getInstance().setGameMode(Drive.gameMode.TEST);
+  }
+
+  @Override
   public void testPeriodic() {
+  Drive.getInstance().updateUltrasonics();
   }
 }
 

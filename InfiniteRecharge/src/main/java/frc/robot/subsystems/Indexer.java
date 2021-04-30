@@ -47,21 +47,33 @@ public class Indexer extends Subsystem {
         
         switch(currentState) {
             case INDEXING:
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
+                RobotMap.getIndexer().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
                 RobotMap.getIndexerSolenoid().set(true);
-                
+                RobotMap.getThroat().set(Constants.kThroatSpeed);  // The throat is part of the indexer logic even though it is mechanically on the shooter
                 
                 currentState = desiredState;
             break;
+
             case UNINDEXING:
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerAntijam);
+                RobotMap.getIndexer().set(ControlMode.PercentOutput, Constants.kIndexerSpeed * -1);
                 RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getThroat().set(-Constants.kThroatSpeed);
+
+                currentState = desiredState;
+            break;
+
+            case INTAKING:
+                RobotMap.getIndexer().set(-0.3);
+                RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getThroat().set(0);
                 currentState = desiredState;
 
             break;
+
             default: 
-                RobotMap.getIndexerSystem().set(ControlMode.PercentOutput, Constants.kIndexerSpeed * -1);
-                                RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getIndexer().set(ControlMode.PercentOutput, 0);
+                RobotMap.getIndexerSolenoid().set(false);
+                RobotMap.getThroat().set(0.0);
                 currentState = desiredState;
             break;
                 
@@ -73,6 +85,7 @@ public class Indexer extends Subsystem {
         INDEXING,
         UNINDEXING,
         IDLE,
+        INTAKING,
     }
 
     public IndexerState getCurrentState() {
@@ -83,3 +96,4 @@ public class Indexer extends Subsystem {
         return currentState;
     }
 }
+

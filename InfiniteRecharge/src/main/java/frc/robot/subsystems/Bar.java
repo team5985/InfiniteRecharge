@@ -5,12 +5,35 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import frc.robot.Constants;
+import frc.robot.DriverControls;
 import frc.robot.RobotMap;
 
 /** Add your docs here. */
-public class Bar {
+public class Bar extends Subsystem{
+
+    private static Bar m_instance;
+    private static DriverControls m_controls;
+
+    public static Bar getInstance() {
+        if(m_instance == null) {
+            m_instance = new Bar();
+        }
+        return m_instance;
+    }
+
+    public enum BarStates {
+        LEFT,
+        RIGHT,
+        IDLE,
+    }
+
+    private BarStates currentState = BarStates.IDLE;
+    private BarStates desiredState = BarStates.IDLE;
+
+
 
     public void setLeft() {
         RobotMap.getBarMotor().set(ControlMode.PercentOutput, Constants.kBarLeftSpeed);
@@ -22,5 +45,48 @@ public class Bar {
 
     public void setIdle() {
         RobotMap.getBarMotor().set(ControlMode.PercentOutput, 0);
+    }
+
+    @Override
+    public void update() {
+        setBarSpeed();
+        // switch(currentState) {
+        //     case LEFT:
+        //         setLeft();
+        //         currentState = desiredState;
+        //     break;
+        //     case RIGHT:
+        //         setRight();
+        //         currentState = desiredState;
+        //     break;
+        //     default:
+        //         setIdle();
+        //         currentState = desiredState;
+        //     break;
+        // }
+    }
+
+    @Override
+    public double getPosition() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public boolean zeroPosition() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void setDesiredState(BarStates state) {
+        desiredState = state;
+    }
+
+    public BarStates getCurrentState() {
+        return currentState;
+    }
+
+    private void setBarSpeed() {
+        RobotMap.getBarMotor().set(ControlMode.PercentOutput, m_controls.getDriverControlsInstance().getTraverserThrottle());
     }
 }

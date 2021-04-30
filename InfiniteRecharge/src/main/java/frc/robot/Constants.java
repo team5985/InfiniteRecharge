@@ -21,6 +21,9 @@ public class Constants {
 	public static final double kShooterSpeedOffsetOffset = 0.1;
 
 	// CAN IDs
+	public static final int kShooterACanID = 12;
+	public static final int kShooterBCanID = 13;
+	public static final int kThroatCanID = 29;
 	public static final int kPcmCanId = 50;
 	public static final int kRobotWranglerSparkCanId = 148;
 
@@ -46,10 +49,10 @@ public class Constants {
     public static double kShooterMaxOutput = 1; 
     public static double kShooterMinOutput = -1;
 	public static double kShootermaxRPM = 5700;
-	public static double kShooterDefaultRPM = 5700;
-	public static double kShooterMinRPM = 3000;
+	public static double kShooterDefaultRPM = 6000;
+	public static double kShooterMinRPM = 500;
 	public static double kShooterHysteresis = 10;
-	public static double kShooterIdleSpeed = 0;
+	public static double kShooterIdleSpeed = 750 ;
 	public static double kShooterP = 6e-5; 
     public static double kShooterI = 0;
     public static double kShooterD = 0; 
@@ -94,6 +97,7 @@ public class Constants {
 	public static final double kControlPanelTargetRotations = 4;
 	public static final double kControlPanelHysteresis = 0.5;
 
+	public static final int kLED1PwmPort = 0;
 
 	/**
      * Colour RED seen at the control panel.
@@ -183,8 +187,8 @@ public class Constants {
   
 
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
-	public static final double kIntakeIntakingSpeed = 0.9;  // .85
-	public static final double kIntakeUnintakingSpeed = -0.8;
+	public static final double kIntakeIntakingSpeed = -0.9;  // .85
+	public static final double kIntakeUnintakingSpeed = 0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
 	public static final int kRightDriveACanID = 3;
@@ -195,12 +199,22 @@ public class Constants {
 	public static final double kIndexerSpeed = 0.5; //FIXME
 	public static final double kIndexerAntijam = -0.25; //FIXME
 
+	public static final double kThroatSpeed = -1.0;
+
 	public static double  kIntakeServoRetractedPos = 1;
 	public static double kIntakeServoExtendedPos = 0;
 
 	public static double kDriveSquaredSteeringInputsExponent = 2.0;
-    public static double kDriveSquaredPowerInputsExponent = 2.0;
+	public static double kDriveSquaredPowerInputsExponent = 2.0;
+	
+	// Profiled PID Controller values for autonomous movements
+	// Driving to a distance
+	public static double kDriveMaxSpeed = 4.18;
+	public static double kDriveMaxAccel = 4.0;
 
+	// Turning on the spot with the gyro
+	public static double kDriveMaxTurnSpeed = 12.12;
+	public static double kDriveMaxTurnAccel = 24.24;
 
 	/** Climber **/
 	// Elevator
@@ -238,12 +252,25 @@ public class Constants {
 	//Shooter RPM
 
 	// Vision
-	public static final double kVisionTurnKp = 0.012;
+	public static final double kVisionTurnKp = 0.029;//was 0.024; // 0.012 for 2 centre nitrile
+	public static final double kDriveTurnStictionConstant = 0.0; // FIXME
+	public static final double kGyroTurnKp = 0.007; // 0.004 for 2 centre nitrile
+	public static final double kGyroDriveTurnKp = 0.012;  // FIXME
+	public static final double kEncoderDriveKp = 0.7;  // FIXME
+	public static final double kDriveEncoderConversionFactor = 0.000023077; //1; //0.00089291;
 
 	public static final int kBarMotorCanId = 20;
 	public static final double kBarLeftSpeed = -1;
 	public static final double kBarRightSpeed = 1;
 
 	public static final double kClimbLowPos = 1000; 
-	public static final double kClimbHighPos = 2000;
+	public static final double kClimbHighPos = 100000;
+	public static final double kElevatorHighPos = 255000;
+
+	public static final double kElevatorClimbSpeed = 0.5;
+
+	//Vision
+	public static final double kA1 = 20; // Angle of the limelight from the robot chassie (degrees)
+	public static final double kH1 = 0.65; //Height of the limelight lense (metres)
+	public static final double kH2 = 2.47; //height of the middle of the target (metres)
 }
