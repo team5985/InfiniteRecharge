@@ -20,6 +20,8 @@ public class AutoController {
 		new RightTrenchAllBallAuto(),
 		new ScootAndShoot(),
 		new ShootAndScoot(),	
+		new NoAuto(),
+		new LeaveLineBlockTrench(),
 	};
 
 	public enum AutoSelection {
@@ -33,6 +35,8 @@ public class AutoController {
 		RIGHT_TRENCH_ALL_BALL_AUTO,
 		//RIGHT_TRENCH_ALL_BALL_REPOSITION_AUTO,
 		//DISTTEST,
+		NONE, 
+		LEAVELINE_BLOCK_TRENCH,
 		
 	}
 
@@ -72,6 +76,10 @@ public class AutoController {
 			runningAuto = new ScootAndShoot();
 		} else if(selectedAuto == AutoSelection.SHOOT_AND_SCOOT) {
 			runningAuto = new ShootAndScoot();
+		} else if(selectedAuto == AutoSelection.NONE) {
+			runningAuto = new NoAuto();
+		} else if(selectedAuto == AutoSelection.LEAVELINE_BLOCK_TRENCH) {
+			runningAuto = new LeaveLineBlockTrench(); 
 		} else {
 			runningAuto = null;
 		}

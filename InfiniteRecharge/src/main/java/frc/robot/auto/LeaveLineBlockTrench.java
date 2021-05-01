@@ -3,10 +3,10 @@ package frc.robot.auto;
 import frc.robot.AutoController.AutoSelection;
 import frc.robot.subsystems.Drive;
 
-public class LeaveLine extends AutoMode {
+public class LeaveLineBlockTrench extends AutoMode {
     static {
-        name = "Leave Line";
-        autoType = AutoSelection.LEAVELINE;
+        name = "Leave Line block trench";
+        autoType = AutoSelection.LEAVELINE_BLOCK_TRENCH;
     }
     
     @Override
@@ -26,7 +26,7 @@ public class LeaveLine extends AutoMode {
             Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
-            if (Drive.getInstance().getAvgEncoderDistance() >= 2.0) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 5.0) {
                 return true;
             }
             break;
