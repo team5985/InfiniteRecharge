@@ -260,28 +260,22 @@ public class DriverControls {
 
 	public Drive.UltrasonicState getUltrasonicState()
 	{
-		//TODO uncomment and tune this as there is an issue and the sensors
-		//are too unreliable for comp. Forced into idle mode to prevent accidental
-		//triggering
-
-
-		// if (stick.getPOV() == 45)
-		// {
-		// 	return UltrasonicState.FWD_RIGHT;
-		// }
-		// if (stick.getPOV() == 135)
-		// {
-		// 	return UltrasonicState.REV_RIGHT;
-		// }
-		// if (stick.getPOV() == 225)
-		// {
-		// 	return UltrasonicState.REV_LEFT;
-		// }
-		// if (stick.getPOV() == 315)
-		// {
-		// 	return UltrasonicState.FWD_LEFT;
-		// }
-		
+		if (stick.getPOV() == 45)
+		{
+			return UltrasonicState.FWD_RIGHT;
+		}
+		if (stick.getPOV() == 135)
+		{
+			return UltrasonicState.REV_RIGHT;
+		}
+		if (stick.getPOV() == 225)
+		{
+			return UltrasonicState.REV_LEFT;
+		}
+		if (stick.getPOV() == 315)
+		{
+			return UltrasonicState.FWD_LEFT;
+		}
 
 		return UltrasonicState.IDLE;
 	}
