@@ -12,8 +12,10 @@ import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Shooter.ShooterState;
 
 public class ShootAndScoot extends AutoMode {
-    private String name = "Shoot and Move off Line";
-    private AutoSelection autoType = AutoSelection.SHOOT_AND_SCOOT;
+    static {
+        name = "Shoot and Move off Line";
+        autoType = AutoSelection.SHOOT_AND_SCOOT;
+    }
     
     @Override
     public boolean getExit() {
@@ -42,7 +44,7 @@ public class ShootAndScoot extends AutoMode {
                 Indexer.getInstance().setDesiredState(IndexerState.IDLE);
             }
 
-            if (DriverStation.getInstance().getMatchTime() < 10) {
+            if (DriverStation.getInstance().getMatchTime() < 7) {
                 return true;
             }
             break;
@@ -54,13 +56,13 @@ public class ShootAndScoot extends AutoMode {
             Indexer.getInstance().setDesiredState(IndexerState.IDLE);
             Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
-            if (Drive.getInstance().getAvgEncoderDistance() >= 0.5) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 1.5) {
                 return true;
             }
             break;
 
             case 2:
-            Drive.getInstance().arcadeDrive(0.0, 0.0, 0.0);
+                Drive.getInstance().arcadeDrive(0.0, 0.0, 0.0);
             break;
 
             default:

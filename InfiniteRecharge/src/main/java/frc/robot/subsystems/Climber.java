@@ -1,3 +1,4 @@
+
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -80,13 +81,14 @@ public class Climber extends Subsystem {
 
     @Override
     public void update() {
+        System.out.println("Climber is " + RobotMap.getClimberA().getSelectedSensorPosition());
         //setIdleMode();
         switch(desiredState) {
             case STOWED:
                 idleState = IdleState.IDLE;
                 if(RobotMap.getClimberLimit().get()) {
-                    RobotMap.getClimberA().set(ControlMode.MotionMagic, 0);
-                    RobotMap.getClimberB().set(ControlMode.MotionMagic, 0);
+                    RobotMap.getClimberA().stopMotor();
+                    RobotMap.getClimberB().stopMotor();
                     //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
                 } else {
                     RobotMap.getClimberA().stopMotor();
@@ -95,7 +97,7 @@ public class Climber extends Subsystem {
                 currentState = desiredState;
             break;
             case LIFTING:
-            //System.out.println("UP!!!!!");
+            //System.out.println("UP!!!!!"); 
 
             idleState = IdleState.UP;
 
@@ -115,7 +117,7 @@ public class Climber extends Subsystem {
             idleState = IdleState.DOWN;
 
                 if(/*RobotMap.getClimberLimit().get()*/ true) {
-                    RobotMap.getClimberA().set(ControlMode.MotionMagic, -Constants.kClimbHighPos);
+                    RobotMap.getClimberA().set(ControlMode.PercentOutput, -Constants.kElevatorClimbSpeed);
                     RobotMap.getClimberB().stopMotor();
 
                     //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbHighPos);
@@ -127,7 +129,11 @@ public class Climber extends Subsystem {
 
             break;
             default:
-                  
+                idleState = IdleState.IDLE;
+
+                RobotMap.getClimberA().stopMotor();
+                RobotMap.getClimberB().stopMotor();
+
                   currentState = desiredState;
 
             break;
@@ -223,7 +229,7 @@ public class Climber extends Subsystem {
     }
 
     public boolean getTarget() {
-        return RobotMap.getClimberA().isMotionProfileFinished();
+        return true;//RobotMap.getClimberA().isMotionProfileFinished();
     }
 
     private double winchCountsToRotations(int counts) {
@@ -244,3 +250,5 @@ public class Climber extends Subsystem {
         }
     } */
 }
+
+    
