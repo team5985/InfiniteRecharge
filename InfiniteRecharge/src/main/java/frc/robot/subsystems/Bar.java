@@ -8,14 +8,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import frc.robot.Constants;
-import frc.robot.DriverControls;
 import frc.robot.RobotMap;
 
 /** Add your docs here. */
 public class Bar extends Subsystem{
 
     private static Bar m_instance;
-    private static DriverControls m_controls;
 
     public static Bar getInstance() {
         if(m_instance == null) {
@@ -49,21 +47,20 @@ public class Bar extends Subsystem{
 
     @Override
     public void update() {
-        setBarSpeed();
-        // switch(currentState) {
-        //     case LEFT:
-        //         setLeft();
-        //         currentState = desiredState;
-        //     break;
-        //     case RIGHT:
-        //         setRight();
-        //         currentState = desiredState;
-        //     break;
-        //     default:
-        //         setIdle();
-        //         currentState = desiredState;
-        //     break;
-        // }
+        switch(currentState) {
+            case LEFT:
+                setLeft();
+                currentState = desiredState;
+            break;
+            case RIGHT:
+                setRight();
+                currentState = desiredState;
+            break;
+            default:
+                setIdle();
+                currentState = desiredState;
+            break;
+        }
     }
 
     @Override
@@ -84,9 +81,5 @@ public class Bar extends Subsystem{
 
     public BarStates getCurrentState() {
         return currentState;
-    }
-
-    private void setBarSpeed() {
-        RobotMap.getBarMotor().set(ControlMode.PercentOutput, m_controls.getDriverControlsInstance().getTraverserThrottle());
     }
 }

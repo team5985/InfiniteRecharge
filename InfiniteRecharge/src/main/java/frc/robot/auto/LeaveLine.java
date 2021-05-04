@@ -4,10 +4,8 @@ import frc.robot.AutoController.AutoSelection;
 import frc.robot.subsystems.Drive;
 
 public class LeaveLine extends AutoMode {
-    static {
-        name = "Leave Line";
-        autoType = AutoSelection.LEAVELINE;
-    }
+    private String name = "Leave Line";
+    private AutoSelection autoType = AutoSelection.LEAVELINE;
     
     @Override
     public boolean getExit() {
@@ -26,7 +24,7 @@ public class LeaveLine extends AutoMode {
             Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
             System.out.println("ENCODER:" + Drive.getInstance().getAvgEncoderDistance());
-            if (Drive.getInstance().getAvgEncoderDistance() >= 2.0) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 1.0) {
                 return true;
             }
             break;

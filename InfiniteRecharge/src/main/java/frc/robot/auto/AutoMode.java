@@ -3,8 +3,8 @@ package frc.robot.auto;
 import frc.robot.AutoController.AutoSelection;
 
 public abstract class AutoMode {
-    protected static String name;
-    protected static AutoSelection autoType;
+    private String name;
+    private AutoSelection autoType;
 
     /**
      * Returns String of the name of the auto mode.
