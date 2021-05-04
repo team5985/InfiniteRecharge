@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
   ColourSensor colourSensor;
   ControlPanel m_controlPanel;
   Compressor comp;
+  ErrorHandeling m_errors;
   //Solenoid solenoid;
   static Timer _timer = new Timer();
   Joystick js = new Joystick(Constants.kJoystickPort);
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
 
     ControlPanel controlPanel = ControlPanel.getInstance();
     ColourSensor colourSensor = ColourSensor.getInstance();
-        
+         
     //CameraServer.getInstance().startAutomaticCapture(0);
     _timer.reset();
 
@@ -93,6 +94,7 @@ public class Robot extends TimedRobot {
 
   public void robotPeriodic() {
     //LED.getInstance().update();
+    //m_errors.GetInstance().checkCan();
 
     if (isEnabled() && !Drive.getInstance().getBrakes()) { // set to brake when enabled if not already set to brake
       Drive.getInstance().setBrakes(true);
@@ -112,7 +114,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    Drive.getInstance().updateUltrasonics();
+    //Drive.getInstance().updateUltrasonics();
     autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
@@ -132,7 +134,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Drive.getInstance().updateUltrasonics();
+    //Drive.getInstance().updateUltrasonics();
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
     Indexer.getInstance().update();

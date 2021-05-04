@@ -13,9 +13,26 @@ import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Shooter.ShooterState;
 
 public class ScootAndShoot extends AutoMode {
-    private String name = "Move off Line then shoot";
-    private AutoSelection autoType = AutoSelection.SCOOT_AND_SHOOT;
-    
+    static {
+        name = "Move off Line then shoot";
+        autoType = AutoSelection.SCOOT_AND_SHOOT;
+    }
+        /**
+     * Returns String of the name of the auto mode.
+     * @return Name of auto mode.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns what the auto does as type AutoSelection.
+     * @return Type of auto mode.
+     */
+    public AutoSelection getAutoType() {
+        return autoType;
+    }
+
     @Override
     public boolean getExit() {
         return false;
@@ -23,7 +40,7 @@ public class ScootAndShoot extends AutoMode {
 
     @Override
     public void init() {
-        
+        Drive.getInstance().resetSensors();
     }
 
     @Override
@@ -35,9 +52,9 @@ public class ScootAndShoot extends AutoMode {
             
             Shooter.getInstance().setDesiredState(ShooterState.IDLE);
             Indexer.getInstance().setDesiredState(IndexerState.IDLE);
-            Drive.getInstance().arcadeDrive(-1.0, 0.0, 0.4);
+            Drive.getInstance().arcadeDrive(1.0, 0.0, 0.4);
 
-            if (Drive.getInstance().getAvgEncoderDistance() <= -2) {
+            if (Drive.getInstance().getAvgEncoderDistance() >= 1.5) {
                 return true;
             }
             break;
@@ -64,8 +81,8 @@ public class ScootAndShoot extends AutoMode {
 
             case 2:
             Drive.getInstance().arcadeDrive(0.0, 0.0, 0.0);
-            Shooter.getInstance().setDesiredState(ShooterState.IDLE);
-            Indexer.getInstance().setDesiredState(IndexerState.IDLE);
+            //Shooter.getInstance().setDesiredState(ShooterState.IDLE);
+            //Indexer.getInstance().setDesiredState(IndexerState.IDLE);
             Vision.getInstance().disableVision();
 
             break;

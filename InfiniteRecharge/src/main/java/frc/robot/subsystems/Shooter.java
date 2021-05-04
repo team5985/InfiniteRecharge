@@ -15,6 +15,8 @@ import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
@@ -30,8 +32,8 @@ public class Shooter extends Subsystem {
     private ShooterState currentState;
     private ShooterState desiredState;
     int shooterZoneIndex = 0;
-    double[] shooterZoneSpeed = {6000, 6000, 3125, 3175};
-    private double shooterTargetRPM = 5800;//shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
+    double[] shooterZoneSpeed = {5800, 5300, 4800};
+    private double shooterTargetRPM = 3275;//shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
 
   
     static public Shooter getInstance() {
@@ -51,21 +53,34 @@ public class Shooter extends Subsystem {
     }
 
     public void update() {
+        //shooterTargetRPM = (SmartDashboard.getNumber("Shooter RPM", 5800*2))/2;
         //System.out.println(Vision.getInstance().getDistanceToTarget() + "m to target");
-        //shooterTargetRPM = 6000;//= shooterZoneSpeed[shooterZoneIndex];
+        //shooterTargetRPM = shooterZoneSpeed[shooterZoneIndex];
         switch(desiredState) {
+
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
                 System.out.println(RobotMap.getShooterA().getSelectedSensorVelocity());
                 System.out.println("Selected shooter speed = " + shooterZoneSpeed[shooterZoneIndex] + "current speed = " + RobotMap.getShooterA().getSelectedSensorVelocity() / 2048 * 600);
+                currentState = desiredState;
 
             break;
             case HOODUP: 
+                currentState = desiredState;
+
             break;
             case HOODDOWN: 
+                currentState = desiredState;
+
             break;
+            case ANTIJAM:
+                removeShooterJam();
+                currentState = desiredState;
+
             default:
                 stopShooter();
+                currentState = desiredState;
+
             break;
             
         }
@@ -98,9 +113,8 @@ public class Shooter extends Subsystem {
     }
    
     public void removeShooterJam() {
-       // RobotMap.getShooter().set(-1);
-        //Set indexer -1;
-        //RobotMap.getIndexer().set(-1);
+        RobotMap.getShooterA().set(-0.5);
+        RobotMap.getShooterB().set(0.5);
     }
     public double getShooterRPM() {
         return RobotMap.getShooterA().getSelectedSensorVelocity() * 600 / 2048;
@@ -133,7 +147,7 @@ public class Shooter extends Subsystem {
         SHOOTING,
         HOODUP,
         HOODDOWN,
-        IDLE,
+        IDLE, ANTIJAM,
     }
 
     public void setShooterTargetSpeed(double rpm) {
