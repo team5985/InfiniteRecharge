@@ -187,7 +187,7 @@ public class Constants {
   
 
 	public static final double kIntakeEncoderPPR = 4096; //4096 for ctre mag encoder
-	public static final double kIntakeIntakingSpeed = -0.9;  // .85
+	public static final double kIntakeIntakingSpeed = -1;  // .85
 	public static final double kIntakeUnintakingSpeed = 0.8;
 	public static final int kLeftDriveACanID = 1;
 	public static final int kLeftDriveBCanID = 2;
@@ -252,7 +252,7 @@ public class Constants {
 	//Shooter RPM
 
 	// Vision
-	public static final double kVisionTurnKp = 0.029;//was 0.024; // 0.012 for 2 centre nitrile
+	public static final double kVisionTurnKp = 0.023;//was 0.024; // 0.012 for 2 centre nitrile
 	public static final double kDriveTurnStictionConstant = 0.0; // FIXME
 	public static final double kGyroTurnKp = 0.007; // 0.004 for 2 centre nitrile
 	public static final double kGyroDriveTurnKp = 0.012;  // FIXME
