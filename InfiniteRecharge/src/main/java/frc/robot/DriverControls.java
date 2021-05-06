@@ -117,7 +117,7 @@ public class DriverControls {
 	public double getDriveSteering() {
 		steering = (deadZoneX(stick.getX()));
 		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 1.5); //was 2.0
-		return steering;//Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
+		return steering * 0.75;//Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class DriverControls {
 	 * @return Traverser speed from -1 to 1.
 	 *  */ 
 	public double getTraverserThrottle() {
-		if(xBox.getX(Hand.kLeft) <= 0.05 && xBox.getX(Hand.kLeft) >= -0.05) {
+		if(xBox.getX(Hand.kLeft) <= 0.1 && xBox.getX(Hand.kLeft) >= -0.1) {
 			return 0;
 		} else {
 			return xBox.getX(Hand.kLeft);
