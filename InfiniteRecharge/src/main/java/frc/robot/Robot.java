@@ -102,8 +102,6 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Gyro", Drive.getInstance().getYaw());
     SmartDashboard.putNumber("AvgEncDistance", Drive.getInstance().getAvgEncoderDistance());
-    SmartDashboard.putNumber("Distance Left", Drive.getInstance().getUSLeft());
-    SmartDashboard.putNumber("Distance Right", Drive.getInstance().getUSRight());
   }
 
   @Override
@@ -114,7 +112,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    Drive.getInstance().updateUltrasonics();
+    //Drive.getInstance().updateUltrasonics();
     autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
@@ -134,7 +132,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Drive.getInstance().updateUltrasonics();
+    //Drive.getInstance().updateUltrasonics();
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
     Indexer.getInstance().update();
