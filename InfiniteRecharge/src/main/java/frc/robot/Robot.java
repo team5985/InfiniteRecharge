@@ -169,7 +169,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-  Drive.getInstance().updateUltrasonics();
+  //Drive.getInstance().updateUltrasonics();
   }
 }
 

@@ -101,7 +101,7 @@ public class Climber extends Subsystem {
 
             idleState = IdleState.UP;
 
-                if(RobotMap.getClimberLimit().get()) {
+                if(!(RobotMap.getClimberLimit().get())) {
                     //RobotMap.getClimberA().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
                     //RobotMap.getClimberB().set(ControlMode.MotionMagic, Constants.kClimbLowPos);
                     RobotMap.getClimberB().set(ControlMode.MotionMagic, -Constants.kElevatorHighPos);

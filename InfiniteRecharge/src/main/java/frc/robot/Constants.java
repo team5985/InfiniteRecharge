@@ -265,7 +265,7 @@ public class Constants {
 
 	public static final double kClimbLowPos = 1000; 
 	public static final double kClimbHighPos = 100000;
-	public static final double kElevatorHighPos = 255000;
+	public static final double kElevatorHighPos = 265000;
 
 	public static final double kElevatorClimbSpeed = 0.5;
 
