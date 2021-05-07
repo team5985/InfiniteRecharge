@@ -14,6 +14,8 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import org.ejml.equation.VariableDouble;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
@@ -126,7 +128,11 @@ public class Drive extends Subsystem{
     }
 
     public void setMotors(double leftPower, double rightPower) {
-        if (currentMode == gameMode.AUTO)
+        if (ultrasonicZeroRamp == true)
+        {
+            // Do nothing, allow power to pass through without ramp.
+        }
+        else if (currentMode == gameMode.AUTO)
         {
             double leftDiff = leftPower - lastLeftSPeed;
             leftDiff = Math.min(leftDiff, autoRampRateRev);
@@ -175,6 +181,18 @@ public class Drive extends Subsystem{
     private double outSpeed = 0;
     private double lastError = 0;
     private UltrasonicState lastUSState = UltrasonicState.IDLE;
+    private boolean ultrasonicZeroRamp = false;
+
+    public double getUSLeft()
+    {
+        return usi2cl.getResults().getResult();
+    }
+
+    public double getUSRight()
+    {
+        return usi2cr.getResults().getResult();
+    }
+
 
     public void ultrasonicDrive(UltrasonicState aState)
     {
@@ -219,14 +237,14 @@ public class Drive extends Subsystem{
         UltrasonicI2C.usResults resultsr = usi2cr.getResults();
         UltrasonicI2C.usResults resultsl = usi2cl.getResults();
   
-        double aimPos = 300; // how far away from the wall we want to be in mm
-        double pgain = 0.00025; // how fast we correct ourselves
-        double dgain = 0.005; // differential gain
-        double speed = 0.7;
+        double aimPos = 350; // how far away from the wall we want to be in mm
+        double pgain = 0.0005; // how fast we correct ourselves
+        double dgain = 0.01; // differential gain
+        double speed = 1;
         double leftPower;
         double rightPower;
-        double accRate = 0.08;
-  
+        double accRate = 0.05;
+
         double power = speed;
         if (reverse)
         {
@@ -263,9 +281,11 @@ public class Drive extends Subsystem{
         // SmartDashboard.putNumber("pOutput", pOutput);
         // SmartDashboard.putNumber("dOutput", dOutput);
         // SmartDashboard.putNumber("Error", error);
-        leftPower = outSpeed - steering;
-        rightPower = steering + outSpeed;
+        leftPower = outSpeed + steering;
+        rightPower = outSpeed - steering;
+        ultrasonicZeroRamp = true;
         steerPriority(leftPower, rightPower);
+        ultrasonicZeroRamp = false;
     }
   
     private void steerPriority(double left, double right)
