@@ -265,12 +265,12 @@ public class Constants {
 
 	public static final double kClimbLowPos = 1000; 
 	public static final double kClimbHighPos = 100000;
-	public static final double kElevatorHighPos = 265000;
+	public static final double kElevatorHighPos = 270000;
 
-	public static final double kElevatorClimbSpeed = 0.5;
+	public static final double kElevatorClimbSpeed = 0.4;
 
 	//Vision
 	public static final double kA1 = 20; // Angle of the limelight from the robot chassie (degrees)
 	public static final double kH1 = 0.65; //Height of the limelight lense (metres)
 	public static final double kH2 = 2.47; //height of the middle of the target (metres)
-}
+} 

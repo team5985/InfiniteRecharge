@@ -115,7 +115,7 @@ public class DriverControls {
 	 * @return X from -1 to 1.
 	 */
 	public double getDriveSteering() {
-		steering = (deadZoneX(stick.getX()));
+		steering = (deadZoneX(stick.getX()) * 0.75);
 		Constants.kDriveSquaredSteeringInputsExponent = SmartDashboard.getNumber("Steering Gain", 1.5); //was 2.0
 		return steering;//Math.pow(Math.abs(steering), Constants.kDriveSquaredSteeringInputsExponent) * Math.signum(steering);
 	}

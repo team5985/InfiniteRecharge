@@ -33,7 +33,7 @@ public class Shooter extends Subsystem {
     private ShooterState desiredState;
     int shooterZoneIndex = 0;
     double[] shooterZoneSpeed = {5800, 5300, 4800};
-    private double shooterTargetRPM = 3275;//shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
+    private double shooterTargetRPM = 3375;//shooterZoneSpeed[shooterZoneIndex];//Constants.kShooterDefaultRPM;
 
   
     static public Shooter getInstance() {
