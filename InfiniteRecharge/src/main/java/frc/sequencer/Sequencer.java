@@ -113,20 +113,14 @@ public class Sequencer
             myCurrentTransitions = newTransitions;
             myCurrentTransType = newTransitionType;
             //call startStep for all new steps and transitions.
-            StringBuilder stepNames = new StringBuilder(myStepCounter + " - ");
             for (SequenceStepIf step : myCurrentSteps)
             {
                 if (previousSteps.contains(step) == false)
                 {
                     step.stepStart();
                 }
-                if (stepNames.length() > 0)
-                {
-                    stepNames.append('\n');
-                }
-                stepNames.append(step.stepName());
             }
-            myStepName = stepNames.toString();
+            updateStepName();
             for (SequenceTransitionIf trans : myCurrentTransitions)
             {
                 trans.transStart();
@@ -205,6 +199,7 @@ public class Sequencer
             {
                 step.stepStart();
             }
+            updateStepName();
             for (SequenceTransitionIf trans : myCurrentTransitions)
             {
                 trans.transStart();
@@ -222,5 +217,29 @@ public class Sequencer
                 step.stepEnd();
             }
         }
+    }
+
+    private void updateStepName()
+    {
+        if (myIsRunning == false)
+        {
+            myStepName = myStepCounter + " - SQR STOPPED";
+        }
+        else if (myCurrentSteps.size() == 0)
+        {
+            myStepName = myStepCounter + " - NO STEP";
+        }
+        else
+        {
+            StringBuilder stepNames = new StringBuilder(myStepCounter + " - ");
+            for (SequenceStepIf step : myCurrentSteps)
+            {
+                stepNames.append(step.stepName());
+                stepNames.append(' ');
+            }
+            stepNames.deleteCharAt(stepNames.length()-1);
+            myStepName = stepNames.toString();
+        }
+   
     }
 }
