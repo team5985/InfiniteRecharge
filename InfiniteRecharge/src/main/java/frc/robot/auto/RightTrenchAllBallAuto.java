@@ -31,7 +31,7 @@ public class RightTrenchAllBallAuto extends AutoMode {
             Drive.getInstance().arcadeDrive(1.0, visionSteering, 0.0);
             System.out.println("visionSteering: " + visionSteering);
             // TODO shoot the balls and detect when all have been shot.
-            if (DriverStation.getInstance().getMatchTime() < 13) {
+            if (DriverStation.getMatchTime() < 13) {
                 return true;
             }
             break;

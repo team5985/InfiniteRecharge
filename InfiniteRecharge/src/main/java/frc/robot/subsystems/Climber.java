@@ -5,14 +5,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.util.LimitSwitchAdapter;
 import frc.util.LimitSwitchGroup;
-import frc.util.SensoredSystem;
 
 public class Climber extends Subsystem {
     public static Climber m_instance;
@@ -26,7 +25,6 @@ public class Climber extends Subsystem {
     }
 
     // private static SensoredSystem m_elevator;
-    private static SensoredSystem m_winchMaster;
     private static Solenoid m_buddyLock;
     private static LimitSwitchAdapter m_upperLimit;
     private static LimitSwitchAdapter m_lowerLimit;
@@ -50,12 +48,6 @@ public class Climber extends Subsystem {
         winchPidController.reset(0.0);
     }
 
-    public void setSystem(SensoredSystem winch, Solenoid buddyLock, LimitSwitchGroup limitGroup) {
-        m_winchMaster = winch;
-        m_buddyLock = buddyLock;
-        m_upperLimit = limitGroup.getInstance(0);
-        m_lowerLimit = limitGroup.getInstance(1);
-    }
 
     public enum ClimberState {
         STOWED,
@@ -166,7 +158,7 @@ public class Climber extends Subsystem {
      */
     @Override
     public double getPosition() {
-        return winchCountsToRotations(m_winchMaster.getCounts());
+        return 0;
     }
 
     // /**
@@ -180,7 +172,7 @@ public class Climber extends Subsystem {
      * @return Position in rotations, where calibration position is 0 and becomes positive as the lift goes up
      */
     public double getWinchPosition() {
-        return winchCountsToRotations(m_winchMaster.getCounts());
+        return 0;
     }
 
     public ClimberState getCurrentState() {
@@ -213,8 +205,6 @@ public class Climber extends Subsystem {
     }
     
     private void winchMoveTo(double rotations) {
-        double speed = winchPidController.calculate(winchCountsToRotations(m_winchMaster.getCounts()), rotations);
-        winchMove(speed);
     }
 
     /**
@@ -225,7 +215,6 @@ public class Climber extends Subsystem {
         if (m_lowerLimit.get() && speed < 0) {
             speed = 0;
         }
-        m_winchMaster.set(speed);
     }
 
     public boolean getTarget() {
@@ -237,7 +226,6 @@ public class Climber extends Subsystem {
     }
 
     public void resetSensors() {
-        m_winchMaster.setCounts(0);
     }
 /*
     private void setIdleMode() {

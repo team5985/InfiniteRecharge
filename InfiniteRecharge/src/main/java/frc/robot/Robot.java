@@ -10,7 +10,6 @@ package frc.robot;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.SparkMax;
 import edu.wpi.first.wpilibj.util.Color;
 // import edu.wpi.first.wpilibj.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -19,7 +18,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Drive.gameMode;
 import frc.robot.subsystems.LED.DesiredColour;
 import frc.robot.subsystems.LED.LEDState;
@@ -29,16 +27,14 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TeleopController;
 
-import frc.util.ColourSensor;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends TimedRobot {
   AutoController autoController;
   TeleopController teleopController;
-  ColourSensor colourSensor;
-  ControlPanel m_controlPanel;
   Compressor comp;
   ErrorHandeling m_errors;
   //Solenoid solenoid;
@@ -63,23 +59,18 @@ public class Robot extends TimedRobot {
     //climber.setSystem(RobotMap.getIndexerSystem(), RobotMap.getClimberSolenoid(), RobotMap.getClimberLimits());
 
     Intake intake = Intake.getInstance();
-    intake.setSystem(RobotMap.getIntakeSystem(), RobotMap.getIntakeActuationSystem());
 
-    ControlPanel controlPanel = ControlPanel.getInstance();
-    ColourSensor colourSensor = ColourSensor.getInstance();
          
-    //CameraServer.getInstance().startAutomaticCapture(0);
+    //CameraServer.startAutomaticCapture(0);
     _timer.reset();
 
     Vision.getInstance();
     
-    comp = new Compressor(Constants.kPcmCanID);
+    comp = new Compressor(Constants.kPcmCanID, PneumaticsModuleType.CTREPCM);
     autoController = AutoController.getInstance();
     teleopController = TeleopController.getInstance();
-    colourSensor = ColourSensor.getInstance();
     LiveWindow.disableAllTelemetry();
     //solenoid = new Solenoid(Constants.kPcmCanID, 7);
-    m_controlPanel = new ControlPanel();
     LiveWindow.disableAllTelemetry();
 
     // Subsystems are classes that contain only the logic (a controller) for controlling each subsystem
@@ -124,7 +115,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Drive.getInstance().setGameMode(Drive.gameMode.TELEOP);
     RobotMap.getIndexer().setSelectedSensorPosition(9);
-        comp.start();
+        comp.enableDigital();
+    
     Climber.getInstance().zeroPosition();
 
   }

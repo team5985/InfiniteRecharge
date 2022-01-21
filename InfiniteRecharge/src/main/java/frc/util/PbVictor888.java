@@ -3,7 +3,7 @@ package frc.util;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 /*
 public class PbVictor888 extends Victor implements SpeedController {
 

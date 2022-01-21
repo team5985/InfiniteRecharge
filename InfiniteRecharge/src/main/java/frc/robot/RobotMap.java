@@ -20,14 +20,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.util.LimitSwitchGroup;
 import frc.util.PbDioSwitch;
 import frc.util.PbTalonSrx;
-import frc.util.SensoredSystem;
 
 /**
  * Contains and constructs all of the devices on the robot. This should be kept
@@ -70,7 +69,7 @@ public class RobotMap {
 	// Shooter
 	public static WPI_TalonFX shooterMotorA = new WPI_TalonFX(Constants.kShooterACanID);
 	public static WPI_TalonFX shooterMotorB = new WPI_TalonFX(Constants.kShooterBCanID);
-	static SpeedControllerGroup shooterMotors = new SpeedControllerGroup(shooterMotorA, shooterMotorB);
+	static MotorControllerGroup shooterMotors = new MotorControllerGroup(shooterMotorA, shooterMotorB);
 
 	/**
 	 * Drivetrain
@@ -82,7 +81,7 @@ public class RobotMap {
 	// static CANSparkMax leftDriveC = new CANSparkMax(kLeftCCanID,
 	// MotorType.kBrushless);
 	
-	public static SpeedControllerGroup leftDriveMotors = new SpeedControllerGroup(leftDriveA, leftDriveB);
+	public static MotorControllerGroup leftDriveMotors = new MotorControllerGroup(leftDriveA, leftDriveB);
 
 	// Right
 	static WPI_TalonFX rightDriveA = new WPI_TalonFX(Constants.kRightDriveACanID);
@@ -90,7 +89,7 @@ public class RobotMap {
 	// rightDriveB.follow(rightDriveA);
 	// static CANSparkMax rightDriveC = new CANSparkMax(kRightCCanID,
 	// MotorType.kBrushless);
-	public static SpeedControllerGroup rightDriveMotors = new SpeedControllerGroup(rightDriveA, rightDriveB);
+	public static MotorControllerGroup rightDriveMotors = new MotorControllerGroup(rightDriveA, rightDriveB);
 
 	static
 	{
@@ -131,8 +130,7 @@ public class RobotMap {
 	 * Indexer
 	 */
 	static WPI_TalonFX indexerMotor = new WPI_TalonFX(Constants.kIndexerCanID);
-	static Solenoid indexerFlap = new Solenoid(Constants.kPcmCanID, Constants.kIndexerFlapChannelId);
-	static SensoredSystem indexerSystem = new SensoredSystem(indexerMotor, null);
+	static Solenoid indexerFlap = new Solenoid(Constants.kPcmCanID, PneumaticsModuleType.CTREPCM, Constants.kIndexerFlapChannelId);
 
 	static WPI_VictorSPX throatMotor = new WPI_VictorSPX(Constants.kThroatCanID);
 
@@ -141,8 +139,7 @@ public class RobotMap {
 	 */
 
 	public static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.kIntakeCanID);
-	static SensoredSystem intakeSystem = new SensoredSystem(intakeMotor, null);
-	public static Solenoid intakeActuator = new Solenoid(Constants.kPcmCanId, Constants.kIntakeFlapSolenoidChannel);
+	public static Solenoid intakeActuator = new Solenoid(Constants.kPcmCanId, PneumaticsModuleType.CTREPCM, Constants.kIntakeFlapSolenoidChannel);
 
 	/**
 	 * Climber
@@ -160,12 +157,12 @@ public class RobotMap {
 	static PbDioSwitch elevatorLowerLimit = new PbDioSwitch(Constants.kElevatorLowerLimitDio);
 	static LimitSwitchGroup elevatorLimitSwitchGroup = new LimitSwitchGroup(elevatorUpperLimit, elevatorLowerLimit);
 
-	static Solenoid buddySolenoid = new Solenoid(Constants.kPcmCanId, Constants.kBuddySolenoidPcmPort);
+	static Solenoid buddySolenoid = new Solenoid(Constants.kPcmCanId, PneumaticsModuleType.CTREPCM, Constants.kBuddySolenoidPcmPort);
 
 	/**
 	 * @return the leftDrive
 	 */
-	public static SpeedControllerGroup getLeftDrive() {
+	public static MotorControllerGroup getLeftDrive() {
 
 		return leftDriveMotors;
 	}
@@ -187,9 +184,8 @@ public class RobotMap {
 	}
 
 	static PbTalonSrx controlPanelMotor = new PbTalonSrx(Constants.kControlPanelMotor);
-	static SensoredSystem controlPanelSystem = new SensoredSystem(controlPanelMotor);
 
-	static Solenoid controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, Constants.kControlPanelSolenoidAChannel);
+	static Solenoid controlPanelSolenoid = new Solenoid(Constants.kPcmCanID, PneumaticsModuleType.CTREPCM, Constants.kControlPanelSolenoidAChannel);
 
 	static VictorSPX barMotor = new VictorSPX(Constants.kBarMotorCanId);
 
@@ -200,7 +196,7 @@ public class RobotMap {
 	/**
 	 * @return the Right Drive
 	 */
-	public static SpeedControllerGroup getRightDrive() {
+	public static MotorControllerGroup getRightDrive() {
 
 		return rightDriveMotors;
 	} /*
@@ -241,16 +237,13 @@ public class RobotMap {
 		 * //rightDriveC.setSmartCurrentLimit(Config.kDriveCurrentLimit);
 		 */
 
-	public static SensoredSystem getControlPanelSystem() {
 
-		return controlPanelSystem;
-	}
 
-	public static SpeedControllerGroup getShooter() {
+	public static MotorControllerGroup getShooter() {
 		return shooterMotors;
 	}
 
-	public static SpeedController getThroat() {
+	public static VictorSPX getThroat() {
 		return throatMotor;
 	}
 
@@ -284,10 +277,6 @@ public class RobotMap {
 		return controlPanelSolenoid;
 	}
 
-	public static SensoredSystem getIntakeSystem() {
-		return intakeSystem;
-
-	}
 
 	public static Solenoid getIntakeActuationSystem() {
 		return intakeActuator;

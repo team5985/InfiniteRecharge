@@ -49,7 +49,7 @@ public class Indexer extends Subsystem {
             case INDEXING:
                 RobotMap.getIndexer().set(ControlMode.PercentOutput, Constants.kIndexerSpeed);
                 RobotMap.getIndexerSolenoid().set(true);
-                RobotMap.getThroat().set(Constants.kThroatSpeed);  // The throat is part of the indexer logic even though it is mechanically on the shooter
+                RobotMap.getThroat().set(ControlMode.PercentOutput, Constants.kThroatSpeed);  // The throat is part of the indexer logic even though it is mechanically on the shooter
                 
                 currentState = desiredState;
             break;
@@ -57,7 +57,7 @@ public class Indexer extends Subsystem {
             case UNINDEXING:
                 RobotMap.getIndexer().set(ControlMode.PercentOutput, Constants.kIndexerSpeed * -1);
                 RobotMap.getIndexerSolenoid().set(false);
-                RobotMap.getThroat().set(-Constants.kThroatSpeed);
+                RobotMap.getThroat().set(ControlMode.PercentOutput, -Constants.kThroatSpeed);
 
                 currentState = desiredState;
             break;
@@ -65,7 +65,7 @@ public class Indexer extends Subsystem {
             case INTAKING:
                 RobotMap.getIndexer().set(-0.3);
                 RobotMap.getIndexerSolenoid().set(false);
-                RobotMap.getThroat().set(0);
+                RobotMap.getThroat().set(ControlMode.PercentOutput, 0);
                 currentState = desiredState;
 
             break;
@@ -73,7 +73,7 @@ public class Indexer extends Subsystem {
             default: 
                 RobotMap.getIndexer().set(ControlMode.PercentOutput, 0);
                 RobotMap.getIndexerSolenoid().set(false);
-                RobotMap.getThroat().set(0.0);
+                RobotMap.getThroat().set(ControlMode.PercentOutput, 0.0);
                 currentState = desiredState;
             break;
                 

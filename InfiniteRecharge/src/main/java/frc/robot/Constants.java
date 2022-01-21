@@ -130,40 +130,6 @@ public class Constants {
     public static final int kCPANEL_COLOURS_PER_ROTATION = 8;
   
 
-	// Values from test with sensor LED turned on.
-	
-
-	//Official Colours
-
-   /* public static final Color kLIT_CYAN = ColorMatch.makeColor(0.14,0.42,0.43);
-    public static final Color kLIT_GREEN = ColorMatch.makeColor(0.19,0.53,0.27);
-    public static final Color kLIT_RED = ColorMatch.makeColor(0.48,0.36,0.16);
-	public static final Color kLIT_YELLOW = ColorMatch.makeColor(0.32,0.53,0.14); */
-
-	//Our Colours
-	public static final Color kLIT_CYAN = ColorMatch.makeColor(0.21,0.48,0.31);
-    public static final Color kLIT_GREEN = ColorMatch.makeColor(0.23,0.58,0.19);
-    public static final Color kLIT_RED = ColorMatch.makeColor(0.47,0.37,0.16);
-	public static final Color kLIT_YELLOW = ColorMatch.makeColor(0.33,0.54,0.13);
-
-
-
-	// Values from test with sensor LED turned off (ambient light).
-	
-	// Values with offical colours
-    /*public static final Color kAMB_CYAN = ColorMatch.makeColor(0.14,0.39,0.45);
-    public static final Color kAMB_GREEN = ColorMatch.makeColor(0.20,0.51,0.28);
-    public static final Color kAMB_RED = ColorMatch.makeColor(0.59,0.29,0.12);
-    public static final Color kAMB_YELLOW = ColorMatch.makeColor(0.38,0.49,0.13); */
-
-	//Values with our colours
-	public static final Color kAMB_CYAN = ColorMatch.makeColor(0.21,0.48,0.31);
-    public static final Color kAMB_GREEN = ColorMatch.makeColor(0.23,0.58,0.19);
-    public static final Color kAMB_RED = ColorMatch.makeColor(0.47,0.37,0.16);
-	public static final Color kAMB_YELLOW = ColorMatch.makeColor(0.33,0.54,0.13);
-
-	public static final Color kColInvalid = ColorMatch.makeColor(0,0,0);
-
 
 	//Name Values for Colours
     public static final String kNAME_CYAN = "Cyan";

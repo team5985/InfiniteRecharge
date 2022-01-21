@@ -37,7 +37,7 @@ public class ErrorHandeling extends Subsystem{
     }
     public void checkCan() {
         try {
-            RobotMap.getLeftDriveA().getName();
+            RobotMap.getLeftDriveA().getFirmwareVersion();
         } catch (Exception e) {
             SmartDashboard.putBoolean("CAN", false);
         }   

@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
@@ -132,10 +131,10 @@ public class DriverControls {
 	 * @return Traverser speed from -1 to 1.
 	 *  */ 
 	public double getTraverserThrottle() {
-		if(xBox.getX(Hand.kLeft) <= 0.05 && xBox.getX(Hand.kLeft) >= -0.05) {
+		if(xBox.getLeftX() <= 0.05 && xBox.getLeftX() >= -0.05) {
 			return 0;
 		} else {
-			return xBox.getX(Hand.kLeft);
+			return xBox.getLeftX();
 		}
 	}
 
@@ -191,9 +190,9 @@ public class DriverControls {
 	}
 	
 	// public double getShooterSpeedOffset() {
-	// 	if(xBox.getBumper(Hand.kLeft)) {
+	// 	if(xBox.getLeftBumper()) {
 	// 		shooterSpeedOffset = shooterSpeedOffset - Constants.kShooterSpeedOffsetOffset;
-	// 	}else if(xBox.getBumper(Hand.kRight)) {
+	// 	}else if(xBox.getRightBumper()) {
 	// 		shooterSpeedOffset = shooterSpeedOffset + Constants.kShooterSpeedOffsetOffset;
 	// 	}
 	// 	return shooterSpeedOffset;

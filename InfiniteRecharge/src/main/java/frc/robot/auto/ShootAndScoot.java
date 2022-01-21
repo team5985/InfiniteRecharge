@@ -44,7 +44,7 @@ public class ShootAndScoot extends AutoMode {
                 Indexer.getInstance().setDesiredState(IndexerState.IDLE);
             }
 
-            if (DriverStation.getInstance().getMatchTime() < 7) {
+            if (DriverStation.getMatchTime() < 7) {
                 return true;
             }
             break;

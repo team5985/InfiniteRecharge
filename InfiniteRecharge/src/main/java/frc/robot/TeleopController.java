@@ -14,13 +14,11 @@ import frc.robot.config.Config;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Bar.BarStates;
 import frc.robot.subsystems.Climber.ClimberState;
-import frc.robot.subsystems.ControlPanel.ControlPanelState;
 import frc.robot.subsystems.Drive.UltrasonicState;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.LED.LEDState;
 import frc.robot.subsystems.Shooter.ShooterState;
-import frc.util.ColourSensor;
 import frc.util.JavaUtil;
 import frc.util.Luin;
 /**
@@ -38,8 +36,6 @@ public class TeleopController {
     private static Vision m_vision;
     private static Subsystem m_Subsystem;
     private static JavaUtil m_javaUtil;
-    private static ControlPanel m_controlPanel;
-    private static ColourSensor m_colourSensor;
     private static RobotMap m_robotMap;
     private static LED m_LED;
     private static Bar m_bar;
@@ -83,7 +79,6 @@ public class TeleopController {
         m_intake = Intake.getInstance();
         m_indexer = Indexer.getInstance();
         m_javaUtil = JavaUtil.getInstance();
-        m_controlPanel = ControlPanel.getInstance();
         m_LED = LED.getInstance();
     }
 
@@ -187,13 +182,6 @@ public class TeleopController {
             }
         }
 
-        if(m_controls.getRotationControlCommand()) { //12
-            m_controlPanel.setDesiredState(ControlPanelState.ROTATION_CONTROL);
-        } else if(m_controls.getGetPositionControlCommand()) {
-            m_controlPanel.setDesiredState(ControlPanelState.POSITION_CONTROL);
-        } else if(m_controls.getStickInterupt()){
-            m_controlPanel.setDesiredState(ControlPanelState.RETRACTED);
-        }
 
         if(m_controls.getClimbUp()) {
             m_climber.setDesiredState(ClimberState.LIFTING);

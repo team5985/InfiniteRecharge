@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import frc.robot.RobotMap;
-import frc.util.SensoredSystem;
 import frc.robot.Constants;
 
 public class Intake extends Subsystem {

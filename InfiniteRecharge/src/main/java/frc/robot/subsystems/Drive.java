@@ -19,13 +19,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.config.Config;
-import frc.util.PbSparkMax;
-import frc.util.SensoredSystem;
-import frc.util.SparkGroup;
 import frc.util.UltrasonicI2C;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -34,11 +31,6 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class Drive extends Subsystem{
-
-    SparkGroup mLeftDrive;
-    SparkGroup mRightDrive;
-    CANEncoder mLeftEnc;
-    CANEncoder mRightEnc;
 
     UltrasonicI2C usi2cl;
     UltrasonicI2C usi2cr;
@@ -88,12 +80,6 @@ public class Drive extends Subsystem{
         usi2cr.update();
     }
 
-    public void setSystem(SparkGroup leftDrive, SparkGroup rightDrive, CANEncoder leftEncoder, CANEncoder rightEncoder) {
-        mLeftDrive = leftDrive;
-        mRightDrive = rightDrive;
-        mLeftEnc = leftEncoder;
-        mRightEnc = rightEncoder;
-    }
   
     public double getPosition() {
         return getAvgEncoderDistance();
