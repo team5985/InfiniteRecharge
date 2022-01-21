@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Sequencer
 {
-
-
     private List<SequenceStepIf> myCurrentSteps = new LinkedList<SequenceStepIf>();
     private List<SequenceTransitionIf> myCurrentTransitions =
         new LinkedList<SequenceTransitionIf>();
@@ -176,16 +174,28 @@ public class Sequencer
         return myStepName;
     }
 
-    public void setInitialStep(SequenceStepIf aStep)
+    public void setInitialSteps(SequenceStepIf ... aSteps)
     {
         myInitialSteps.clear();
-        myInitialSteps.add(aStep);
+        if (aSteps != null)
+        {
+            for (SequenceStepIf step : aSteps)
+            {
+                myInitialSteps.add(step);
+            }
+        }
     }
 
-    public void setInitialTransition(SequenceTransitionIf aTrans)
+    public void setInitialTransitions(SequenceTransitionIf ... aTrans)
     {
         myInitialTransitions.clear();
-        myInitialTransitions.add(aTrans);
+        if (aTrans != null)
+        {
+            for (SequenceTransitionIf trans : aTrans)
+            {
+                myInitialTransitions.add(trans);
+            }
+        }
     }
 
     public void sequenceStart()

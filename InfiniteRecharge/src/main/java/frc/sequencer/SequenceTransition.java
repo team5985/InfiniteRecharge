@@ -29,7 +29,7 @@ public abstract class SequenceTransition implements SequenceTransitionIf
         new LinkedList<SequenceTransitionIf>();
     private boolean myNextTransType = false;
 
-    public void setNextSteps(SequenceStepIf[] aNextSteps)
+    public void setNextSteps(SequenceStepIf ... aNextSteps)
     {
         myNextSteps = new LinkedList<SequenceStepIf>();
         if (aNextSteps != null)
@@ -46,7 +46,7 @@ public abstract class SequenceTransition implements SequenceTransitionIf
         myNextSteps.add(aNextStep);
     }
 
-    public void setNextTrans(SequenceTransitionIf[] aNextTrans)
+    public void setNextTrans(SequenceTransitionIf ... aNextTrans)
     {
         myNextTrans = new LinkedList<SequenceTransitionIf>();
         if (aNextTrans != null)
