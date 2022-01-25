@@ -7,30 +7,24 @@
 
 package frc.robot;
 
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
-import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.util.Color;
+import java.util.LinkedList;
+
 // import edu.wpi.first.wpilibj.command.button.JoystickButton;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Drive.gameMode;
 import frc.robot.subsystems.LED.DesiredColour;
-import frc.robot.subsystems.LED.LEDState;
+import frc.sequencer.Sequence;
+import frc.sequencer.SequenceTest;
+import frc.sequencer.Sequencer;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.TeleopController;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends TimedRobot {
   AutoController autoController;
@@ -43,6 +37,34 @@ public class Robot extends TimedRobot {
 
 
   public void robotInit() {
+    // START Sequence setup section
+    // This grabs the different sequences and adds them to the
+    // SmartDashboard menu selection.
+    // As an example, SequenceTest.getSequences() has been setup
+    // to provide some sequences, however others can be added as
+    // well. Simply create a list of Sequence objects in seqList
+    // and they will be added to the chooser menu.
+    // Note that the very first item in the list will become the
+    // default selection.
+    LinkedList<Sequence> seqList = new LinkedList<Sequence>();
+    seqList.addAll(SequenceTest.getSequences());
+    seqChooser = new SendableChooser<Sequence>();
+    boolean first = true;
+    for (Sequence s : seqList)
+    {
+      if (first)
+      {
+        first = false;
+        seqChooser.setDefaultOption(s.getName(), s);
+      }
+      else
+      {
+        seqChooser.addOption(s.getName(), s);
+      }
+    }
+    SmartDashboard.putData(seqChooser);
+    //END Sequence setup section
+
 
     LED.getInstance().setColour(DesiredColour.RED);
 
@@ -95,16 +117,30 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("AvgEncDistance", Drive.getInstance().getAvgEncoderDistance());
   }
 
+  SendableChooser<Sequence> seqChooser;
+  Sequencer mySeq;
+
   @Override
   public void autonomousInit() {
     Drive.getInstance().setGameMode(Drive.gameMode.AUTO);
-    autoController.initialiseAuto();
+    // autoController.initialiseAuto();
+
+    // The following code gets whichever sequence is selected
+    // from the SmartDashboard and sets up the sequencer to
+    // run it.
+    Sequence selectedAuto = seqChooser.getSelected();
+    mySeq = new Sequencer();
+    mySeq.setInitialSteps(selectedAuto.getInitialSteps());
+    mySeq.setInitialTransitions(selectedAuto.getInitialTransitions());
+    mySeq.sequenceStart();
   }
 
   @Override
   public void autonomousPeriodic() {
     Drive.getInstance().updateUltrasonics();
-    autoController.runAuto();
+    mySeq.update();
+    SmartDashboard.putString("Auto Step", mySeq.getStepName());
+    // autoController.runAuto();
     Shooter.getInstance().update();
     Indexer.getInstance().update();
     Intake.getInstance().update();
