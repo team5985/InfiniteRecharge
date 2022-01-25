@@ -8,16 +8,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.fasterxml.jackson.databind.ser.impl.FailingSerializer;
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -156,6 +151,109 @@ public class Drive extends Subsystem{
         //Write to motors
         setMotors(leftPower, -rightPower);
         lastUSState = UltrasonicState.IDLE;
+    }
+
+    /**
+     * Steering rate as set by the auto code
+     */
+    private double myAutoSteer = 0.0;
+    /**
+     * Drive speed as set by the auto code
+     */
+    private double myAutoPower = 0.0;
+    /**
+     * Steering rate as used during the last update
+     */
+    private double myLastAutoSteer = 0.0;
+    /**
+     * Drive speed as used during the last update
+     */
+    private double myLastAutoPower = 0.0;
+    /**
+     * The maximum steering command that the auto code is allowed to give.
+     * Any steering command is limited to +/- this value.
+     */
+    private final static double AUTO_STEER_LIMIT = 0.5;
+    /**
+     * The maximum power output that the auto code is allowed to give.
+     * Any power command is limited to +/- this calue.
+     */
+    private final static double AUTO_POWER_LIMIT = 1.0;
+    /**
+     * The maximum change per scan that the steering command can change.
+     * At a 20ms scan rate with this set to 0.1, it will take 100ms
+     * for the steering command to change from 0 to 0.5 (the limit)
+     */
+    private final static double STEER_RATE_LIMIT = 0.1;
+    /**
+     * The maximum change per scan that the power command can increase.
+     * At 20ms scan rate with this set to 0.1, it will take 200ms
+     * to accelerate from zero to 1 (100%)
+     * @see #ACC_REV_LIMIT for the reverse equivalent.
+     */
+    private final static double ACC_FWD_LIMIT = 0.1;
+    /**
+     * The maximum change per scan that the power command can decrease.
+     * At 20ms scan rate with this set to 0.2, it will take 100ms
+     * to accelerate from zero to -1 (-100% or full reverse)
+     * @see #ACC_FWD_LIMIT for the forwards equivalent.
+     */
+    private final static double ACC_REV_LIMIT = 0.2;
+
+    /**
+     * Sets the desired speed and steering for auto.
+     * This is called by the sequence steps. This does not update the actual
+     * drive motors until {@link #autoUpdate()} is called, so a sequence step
+     * can set the speed to zero when exiting and the next sequence step can
+     * set the speed to a different value upon starting and the last speed
+     * set will be used when the update is called.
+     * @param steering
+     * @param power
+     */
+    public void autoArcadeDrive(double steering, double power)
+    {
+        // Limit the power and steering commands to within +/- the maximums.
+        myAutoPower = Math.max(-AUTO_POWER_LIMIT, Math.min(AUTO_POWER_LIMIT, power));
+        myAutoSteer = Math.max(-AUTO_STEER_LIMIT, Math.min(AUTO_STEER_LIMIT, steering));
+
+        // If the power + steering commands will exceed the +/- 1 range, then reduce the power
+        // so that the steering command still has full effect.
+        if ((myAutoPower + Math.abs(myAutoSteer)) > 1)
+        {
+            myAutoPower = 1 - Math.abs(myAutoSteer);
+        }
+        if ((myAutoPower - Math.abs(myAutoSteer)) < -1)
+        {
+            myAutoPower = -1 + Math.abs(myAutoSteer);
+        }
+    }
+
+    /**
+     * Separates the ramping into a periodically updated method. This keeps the
+     * ramp rate constant even when the speed is set multiple times per scan
+     * via {@link #autoArcadeDrive(double, double)} and also to allow ramping
+     * to zero when the auto sequence sets the speed to zero and moves onto a
+     * sequence step that doesn't update the drive speeds any more.
+     * This method needs to be called every scan during update, and needs to be
+     * called after the sequencer update is run.
+     */
+    public void autoUpdate()
+    {
+        // Find out how much the power and steering commands want to change, then limit this
+        double steerDiff = myAutoSteer - myLastAutoSteer;
+        steerDiff = Math.max(-STEER_RATE_LIMIT, Math.min(STEER_RATE_LIMIT, steerDiff));
+        myLastAutoSteer = myLastAutoSteer + steerDiff;
+        double powerDiff = myAutoPower - myLastAutoPower;
+        powerDiff = Math.max(-ACC_REV_LIMIT, Math.min(ACC_FWD_LIMIT, powerDiff));
+        myLastAutoPower = myLastAutoPower + powerDiff;
+
+        // Calculate the individual motor outputs and send to motors.
+        double leftPower = (myLastAutoPower + myLastAutoSteer);
+        double rightPower = -(myLastAutoPower - myLastAutoSteer);
+        RobotMap.leftDriveMotors.set(leftPower * Config.kInvertDir);
+        RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
+        lastLeftSPeed = leftPower;
+        lastRightSPeed = rightPower;
     }
 
     private double outSpeed = 0;
