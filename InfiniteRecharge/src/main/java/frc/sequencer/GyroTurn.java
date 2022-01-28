@@ -1,28 +1,18 @@
 package frc.sequencer;
 
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.subsystems.Drive;
 
 public class GyroTurn extends SequenceTransition implements SequenceStepIf
 {
     double myEndAngle;
     double myAngle;
+    double myMaxSteerCmd = 0.5;
     boolean myIsRelative;
-    Robot myRobot;
     boolean myDebug = false;
 
-    private GyroTurn()
-    {        
-    }
-
-    public GyroTurn(Robot aRobot)
-    {
-        myRobot = aRobot;
-    }
     /**
      * Called when the step that this transition relates to is started.
      * This can be used to save the starting state for transitions where a delta value
@@ -67,13 +57,13 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
         {
             if (myDebug == true)
             {
-                SmartDashboard.putString("test", "TRUE");
+                SmartDashboard.putString("Transition Complete", "TRUE");
             }
             return true;
         }
         if (myDebug == true)
         {
-            SmartDashboard.putString("test", "FALSE");
+            SmartDashboard.putString("Transition Complete", "FALSE");
         }
         return false;
     }
@@ -116,16 +106,13 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
             direction = -1;
         }
         double steerCommand = (error * Constants.kGyroTurnKp) + Constants.kDriveTurnStictionConstant;
-        if (steerCommand > 1)
+        if (Math.abs(steerCommand) > myMaxSteerCmd)
         {
-            steerCommand = 1;
+            steerCommand = myMaxSteerCmd;
         }
-        else if (steerCommand < -1)
-        {
-            steerCommand = -1;
-        }
-        Drive.getInstance().arcadeDrive(1.0, steerCommand, 0.0);
-        // Nothing required here.
+        steerCommand = steerCommand * direction;
+        SmartDashboard.putNumber("GT STeer Command.", steerCommand);
+        Drive.getInstance().autoArcadeDrive(steerCommand, 0.0);
     }
 
     public void setAngle(double anAngle, boolean aRelative)
@@ -143,6 +130,18 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
     public void setDeadband(double anAngle)
     {
         myDeadband = anAngle;
+    }
+
+    public void setMaxSteerCmd(double aMaxSteerCmd)
+    {
+        if (aMaxSteerCmd > 1)
+        {
+            myMaxSteerCmd = 1;
+        }
+        else
+        {
+            myMaxSteerCmd = aMaxSteerCmd;
+        }
     }
 
     public String stepName()

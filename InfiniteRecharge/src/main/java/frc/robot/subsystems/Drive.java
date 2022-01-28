@@ -29,6 +29,11 @@ public class Drive extends Subsystem{
 
     UltrasonicI2C usi2cl;
     UltrasonicI2C usi2cr;
+
+    /**
+     * Drive motor brake status. Drive brakes are disables upon powering up the robot.
+     */
+    private boolean myBrakes = false;
   
     public static AHRS _imu;
 
@@ -513,20 +518,22 @@ public class Drive extends Subsystem{
      * @param brake True to enable brake mode, false to set to coast.
      */ 
 	public void setBrakes(boolean brake) {
+        if (brake == myBrakes)
+        {
+            return;
+        }
         if (brake) {
             RobotMap.getLeftDriveA().setNeutralMode(NeutralMode.Brake);
             RobotMap.getLeftDriveB().setNeutralMode(NeutralMode.Brake);
             RobotMap.getRightDriveA().setNeutralMode(NeutralMode.Brake);
             RobotMap.getRightDriveB().setNeutralMode(NeutralMode.Brake);
-
-
         } else {
             RobotMap.getLeftDriveA().setNeutralMode(NeutralMode.Coast);
             RobotMap.getLeftDriveB().setNeutralMode(NeutralMode.Coast);
             RobotMap.getRightDriveA().setNeutralMode(NeutralMode.Coast);
             RobotMap.getRightDriveB().setNeutralMode(NeutralMode.Coast);
         }
-        
+    	myBrakes = brake;        
 	}
 
     /**
@@ -534,6 +541,6 @@ public class Drive extends Subsystem{
      * @return True if motor controllers are both set to brake.
      */
 	public boolean getBrakes() {
-		return true;
+		return myBrakes;
 	}
 }

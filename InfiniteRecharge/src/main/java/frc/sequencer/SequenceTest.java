@@ -16,10 +16,31 @@ public class SequenceTest
         if (theSequences == null)
         {
             theSequences = new LinkedList<Sequence>();
+            theSequences.add(createBenignDefault());
             theSequences.add(create5mLine());
             theSequences.add(create2mLine());
+            theSequences.add(createShoot());
         }
         return Collections.unmodifiableList(theSequences);
+    }
+
+    /**
+     * A benign sequence to be the default if people forget to select a sequence.
+     * This will make the robot rotate slowly.
+     */
+    private static Sequence createBenignDefault()
+    {
+        GyroTurn gt1 = new GyroTurn();
+        gt1.setAngle(120, true);
+        gt1.setDeadband(20);
+        gt1.setMaxSteerCmd(0.15);
+        gt1.setDebug(true);
+        gt1.setNextTrans(gt1);
+        gt1.setNextSteps(gt1);
+        Sequence seq = new Sequence("Benign Default", 0);
+        seq.setInitialSteps(gt1);
+        seq.setInitialTransitions(gt1);
+        return seq;
     }
 
     private static Sequence create5mLine()
@@ -45,6 +66,30 @@ public class SequenceTest
         seq.setInitialTransitions(gd1);
         return seq;
     }
+
+    private static Sequence createShoot()
+    {
+        GyroDrive drive = new GyroDrive();
+        drive.setDistance(1);
+
+        ShootStep shoot = new ShootStep();
+        TimedStep time1 = new TimedStep();
+        time1.setDelay(5);
+        drive.setNextSteps(shoot);
+        drive.setNextTrans(time1);
+
+        TimedStep time2 = new TimedStep();
+        time2.setDelay(5);
+        IndexShootStep ishoot = new IndexShootStep();
+        time1.setNextSteps(shoot, ishoot);
+        time1.setNextTrans(time1);
+
+        Sequence seq = new Sequence("Shooter Test", 0);
+        seq.setInitialSteps(drive);
+        seq.setInitialTransitions(drive);
+        return seq;
+    }
+
 
     static LinkedList<Sequence> theSequences = null;
 }

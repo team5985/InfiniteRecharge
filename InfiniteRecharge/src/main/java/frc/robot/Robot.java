@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.LED.DesiredColour;
 import frc.sequencer.Sequence;
 import frc.sequencer.SequenceTest;
@@ -123,6 +124,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Drive.getInstance().setGameMode(Drive.gameMode.AUTO);
+    Drive.getInstance().zeroPosition();
+    Indexer.getInstance().setDesiredState(IndexerState.IDLE);
     // autoController.initialiseAuto();
 
     // The following code gets whichever sequence is selected
@@ -139,6 +142,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Drive.getInstance().updateUltrasonics();
     mySeq.update();
+    Drive.getInstance().autoUpdate();
     SmartDashboard.putString("Auto Step", mySeq.getStepName());
     // autoController.runAuto();
     Shooter.getInstance().update();
@@ -160,7 +164,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Drive.getInstance().updateUltrasonics();
+    //Drive.getInstance().updateUltrasonics();
     teleopController.callStateMachine();  // Also runs drivetrain
     Shooter.getInstance().update();
     Indexer.getInstance().update();
@@ -182,7 +186,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Drive.getInstance().setGameMode(Drive.gameMode.DISABLED);
-    Drive.getInstance().setBrakes(true); 
+    Drive.getInstance().setBrakes(false); 
     Vision.getInstance().disableVision();
   }
 

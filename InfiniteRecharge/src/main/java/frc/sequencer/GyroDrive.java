@@ -48,6 +48,10 @@ public class GyroDrive extends SequenceTransition implements SequenceStepIf
      */
     public boolean isTransComplete()
     {
+        if (Math.abs(Drive.getInstance().getAvgEncoderDistance() - myEndDist) < 0.1)
+        {
+            return true;
+        }
         // Need to fix when we get a robot with encoders.
         return false;
     }
@@ -69,7 +73,7 @@ public class GyroDrive extends SequenceTransition implements SequenceStepIf
      */
     public void stepEnd()
     {
-        Drive.getInstance().setMotors(0, 0);
+        Drive.getInstance().autoArcadeDrive(0.0, 0.0);
     }
 
     /**
@@ -106,7 +110,7 @@ public class GyroDrive extends SequenceTransition implements SequenceStepIf
         // (linear) Drive
         double driveCommand = driveError * Constants.kEncoderDriveKp;
 
-        Drive.getInstance().arcadeDrive(1.0, steerCommand, driveCommand);
+        Drive.getInstance().autoArcadeDrive(steerCommand, driveCommand);
 
         if (Math.abs(steerError) < myDeadband)
         {
