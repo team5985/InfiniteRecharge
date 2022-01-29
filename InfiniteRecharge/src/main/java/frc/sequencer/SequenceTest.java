@@ -19,7 +19,10 @@ public class SequenceTest
             theSequences.add(createBenignDefault());
             theSequences.add(create5mLine());
             theSequences.add(create2mLine());
-            theSequences.add(createShoot());
+            theSequences.add(create1Shoot());
+            theSequences.add(create2Shoot());
+            theSequences.add(create3Shoot());
+            theSequences.add(create4Shoot());
         }
         return Collections.unmodifiableList(theSequences);
     }
@@ -67,24 +70,94 @@ public class SequenceTest
         return seq;
     }
 
-    private static Sequence createShoot()
+    private static Sequence create1Shoot()
     {
-        GyroDrive drive = new GyroDrive();
-        drive.setDistance(1);
+        GyroTurn drive = new GyroTurn();
+        drive.setAngle(0.0, false);
+        drive.setDeadband(10);
+        
 
         ShootStep shoot = new ShootStep();
-        TimedStep time1 = new TimedStep();
-        time1.setDelay(5);
         drive.setNextSteps(shoot);
-        drive.setNextTrans(time1);
+        drive.setNextTrans(shoot);
 
         TimedStep time2 = new TimedStep();
         time2.setDelay(5);
         IndexShootStep ishoot = new IndexShootStep();
-        time1.setNextSteps(shoot, ishoot);
-        time1.setNextTrans(time1);
+        shoot.setNextSteps(shoot, ishoot);
+        shoot.setNextTrans(time2);
 
-        Sequence seq = new Sequence("Shooter Test", 0);
+        Sequence seq = new Sequence("1 Shooter Test", 1);
+        seq.setInitialSteps(drive);
+        seq.setInitialTransitions(drive);
+        return seq;
+    }
+
+    private static Sequence create2Shoot()
+    {
+        GyroTurn drive = new GyroTurn();
+        drive.setAngle(0.0, false);
+        drive.setDeadband(10);
+        
+
+        ShootStep shoot = new ShootStep();
+        drive.setNextSteps(shoot);
+        drive.setNextTrans(shoot);
+
+        TimedStep time2 = new TimedStep();
+        time2.setDelay(5);
+        IndexShootStep ishoot = new IndexShootStep();
+        shoot.setNextSteps(shoot, ishoot);
+        shoot.setNextTrans(time2);
+
+        Sequence seq = new Sequence("2 Shooter Test", 2);
+        seq.setInitialSteps(drive);
+        seq.setInitialTransitions(drive);
+        return seq;
+    }
+
+    private static Sequence create3Shoot()
+    {
+        GyroTurn drive = new GyroTurn();
+        drive.setAngle(0.0, false);
+        drive.setDeadband(10);
+        
+
+        ShootStep shoot = new ShootStep();
+        drive.setNextSteps(shoot);
+        drive.setNextTrans(shoot);
+
+        TimedStep time2 = new TimedStep();
+        time2.setDelay(5);
+        IndexShootStep ishoot = new IndexShootStep();
+        shoot.setNextSteps(shoot, ishoot);
+        shoot.setNextTrans(time2);
+
+        Sequence seq = new Sequence("3 Shooter Test", 3);
+        seq.setInitialSteps(drive);
+        seq.setInitialTransitions(drive);
+        return seq;
+    }
+
+    private static Sequence create4Shoot()
+    {
+        GyroTurn drive = new GyroTurn();
+        drive.setAngle(0.0, false);
+        drive.setDeadband(2);
+        drive.setDebug(true);
+        
+
+        ShootStep shoot = new ShootStep();
+        drive.setNextSteps(shoot);
+        drive.setNextTrans(shoot);
+
+        TimedStep time2 = new TimedStep();
+        time2.setDelay(5);
+        IndexShootStep ishoot = new IndexShootStep();
+        shoot.setNextSteps(shoot, ishoot);
+        shoot.setNextTrans(time2);
+
+        Sequence seq = new Sequence("4 Shooter Test", 4);
         seq.setInitialSteps(drive);
         seq.setInitialTransitions(drive);
         return seq;

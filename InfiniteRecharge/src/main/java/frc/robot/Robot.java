@@ -11,6 +11,7 @@ import java.util.LinkedList;
 
 // import edu.wpi.first.wpilibj.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
@@ -132,6 +133,8 @@ public class Robot extends TimedRobot {
     // from the SmartDashboard and sets up the sequencer to
     // run it.
     Sequence selectedAuto = seqChooser.getSelected();
+    Drive.getInstance().setAngle(getFieldAngle(selectedAuto.getStartPos()
+    ));
     mySeq = new Sequencer();
     mySeq.setInitialSteps(selectedAuto.getInitialSteps());
     mySeq.setInitialTransitions(selectedAuto.getInitialTransitions());
@@ -198,13 +201,38 @@ public class Robot extends TimedRobot {
   public void testInit() {
     Drive.getInstance().setGameMode(Drive.gameMode.TEST);
   }
-
+int ctr = 0;
   @Override
   public void testPeriodic() {
+    ctr++;
+    DriverStation.reportWarning("Test " + ctr, false);
   Drive.getInstance().updateUltrasonics();
+  }
+
+  private static double getFieldAngle(int aPosition)
+  {
+    if (aPosition == 1)
+    {
+      return -91.5;
+    }
+    if (aPosition == 2)
+    {
+      return -46.5;
+    }
+    if (aPosition == 3)
+    {
+      return -1.5;
+    }
+    if (aPosition == 4)
+    {
+      return 43.5;
+    }
+    return 0.0;
   }
 }
 
   /*  colourSensor.update();
    
     solenoid.set(true); */
+
+  

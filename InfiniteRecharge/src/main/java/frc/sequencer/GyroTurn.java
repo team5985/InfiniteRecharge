@@ -10,6 +10,7 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
     double myEndAngle;
     double myAngle;
     double myMaxSteerCmd = 0.5;
+    double myMinSteerCmd = 0.08;
     boolean myIsRelative;
     boolean myDebug = false;
 
@@ -23,7 +24,7 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
     {
         if (myIsRelative == true)
         {
-            myEndAngle = Drive.getInstance().getImuInstance().getYaw() + myAngle;
+            myEndAngle = Drive.getInstance().getYaw() + myAngle;
         }
         else
         {
@@ -53,7 +54,7 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
      */
     public boolean isTransComplete()
     {
-        if (Math.abs(angleDiff(Drive.getInstance().getImuInstance().getYaw(), myEndAngle)) < myDeadband)
+        if (Math.abs(angleDiff(Drive.getInstance().getYaw(), myEndAngle)) < myDeadband)
         {
             if (myDebug == true)
             {
@@ -85,7 +86,7 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
      */
     public void stepEnd()
     {
-        Drive.getInstance().setMotors(0, 0);
+        Drive.getInstance().autoArcadeDrive(0.0, 0.0);;
     }
 
     /**
@@ -94,7 +95,7 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
      */
     public void stepUpdate()
     {
-        double error = angleDiff(myEndAngle, Drive.getInstance().getImuInstance().getYaw());
+        double error = angleDiff(myEndAngle, Drive.getInstance().getYaw());
         
         if (myDebug == true)
         {
@@ -106,11 +107,8 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
             direction = -1;
         }
         double steerCommand = (error * Constants.kGyroTurnKp) + Constants.kDriveTurnStictionConstant;
-        if (Math.abs(steerCommand) > myMaxSteerCmd)
-        {
-            steerCommand = myMaxSteerCmd;
-        }
-        steerCommand = steerCommand * direction;
+        steerCommand = (Math.sqrt(Math.abs(error)) * myGain) + myMinSteerCmd;
+        steerCommand = Math.min(Math.abs(steerCommand), myMaxSteerCmd) * direction;
         SmartDashboard.putNumber("GT STeer Command.", steerCommand);
         Drive.getInstance().autoArcadeDrive(steerCommand, 0.0);
     }
@@ -132,6 +130,12 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
         myDeadband = anAngle;
     }
 
+    private double myGain = 0.02;
+    public void setGain(double aGain)
+    {
+        myGain = aGain;
+    }
+
     public void setMaxSteerCmd(double aMaxSteerCmd)
     {
         if (aMaxSteerCmd > 1)
@@ -141,6 +145,18 @@ public class GyroTurn extends SequenceTransition implements SequenceStepIf
         else
         {
             myMaxSteerCmd = aMaxSteerCmd;
+        }
+    }
+
+    public void setMinSteerCmd(double aMinSteerCmd)
+    {
+        if (aMinSteerCmd > 1)
+        {
+            myMinSteerCmd = 1;
+        }
+        else
+        {
+            myMinSteerCmd = aMinSteerCmd;
         }
     }
 

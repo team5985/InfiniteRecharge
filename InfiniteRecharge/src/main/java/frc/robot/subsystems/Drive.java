@@ -85,11 +85,29 @@ public class Drive extends Subsystem{
         return getAvgEncoderDistance();
     }
 
+    /**
+     * The offset between the gyro's angle and the robot's angle on the field.
+     * This allows us to 'calibrate' the robot to a non-zero angle.
+     * For the 2022 game, this will allow us to set the gyro's angle based on
+     * the starting position on the field and still have 0 degrees being
+     * forward facing.
+     */
+    private double myAngleOffset = 0;
+
+    /**
+     * Calibrates the robots angle to be the specified value at the current
+     * position on the field.
+     */
+    public void setAngle(double anAngle)
+    {
+        zeroPosition();
+        myAngleOffset = anAngle;
+    }
+
     public boolean zeroPosition() {
         _imu.zeroYaw();
         return false;
     }
-
 
     //Drive control
 
@@ -259,6 +277,8 @@ public class Drive extends Subsystem{
         RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
         lastLeftSPeed = leftPower;
         lastRightSPeed = rightPower;
+        SmartDashboard.putNumber("Left Auto Drive", leftPower);
+        SmartDashboard.putNumber("Right Auto Drive", rightPower);
     }
 
     private double outSpeed = 0;
@@ -500,7 +520,12 @@ public class Drive extends Subsystem{
      * @return gyro angle in degrees
      */
     public double getYaw() {
-        return _imu.getYaw();
+        return cleanAngle(_imu.getYaw() + myAngleOffset);
+    }
+
+    public static double cleanAngle(double anAngle)
+    {
+        return (((anAngle % 360) + 540) % 360) -180;
     }
 
     public void update() {
