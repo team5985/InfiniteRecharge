@@ -60,8 +60,8 @@ public class Shooter extends Subsystem {
 
             case SHOOTING: 
                 shooterPIDControl(shooterTargetRPM);
-                System.out.println(RobotMap.getShooterA().getSelectedSensorVelocity());
-                System.out.println("Selected shooter speed = " + shooterZoneSpeed[shooterZoneIndex] + "current speed = " + RobotMap.getShooterA().getSelectedSensorVelocity() / 2048 * 600);
+                // System.out.println(RobotMap.getShooterA().getSelectedSensorVelocity());
+                // System.out.println("Selected shooter speed = " + shooterZoneSpeed[shooterZoneIndex] + "current speed = " + RobotMap.getShooterA().getSelectedSensorVelocity() / 2048 * 600);
                 currentState = desiredState;
 
             break;
@@ -162,6 +162,5 @@ public class Shooter extends Subsystem {
     public void setShooterZoneIndex(int index) {
         shooterZoneIndex = index;
     }
-
 
 }

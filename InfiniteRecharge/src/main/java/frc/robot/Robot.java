@@ -20,6 +20,7 @@ import frc.robot.subsystems.LED.DesiredColour;
 import frc.sequencer.Sequence;
 import frc.sequencer.SequenceTest;
 import frc.sequencer.Sequencer;
+import frc.sequencer.jarryd.JSequenceTest;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
     // default selection.
     LinkedList<Sequence> seqList = new LinkedList<Sequence>();
     seqList.addAll(SequenceTest.getSequences());
+    seqList.addAll(JSequenceTest.getSequences());
     seqChooser = new SendableChooser<Sequence>();
     boolean first = true;
     for (Sequence s : seqList)
@@ -58,6 +60,7 @@ public class Robot extends TimedRobot {
       {
         first = false;
         seqChooser.setDefaultOption(s.getName(), s);
+        myDefault = s;
       }
       else
       {
@@ -117,9 +120,11 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Gyro", Drive.getInstance().getYaw());
     SmartDashboard.putNumber("AvgEncDistance", Drive.getInstance().getAvgEncoderDistance());
+    SmartDashboard.putBoolean("Default", seqChooser.getSelected() == myDefault);
   }
 
   SendableChooser<Sequence> seqChooser;
+  Sequence myDefault = null;
   Sequencer mySeq;
 
   @Override
