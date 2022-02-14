@@ -1,8 +1,5 @@
 package frc.sequencer.jarryd;
 
-import org.opencv.core.TickMeter;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterState;
 import frc.sequencer.SequenceStepIf;
