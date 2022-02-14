@@ -8,6 +8,8 @@ public class jBallShooter extends SequenceTransition{
 
     @Override
     public void transStart() {
+        numBalls = 0;
+        SmartDashboard.putNumber("balls shot", numBalls);
         Shooter.getInstance().getShooterRPM();
         Shooter.getInstance().getShooterTargetSpeed(); 
         // TODO Auto-generated method stub
@@ -36,6 +38,7 @@ public class jBallShooter extends SequenceTransition{
             pastRPM[ii] = pastRPM[ii+1];
         }
         pastRPM[pastLength-1] = currRPM;
+        System.out.println("shoot rpm, " + Shooter.getInstance().getShooterRPM() + ", " + numBalls);
         return isTransComplete();
     }
 
@@ -46,7 +49,7 @@ public class jBallShooter extends SequenceTransition{
     }
 
     private double numBalls = 0;
-    private final static int waitTime = 25;
+    private final static int waitTime = 10;
     private int waitCounts = waitTime;
 
 

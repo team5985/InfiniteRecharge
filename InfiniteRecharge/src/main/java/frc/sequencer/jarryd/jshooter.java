@@ -29,7 +29,7 @@ public class jshooter extends SequenceTransition implements SequenceStepIf {
         
         Shooter.getInstance().update();
         Shooter.getInstance().getShooterRPM();
-        System.out.println("shoot rpm" + Shooter.getInstance().getShooterRPM());
+        // System.out.println("shoot rpm" + Shooter.getInstance().getShooterRPM());
         // TODO Auto-generated method stub
         
     }

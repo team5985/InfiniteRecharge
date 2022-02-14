@@ -33,6 +33,7 @@ public class JSequenceTest {
             theSequences.add(createAccTest());
             theSequences.add(createRevAccTest());
             theSequences.add(create5Ball());
+            theSequences.add(create4redcover());
 
 
         }
@@ -40,36 +41,7 @@ public class JSequenceTest {
 
     }
 
-    private static Sequence createshoot()
-    {
-        jshooter shoot = new jshooter();
-        jIndexer index = new jIndexer();
-        jBallShooter ball = new jBallShooter();
-        jBallShooter ball2 = new jBallShooter();
-        jUnindexer unindex = new jUnindexer();
-        jtimer t1 = new jtimer();
-        t1.setDelay(2);
-       
-        jdrive d1 = new jdrive();
-        d1.setAngle(0);
-        d1.setDist(1);
-        d1.setSpeed(0.3);
-
-        shoot.setNextTrans(ball);
-        shoot.setNextSteps(shoot, index);
-        ball.setNextTrans(d1);
-        ball.setNextSteps(d1, shoot);
-        d1.setNextTrans(ball2);
-        d1.setNextSteps(shoot, index);
-        ball2.setNextTrans(t1);
-        ball2.setNextSteps(unindex);
-
-        Sequence seq = new Sequence("shoot", 0);
-        seq.setInitialTransitions(shoot);
-        seq.setInitialSteps(shoot);
-        return seq;
-    }
-
+  
 
     /*
     NOT TESTED!! (with Phoenix or rapid react)
@@ -179,6 +151,42 @@ public class JSequenceTest {
         seq.setInitialSteps(s1, shoot, intake);
         return seq;
     }
+
+    private static Sequence create4redcover()
+    {
+        Jturn t1 = new Jturn();
+        t1.setAngle(116);
+
+        jdrive d1 = new jdrive();
+        d1.setAngle(116);
+        d1.setDist(-2.6);
+        d1.setSpeed(0.2);
+       
+        t1.setNextTrans(d1);
+        t1.setNextSteps(d1);
+        // d1.setNextTrans(t2);
+        // d1.setNextSteps(t2);
+        // t2.setNextTrans(d2);
+        // t2.setNextSteps(d2);
+
+
+        Sequence seq = new Sequence("4 Red Cover", 4);
+        seq.setInitialTransitions(t1);
+        seq.setInitialSteps(t1);
+        return seq;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -675,6 +683,49 @@ private static Sequence createFullShooter()
         seq.setInitialTransitions(timerf1);
         return seq;
 }
+private static Sequence createshoot()
+{
+    jshooter shoot = new jshooter();
+    jIndexer index = new jIndexer();
+    jBallShooter ball = new jBallShooter();
+    jBallShooter ball2 = new jBallShooter();
+    jUnindexer unindex = new jUnindexer();
+    jtimer t1 = new jtimer();
+    t1.setDelay(2);
+    jtimer t2 = new jtimer();
+    t2.setDelay(5);
+
+    jtimer t3 = new jtimer();
+    t3.setDelay(3);
+    
+    Jturn d2 = new Jturn();
+    d2.setAngle(90);
+   
+    jdrive d1 = new jdrive();
+    d1.setAngle(0);
+    d1.setDist(1);
+    d1.setSpeed(0.3);
+
+    shoot.setNextTrans(ball, t2);
+    shoot.setNextSteps(shoot, index);
+    ball.setNextTrans(d1);
+    ball.setNextSteps(d1, shoot);
+    t2.setNextTrans(d1);
+    t2.setNextSteps(d1, shoot);
+    d1.setNextTrans(ball2, t3);
+    d1.setNextSteps(shoot, index);
+    ball2.setNextTrans(t1);
+    ball2.setNextSteps(unindex);
+    t3.setNextTrans(d2);
+    t3.setNextSteps(d2, unindex);
+
+    Sequence seq = new Sequence("shoot", 0);
+    seq.setInitialTransitions(shoot);
+    seq.setInitialSteps(shoot);
+    return seq;
+}
+
+
 
     static LinkedList<Sequence> theSequences = null;
 }
