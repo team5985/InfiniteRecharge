@@ -159,7 +159,7 @@ public class JSequenceTest {
 
         jdrive d1 = new jdrive();
         d1.setAngle(116);
-        d1.setDist(-2.6);
+        d1.setDist(-2.8);
         d1.setSpeed(0.2);
        
         t1.setNextTrans(d1);
@@ -688,7 +688,9 @@ private static Sequence createshoot()
     jshooter shoot = new jshooter();
     jIndexer index = new jIndexer();
     jBallShooter ball = new jBallShooter();
+    ball.setNumBalls(3);
     jBallShooter ball2 = new jBallShooter();
+    ball2.setNumBalls(2);
     jUnindexer unindex = new jUnindexer();
     jtimer t1 = new jtimer();
     t1.setDelay(2);

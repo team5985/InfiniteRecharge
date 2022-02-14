@@ -49,13 +49,17 @@ public class jBallShooter extends SequenceTransition{
     }
 
     private double numBalls = 0;
+    private double maxNumBalls = 2;
+    public void setNumBalls(double aNumBalls) {
+        maxNumBalls = aNumBalls;
+    }
     private final static int waitTime = 10;
     private int waitCounts = waitTime;
 
 
     @Override
     public boolean isTransComplete() {
-        if (numBalls >= 2)
+        if (numBalls >= maxNumBalls)
         {
             return true;
         }

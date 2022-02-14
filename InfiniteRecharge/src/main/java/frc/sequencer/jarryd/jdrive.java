@@ -79,7 +79,7 @@ public class jdrive extends SequenceTransition implements SequenceStepIf{
         myAngle = anAngle;
     }
 
-    private double mySpeed = 1;
+    private double mySpeed = 0.3;
     public void setSpeed(double aSpeed)
     {
         mySpeed = aSpeed;
