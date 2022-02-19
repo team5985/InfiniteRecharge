@@ -154,12 +154,12 @@ public class Drive extends Subsystem{
             rightDiff = Math.max(rightDiff, -manRampRateRev);
             rightPower = lastRightSpeed + rightDiff;
         }
-        System.out.println("Mode - " + currentMode);
+        // System.out.println("Mode - " + currentMode);
         //set motors
-        System.out.println("leftpower " + leftPower);
+        // System.out.println("leftpower " + leftPower);
         RobotMap.leftDriveMotors.set(leftPower * Config.kInvertDir);
 
-        System.out.println("rightpower " + rightPower);
+        // System.out.println("rightpower " + rightPower);
         RobotMap.rightDriveMotors.set(rightPower * Config.kInvertDir);
 
         lastLeftSpeed = leftPower;
@@ -482,7 +482,7 @@ public class Drive extends Subsystem{
 			power = -maxPower;
 		}
         
-        System.out.println("POWER: " + power);
+        // System.out.println("POWER: " + power);
 		arcadeDrive(1.0, steering, power);
 		return encoderIsWithinDistance(distance, 0.05);
     }

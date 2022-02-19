@@ -9,6 +9,7 @@ public class jdrive extends SequenceTransition implements SequenceStepIf{
     @Override
     public void stepStart() {
         myEndDist = myDist + Drive.getInstance().getAvgEncoderDistance();
+    
         myOldAccFwdLimit = Drive.getInstance().getAccFwdLimit();
         myOldAccRevLimit = Drive.getInstance().getAccRevLimit();
         if (myAccFwdLimit != 0){
@@ -77,6 +78,7 @@ public class jdrive extends SequenceTransition implements SequenceStepIf{
     public void setAngle(double anAngle)
     {
         myAngle = anAngle;
+
     }
 
     private double mySpeed = 0.3;

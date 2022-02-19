@@ -19,10 +19,10 @@ public class jBallShooter extends SequenceTransition{
     @Override
     public boolean transUpdate() {
         if (waitCounts > 0)
-        {
+        { 
             waitCounts --;
         }
-        double currRPM = Shooter.getInstance().getShooterRPM();
+        double currRPM = Shooter.getInstance().getShooterRPM();    
         // compare currRPM with pastRPM[pastLength]
         if ( (currRPM / pastRPM[0]) < 0.95)
         {
@@ -61,13 +61,13 @@ public class jBallShooter extends SequenceTransition{
     public boolean isTransComplete() {
         if (numBalls >= maxNumBalls)
         {
-            return true;
+            return true;        
         }
         return false;
     } 
     
 
     private final static int pastLength = 5;
-    private double[] pastRPM = new double[pastLength];
+    private double[] pastRPM = new double[pastLength];//do this for acceleration
 }
 

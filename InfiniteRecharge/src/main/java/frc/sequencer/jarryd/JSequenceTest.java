@@ -34,13 +34,22 @@ public class JSequenceTest {
             theSequences.add(createRevAccTest());
             theSequences.add(create5Ball());
             theSequences.add(create4redcover());
-
+            theSequences.add(createCollision());
 
         }
         return Collections.unmodifiableList(theSequences);
 
     }
 
+
+    private static Sequence createCollision(){
+        jCollisionDrive cd1 = new jCollisionDrive();
+        
+        Sequence seq = new Sequence("Collision Detection", 0);
+        seq.setInitialTransitions(cd1);
+        seq.setInitialSteps();
+        return seq;
+    }
   
 
     /*
@@ -64,93 +73,95 @@ public class JSequenceTest {
        jshooter shoot = new jshooter();
        jIndexer index = new jIndexer();
        jintake intake = new jintake();
+
+       jBallShooter ball = new jBallShooter();
+       ball.setNumBalls(2);
+
+       jBallShooter ball2 = new jBallShooter();
+       ball2.setNumBalls(3);
        
-        Jturn s1 = new Jturn();
-        s1.setAngle(-86.5);
+        Jturn t1 = new Jturn();
+        t1.setAngle(-86.5);
 
-        jdrive s2 = new jdrive();
-        s2.setAngle(-86.5);
-        s2.setDist(-1.25);
-        s2.setSpeed(0.3);
+        jdrive d1 = new jdrive();
+        d1.setAngle(-86.5);
+        d1.setDist(-1.25);
+        d1.setSpeed(0.3);
 
-        Jturn s3 = new Jturn();
-        s3.setAngle(-75);
+        Jturn t2 = new Jturn();
+        t2.setAngle(-75);
 
-        jtimer t4 = new jtimer();
-        t4.setDelay(2);
-
-        jdrive s5 = new jdrive();
-        s5.setAngle(-75);
-        s5.setDist(0.2);
+        jdrive d2 = new jdrive();
+        d2.setAngle(-75);
+        d2.setDist(0.2);
        
-        Jturn s6 = new Jturn();
-        s6.setAngle(20);
+        Jturn t3 = new Jturn();
+        t3.setAngle(20);
 
-        jdrive s7 = new jdrive();
-        s7.setAngle(20);
-        s7.setDist(-2.5);
-        s7.setSpeed(0.3);
+        jdrive d3 = new jdrive();
+        d3.setAngle(20);
+        d3.setDist(-2.5);
+        d3.setSpeed(0.3);
 
-        Jturn s8 = new Jturn();
-        s8.setAngle(0);
+        Jturn t4 = new Jturn();
+        t4.setAngle(0);
 
-        jdrive s9 = new jdrive();
-        s9.setAngle(0);
-        s9.setDist(-3.7);
-        s9.setSpeed(0.3);
+        jdrive d4 = new jdrive();
+        d4.setAngle(0);
+        d4.setDist(-3.65);
+        d4.setSpeed(0.3);
 
-        Jturn s10 = new Jturn();
-        s10.setAngle(-45);
+        Jturn t5 = new Jturn();
+        t5.setAngle(-45);
 
-        jdrive s11 = new jdrive();
-        s11.setAngle(-45);
-        s11.setDist(-0.95);
-        s11.setSpeed(0.3);
+        jdrive d5 = new jdrive();
+        d5.setAngle(-45);
+        d5.setDist(-0.95);
+        d5.setSpeed(0.3);
 
-        jtimer t12 = new jtimer();
-        t12.setDelay(0.25);
+        jtimer T1 = new jtimer();
+        T1.setDelay(0.35);
 
-        jcurve s13 = new jcurve();
-        s13.setRadius(0.5);
-        s13.setAngle(10);
-        s13.setSpeed(0.3);
+        jcurve c1 = new jcurve();
+        c1.setRadius(0.5);
+        c1.setAngle(10);
+        c1.setSpeed(0.3);
 
-        jtimer t14 = new jtimer();
-        t14.setDelay(10);
-
+        jtimer T2 = new jtimer();
+        T2.setDelay(3);
         
-        s1.setNextTrans(s2);
-        s1.setNextSteps(s2, shoot, intake);
-        s2.setNextTrans(s3);
-        s2.setNextSteps(s3, shoot, intake);
-        s3.setNextTrans(shoot);
-        s3.setNextSteps(shoot, intake);
-        shoot.setNextTrans(t4);
+        t1.setNextTrans(d1);
+        t1.setNextSteps(d1, shoot, intake);
+        d1.setNextTrans(t2);
+        d1.setNextSteps(t2, shoot, intake);
+        t2.setNextTrans(shoot);
+        t2.setNextSteps(shoot, intake);
+        shoot.setNextTrans(T2);
         shoot.setNextSteps(shoot, intake, index);
-        t4.setNextTrans(s5);
-        t4.setNextSteps(s5);
-        s5.setNextTrans(s6);
-        s5.setNextSteps(s6, intake);
-        s6.setNextTrans(s7);
-        s6.setNextSteps(s7, intake);
-        s7.setNextTrans(s8);
-        s7.setNextSteps(s8);
-        s8.setNextTrans(s9);
-        s8.setNextSteps(s9);
-        s9.setNextTrans(s10);
-        s9.setNextSteps(s10, shoot, intake);
-        s10.setNextTrans(s11);
-        s10.setNextSteps(s11, shoot, intake);
-        // s11.setNextTrans(t12);
-        // s11.setNextSteps(shoot, intake);
-        // t12.setNextTrans(s13);
-        // t12.setNextSteps(s13, shoot, intake);
-        // s13.setNextTrans(t14);
-        // s13.setNextSteps(shoot, intake, index);
+        T2.setNextTrans(d2);
+        T2.setNextSteps(d2);
+        d2.setNextTrans(t3);
+        d2.setNextSteps(t3, intake);
+        t3.setNextTrans(d3);
+        t3.setNextSteps(d3, intake);
+        d3.setNextTrans(t4);
+        d3.setNextSteps(t4);
+        t4.setNextTrans(d4);
+        t4.setNextSteps(d4);
+        d4.setNextTrans(t5);
+        d4.setNextSteps(t5, shoot, intake);
+        t5.setNextTrans(d5);
+        t5.setNextSteps(d5, shoot, intake);
+        d5.setNextTrans(T1);
+        d5.setNextSteps(shoot, intake);
+        // T1.setNextTrans(c1);
+        // T1.setNextSteps(c1, shoot, intake);
+        // c1.setNextTrans(ball2);
+        // c1.setNextSteps(shoot, intake, index);
 
         Sequence seq = new Sequence("5 Ball Auto", 1);
-        seq.setInitialTransitions(s1);
-        seq.setInitialSteps(s1, shoot, intake);
+        seq.setInitialTransitions(t1);
+        seq.setInitialSteps(t1, shoot, intake);
         return seq;
     }
 
@@ -767,18 +778,10 @@ private static Sequence createshoot()
     d1.setDist(1);
     d1.setSpeed(0.3);
 
-    shoot.setNextTrans(ball, t2);
+    shoot.setNextTrans(ball);
     shoot.setNextSteps(shoot, index);
-    ball.setNextTrans(d1);
-    ball.setNextSteps(d1, shoot);
-    t2.setNextTrans(d1);
-    t2.setNextSteps(d1, shoot);
-    d1.setNextTrans(ball2, t3);
-    d1.setNextSteps(shoot, index);
-    ball2.setNextTrans(t1);
-    ball2.setNextSteps(unindex);
-    t3.setNextTrans(d2);
-    t3.setNextSteps(d2, unindex);
+    ball.setNextTrans(t1);
+    ball.setNextSteps(unindex);
 
     Sequence seq = new Sequence("shoot", 0);
     seq.setInitialTransitions(shoot);

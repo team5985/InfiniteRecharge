@@ -73,7 +73,7 @@ public class Climber extends Subsystem {
 
     @Override
     public void update() {
-        System.out.println("Climber is " + RobotMap.getClimberA().getSelectedSensorPosition());
+        // System.out.println("Climber is " + RobotMap.getClimberA().getSelectedSensorPosition());
         //setIdleMode();
         switch(desiredState) {
             case STOWED:

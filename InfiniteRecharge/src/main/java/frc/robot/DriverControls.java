@@ -284,5 +284,8 @@ public class DriverControls {
 
 		return UltrasonicState.IDLE;
 	}
-
+	public Joystick getStick()
+	{
+		return stick;
+	}
 }
