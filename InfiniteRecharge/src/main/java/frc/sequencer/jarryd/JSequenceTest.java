@@ -44,10 +44,20 @@ public class JSequenceTest {
 
     private static Sequence createCollision(){
         jCollisionDrive cd1 = new jCollisionDrive();
+        jdrive d1 = new jdrive();
+        d1.setDist(-4);
+        d1.setSpeed(0.35);
+        d1.setAngle(0);
+
+        jintake intake = new jintake();
+        jshooter shoot = new jshooter();
+
+        cd1.setNextSteps(intake);
+        d1.setNextSteps(shoot);
         
         Sequence seq = new Sequence("Collision Detection", 0);
-        seq.setInitialTransitions(cd1);
-        seq.setInitialSteps();
+        seq.setInitialTransitions(cd1, d1);
+        seq.setInitialSteps(d1);
         return seq;
     }
   
@@ -101,7 +111,9 @@ public class JSequenceTest {
         jdrive d3 = new jdrive();
         d3.setAngle(20);
         d3.setDist(-2.5);
-        d3.setSpeed(0.3);
+        d3.setSpeed(0.4);
+        d3.setAccFwdLimit(0.15);
+        d3.setAccRevLimit(0.25);
 
         Jturn t4 = new Jturn();
         t4.setAngle(0);
@@ -109,7 +121,10 @@ public class JSequenceTest {
         jdrive d4 = new jdrive();
         d4.setAngle(0);
         d4.setDist(-3.65);
-        d4.setSpeed(0.3);
+        d4.setSpeed(0.45);
+        d4.setAccFwdLimit(0.15);
+        d4.setAccRevLimit(0.25);
+        d4.setDistGain(1.7);
 
         Jturn t5 = new Jturn();
         t5.setAngle(-45);
@@ -146,14 +161,17 @@ public class JSequenceTest {
         t3.setNextSteps(d3, intake);
         d3.setNextTrans(t4);
         d3.setNextSteps(t4);
+
         t4.setNextTrans(d4);
         t4.setNextSteps(d4);
-        d4.setNextTrans(t5);
-        d4.setNextSteps(t5, shoot, intake);
-        t5.setNextTrans(d5);
-        t5.setNextSteps(d5, shoot, intake);
-        d5.setNextTrans(T1);
-        d5.setNextSteps(shoot, intake);
+
+        // d4.setNextTrans(t5);
+        // d4.setNextSteps(t5, shoot, intake);
+        // t5.setNextTrans(d5);
+        // t5.setNextSteps(d5, shoot, intake);
+        // d5.setNextTrans(T1);
+        // d5.setNextSteps(shoot, intake);
+        
         // T1.setNextTrans(c1);
         // T1.setNextSteps(c1, shoot, intake);
         // c1.setNextTrans(ball2);

@@ -9,6 +9,9 @@ package frc.robot;
 
 import java.util.LinkedList;
 
+import javax.swing.plaf.basic.BasicBorders.RolloverButtonBorder;
+
+import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 // import edu.wpi.first.wpilibj.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,8 +24,11 @@ import frc.sequencer.Sequence;
 import frc.sequencer.SequenceTest;
 import frc.sequencer.Sequencer;
 import frc.sequencer.jarryd.JSequenceTest;
+import frc.sequencer.jarryd.jCollisionDrive;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -68,6 +74,10 @@ public class Robot extends TimedRobot {
       }
     }
     SmartDashboard.putData(seqChooser);
+    robotChooser = new SendableChooser<String>();
+    robotChooser.setDefaultOption("Phoenix", "Phoenix");
+    robotChooser.addOption("DriveBase", "DriveBase");
+    SmartDashboard.putData(robotChooser);
     //END Sequence setup section
 
 
@@ -126,6 +136,9 @@ public class Robot extends TimedRobot {
   SendableChooser<Sequence> seqChooser;
   Sequence myDefault = null;
   Sequencer mySeq;
+  SendableChooser<String> robotChooser;
+
+   
 
   @Override
   public void autonomousInit() {
@@ -138,8 +151,7 @@ public class Robot extends TimedRobot {
     // from the SmartDashboard and sets up the sequencer to
     // run it.
     Sequence selectedAuto = seqChooser.getSelected();
-    Drive.getInstance().setAngle(getFieldAngle(selectedAuto.getStartPos()
-    ));
+    Drive.getInstance().setAngle(getFieldAngle(selectedAuto.getStartPos()));
     mySeq = new Sequencer();
     mySeq.setInitialSteps(selectedAuto.getInitialSteps());
     mySeq.setInitialTransitions(selectedAuto.getInitialTransitions());
@@ -166,8 +178,15 @@ public class Robot extends TimedRobot {
         comp.enableDigital();
     
     Climber.getInstance().zeroPosition();
+    jcd = new jCollisionDrive();
 
+    jcdcount = 0;
   }
+  jCollisionDrive jcd;
+  int jcdcount = 0;
+
+  double maxAccel = 0;
+
 
 
   @Override
@@ -184,8 +203,27 @@ public class Robot extends TimedRobot {
     //ColourSensor.getInstance().update(); //FIXME
     Climber.getInstance().update();
     Bar.getInstance().update();
+    if (jcd.transUpdate())
+    {
+      jcdcount++;
+    }
+    // System.out.println("count: " + jcdcount);
+    if (DriverControls.getDriverControlsInstance().getStick().getTrigger())
+    {
+      maxAccel = 0;
+    }
+    
+    SmartDashboard.putNumber("jcd count", jcdcount);
+    
+    double xAccel = Drive.getInstance().getImuInstance().getWorldLinearAccelX();
+    double yAccel = Drive.getInstance().getImuInstance().getWorldLinearAccelY();
+    double accel = (Math.sqrt(xAccel*xAccel+yAccel*yAccel));
 
-
+    if (maxAccel < accel){
+      maxAccel = accel;
+    }
+    // System.out.println("max accel: " + maxAccel);
+    // System.out.println("" + accel);
     //RobotMap.getIntakeServo().set(SmartDashboard.getNumber("Servo", 0.0));
     
   }

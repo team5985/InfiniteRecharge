@@ -35,7 +35,7 @@ public class jBallShooter extends SequenceTransition{
         }
         for ( int ii = 0 ; ii < pastLength - 1 ; ii++)
         {
-            pastRPM[ii] = pastRPM[ii+1];
+            pastRPM[ii] = pastRPM[ii++];
         }
         pastRPM[pastLength-1] = currRPM;
         System.out.println("shoot rpm, " + Shooter.getInstance().getShooterRPM() + ", " + numBalls);
