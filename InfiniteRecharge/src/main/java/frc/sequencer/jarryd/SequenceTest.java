@@ -4,14 +4,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Indexer.IndexerState;
-import frc.robot.subsystems.Intake.IntakeState;
 import frc.sequencer.Sequence;
-import frc.sequencer.Sequencer;
 
-public class JSequenceTest {
+public class SequenceTest {
     // sequence lib
     public static synchronized List<Sequence> getSequences()
     {
@@ -43,14 +38,14 @@ public class JSequenceTest {
 
 
     private static Sequence createCollision(){
-        jCollisionDrive cd1 = new jCollisionDrive();
-        jdrive d1 = new jdrive();
+        autoCollisionDrive cd1 = new autoCollisionDrive();
+        autoDrive d1 = new autoDrive();
         d1.setDist(-4);
         d1.setSpeed(0.35);
         d1.setAngle(0);
 
-        jintake intake = new jintake();
-        jshooter shoot = new jshooter();
+        autoBackIntake intake = new autoBackIntake();
+        autoShooter shoot = new autoShooter();
 
         cd1.setNextSteps(intake);
         d1.setNextSteps(shoot);
@@ -80,45 +75,45 @@ public class JSequenceTest {
     */
     private static Sequence create5Ball()
     {
-       jshooter shoot = new jshooter();
-       jIndexer index = new jIndexer();
-       jintake intake = new jintake();
+       autoShooter shoot = new autoShooter();
+       autoIndexer index = new autoIndexer();
+       autoBackIntake intake = new autoBackIntake();
 
-       jBallShooter ball = new jBallShooter();
+       autoBallShooter ball = new autoBallShooter();
        ball.setNumBalls(2);
 
-       jBallShooter ball2 = new jBallShooter();
+       autoBallShooter ball2 = new autoBallShooter();
        ball2.setNumBalls(3);
        
-        Jturn t1 = new Jturn();
+        autoTurn t1 = new autoTurn();
         t1.setAngle(-86.5);
 
-        jdrive d1 = new jdrive();
+        autoDrive d1 = new autoDrive();
         d1.setAngle(-86.5);
         d1.setDist(-1.25);
         d1.setSpeed(0.3);
 
-        Jturn t2 = new Jturn();
+        autoTurn t2 = new autoTurn();
         t2.setAngle(-75);
 
-        jdrive d2 = new jdrive();
+        autoDrive d2 = new autoDrive();
         d2.setAngle(-75);
         d2.setDist(0.2);
        
-        Jturn t3 = new Jturn();
+        autoTurn t3 = new autoTurn();
         t3.setAngle(20);
 
-        jdrive d3 = new jdrive();
+        autoDrive d3 = new autoDrive();
         d3.setAngle(20);
         d3.setDist(-2.5);
         d3.setSpeed(0.4);
         d3.setAccFwdLimit(0.15);
         d3.setAccRevLimit(0.25);
 
-        Jturn t4 = new Jturn();
+        autoTurn t4 = new autoTurn();
         t4.setAngle(0);
 
-        jdrive d4 = new jdrive();
+        autoDrive d4 = new autoDrive();
         d4.setAngle(0);
         d4.setDist(-3.65);
         d4.setSpeed(0.45);
@@ -126,23 +121,23 @@ public class JSequenceTest {
         d4.setAccRevLimit(0.25);
         d4.setDistGain(1.7);
 
-        Jturn t5 = new Jturn();
+        autoTurn t5 = new autoTurn();
         t5.setAngle(-45);
 
-        jdrive d5 = new jdrive();
+        autoDrive d5 = new autoDrive();
         d5.setAngle(-45);
         d5.setDist(-0.95);
         d5.setSpeed(0.3);
 
-        jtimer T1 = new jtimer();
+        timedStep T1 = new timedStep();
         T1.setDelay(0.35);
 
-        jcurve c1 = new jcurve();
+        autoCurve c1 = new autoCurve();
         c1.setRadius(0.5);
         c1.setAngle(10);
         c1.setSpeed(0.3);
 
-        jtimer T2 = new jtimer();
+        timedStep T2 = new timedStep();
         T2.setDelay(3);
         
         t1.setNextTrans(d1);
@@ -185,82 +180,33 @@ public class JSequenceTest {
 
     private static Sequence create4redcover()
     {//ball spit code? toggle-able rpm to spit out enemy team balls
-        jshooter shoot = new jshooter();
-        jshooter shoot2 = new jshooter();
-        jIndexer index = new jIndexer();
-        jintake intake = new jintake();
+        autoShooter shoot = new autoShooter();
+        autoIndexer index = new autoIndexer();
+        autoBackIntake intake = new autoBackIntake();
 
-        Jturn t01 = new Jturn();
-        t01.setAngle(27);
+        autoTurn t1 = new autoTurn();
+        t1.setAngle(38);
+
+        autoDrive d1 = new autoDrive();
+        d1.setAngle(38);
+        d1.setDist(-1.5);
+        d1.setSpeed(0.3);
         
-        jBallShooter ball = new jBallShooter();
-        ball.setNumBalls(1);
+        autoTurn t2 = new autoTurn();
+        t2.setAngle(32);
 
-        Jturn t1 = new Jturn();
-        t1.setAngle(116);
-
-        jdrive d1 = new jdrive();
-        d1.setAngle(116);
-        d1.setDist(-2.9);
-        d1.setSpeed(0.2);
-
-        jtimer T1 = new jtimer();
-        T1.setDelay(0.3);
-
-        jdrive d2 = new jdrive();
-        d2.setAngle(116);
-        d2.setDist(0.2);
-        d2.setSpeed(0.2);
-
-        Jturn t2 = new Jturn();
-        t2.setAngle(175);
-
-        jdrive d3 = new jdrive();
-        d3.setAngle(175);
-        d3.setDist(1.3);
-        d3.setSpeed(0.2);
-
-        Jturn t3 = new Jturn();
-        t3.setAngle(65);
-
-        jBallShooter ball2 = new jBallShooter();
-        ball2.setNumBalls(1);
-
-        Jturn t4 = new Jturn();
-        t4.setAngle(180);
-
-
-        t01.setNextTrans(shoot);
-        t01.setNextSteps(shoot);
-        shoot.setNextTrans(t1);//ball
-        shoot.setNextSteps(t1);//shoot, index
-      
-        ball.setNextTrans(t1);
-        ball.setNextSteps(t1);
-      
         t1.setNextTrans(d1);
-        t1.setNextSteps(d1, intake);
-        d1.setNextTrans(T1);
-        d1.setNextSteps(intake);
-        T1.setNextTrans(d2);
-        T1.setNextSteps(d2, intake);
-        d2.setNextTrans(t2);
-        d2.setNextSteps(t2, intake);
-        t2.setNextTrans(d3);
-        t2.setNextSteps(d3, intake);
-        d3.setNextTrans(t3);
-        d3.setNextSteps(t3, shoot);
-        t3.setNextTrans(shoot2);
-        t3.setNextSteps(shoot2);
-        shoot2.setNextTrans(t4);
-        shoot2.setNextSteps(t4, shoot, index);
-        ball2.setNextTrans(t4);
-        ball2.setNextSteps(t4);
+        t1.setNextSteps(d1, shoot, intake);
+        d1.setNextTrans(shoot);
+        d1.setNextSteps(shoot);
+        shoot.setNextTrans(t2);
+        shoot.setNextSteps(t2);
+
 
 
         Sequence seq = new Sequence("4 Red Cover", 4);
-        seq.setInitialTransitions(t01);
-        seq.setInitialSteps(t01, shoot);
+        seq.setInitialTransitions(t1);
+        seq.setInitialSteps(t1, shoot);
         return seq;
     }
 
@@ -280,7 +226,7 @@ public class JSequenceTest {
 
     private static Sequence createAccTest()
     {
-        jdrive drive1 = new jdrive();
+        autoDrive drive1 = new autoDrive();
         drive1.setDist(2);
         drive1.setAngle(0);
         drive1.setSpeed(0.5);
@@ -295,7 +241,7 @@ public class JSequenceTest {
 
     private static Sequence createRevAccTest()
     {
-        jdrive drive1 = new jdrive();
+        autoDrive drive1 = new autoDrive();
         drive1.setDist(-2);
         drive1.setAngle(0);
         drive1.setSpeed(0.5);
@@ -316,22 +262,22 @@ public class JSequenceTest {
     //test/improve
     private static Sequence create1b()
     {
-        jshooter step1C1 = new jshooter();
-        jintake step1C2 = new jintake();
-        jIndexer step1C3 = new jIndexer();
+        autoShooter step1C1 = new autoShooter();
+        autoBackIntake step1C2 = new autoBackIntake();
+        autoIndexer step1C3 = new autoIndexer();
 
-        Jturn step1C4 = new Jturn();
+        autoTurn step1C4 = new autoTurn();
         step1C4.setAngle(-86.5);
 
-        jdrive step1C5 = new jdrive();
+        autoDrive step1C5 = new autoDrive();
         step1C5.setAngle(-86.5);
         step1C5.setDist(-1.25);
         step1C5.setSpeed(0.3);
 
-        Jturn step1C6 = new Jturn();
+        autoTurn step1C6 = new autoTurn();
         step1C6.setAngle(-79.5);
 
-        jtimer timer1C1 = new jtimer();
+        timedStep timer1C1 = new timedStep();
         timer1C1.setDelay(10);
         
         step1C4.setNextTrans(step1C5);
@@ -351,22 +297,22 @@ public class JSequenceTest {
 
     private static Sequence create1bCut()
     {
-        jshooter step1C1 = new jshooter();
-        jintake step1C2 = new jintake();
-        jIndexer step1C3 = new jIndexer();
+        autoShooter step1C1 = new autoShooter();
+        autoBackIntake step1C2 = new autoBackIntake();
+        autoIndexer step1C3 = new autoIndexer();
 
-        Jturn step1C4 = new Jturn();
+        autoTurn step1C4 = new autoTurn();
         step1C4.setAngle(-86.5);
 
-        jdrive step1C5 = new jdrive();
+        autoDrive step1C5 = new autoDrive();
         step1C5.setAngle(-86.5);
         step1C5.setDist(-1.25);
         step1C5.setSpeed(0.3);
 
-        Jturn step1C6 = new Jturn();
+        autoTurn step1C6 = new autoTurn();
         step1C6.setAngle(-79.5);
 
-        jtimer timer1C1 = new jtimer();
+        timedStep timer1C1 = new timedStep();
         timer1C1.setDelay(10);
         
         step1C4.setNextTrans(step1C5);
@@ -384,60 +330,60 @@ public class JSequenceTest {
 
     private static Sequence create2b()
     {
-        jtimer timer2B1 =new jtimer();
+        timedStep timer2B1 =new timedStep();
         timer2B1.setDelay(2);
 
-        jtimer timer2B2 = new jtimer();
+        timedStep timer2B2 = new timedStep();
         timer2B2.setDelay(0.5);
 
-        jtimer timer2B3 = new jtimer();
+        timedStep timer2B3 = new timedStep();
         timer2B3.setDelay(5);
 
-        jcurve step2B1 = new jcurve();
+        autoCurve step2B1 = new autoCurve();
         step2B1.setRadius(1.58);
         step2B1.setAngle(-50);
         step2B1.setSpeed(-0.3);
 
-        jdrive step2B2 = new jdrive();
+        autoDrive step2B2 = new autoDrive();
         step2B2.setDist(-0.2);
         step2B2.setAngle(-11.5);
         step2B2.setSpeed(0.3);
 
-        Jturn step2B3 = new Jturn();
+        autoTurn step2B3 = new autoTurn();
         step2B3.setAngle(-38.5);
 
-        Jturn step2B8 = new Jturn();
+        autoTurn step2B8 = new autoTurn();
         step2B8.setAngle(-6.5);
 
-        jdrive step2B9 = new jdrive();
+        autoDrive step2B9 = new autoDrive();
         step2B9.setAngle(-6.5);
         step2B9.setSpeed(0.3);
         step2B9.setDist(-3.5);
 
-        Jturn step2B10 = new Jturn();
+        autoTurn step2B10 = new autoTurn();
         step2B10.setAngle(-45);
 
-        jdrive step2B11 = new jdrive();
+        autoDrive step2B11 = new autoDrive();
         step2B11.setAngle(-45);
         step2B11.setDist(-0.8);
         step2B11.setSpeed(0.3);
 
-        jcurve step2B12 = new jcurve();
+        autoCurve step2B12 = new autoCurve();
         step2B12.setRadius(0.5);
         step2B12.setAngle(10);
 
-        Jturn step2B13 = new Jturn();
+        autoTurn step2B13 = new autoTurn();
         step2B13.setAngle(-21.5);
 
-        jdrive step2B14 = new jdrive();
+        autoDrive step2B14 = new autoDrive();
         step2B14.setAngle(-21.5);
         step2B14.setDist(-1.5);
         step2B14.setSpeed(0.3);
 
-        jshooter step2B4 = new jshooter();
-        jIndexer step2B5 = new jIndexer();
-        jintake step2B6 = new jintake();
-        jUnindexer step2B7 = new jUnindexer();
+        autoShooter step2B4 = new autoShooter();
+        autoIndexer step2B5 = new autoIndexer();
+        autoBackIntake step2B6 = new autoBackIntake();
+        autoUnindexer step2B7 = new autoUnindexer();
 
         step2B13.setNextTrans(step2B14);
         step2B13.setNextSteps(step2B14, step2B7);//, step2B6
@@ -469,24 +415,24 @@ public class JSequenceTest {
 
     private static Sequence create2bCut()
     {
-        jshooter step2C1 = new jshooter();
-        jintake step2C2 = new jintake();
-        jIndexer step2C3 = new jIndexer();
+        autoShooter step2C1 = new autoShooter();
+        autoBackIntake step2C2 = new autoBackIntake();
+        autoIndexer step2C3 = new autoIndexer();
 
-        jtimer timer2C1 = new jtimer();
+        timedStep timer2C1 = new timedStep();
         timer2C1.setDelay(7);
 
-        jcurve step2C5 = new jcurve();
+        autoCurve step2C5 = new autoCurve();
         step2C5.setRadius(1.7);
         step2C5.setAngle(-50);
         step2C5.setSpeed(-0.3);
 
-        jdrive step2C6 = new jdrive();
+        autoDrive step2C6 = new autoDrive();
         step2C6.setDist(-0.2);
         step2C6.setAngle(-11.5);
         step2C6.setSpeed(0.3);
 
-        Jturn step2C7 = new Jturn();
+        autoTurn step2C7 = new autoTurn();
         step2C7.setAngle(-38.5);
 
         step2C5.setNextTrans(step2C6);
@@ -504,22 +450,22 @@ public class JSequenceTest {
 
     private static Sequence create3b()
     {
-        jshooter shoot = new jshooter();
-        jintake intake = new jintake();
-        jIndexer index = new jIndexer();
+        autoShooter shoot = new autoShooter();
+        autoBackIntake intake = new autoBackIntake();
+        autoIndexer index = new autoIndexer();
 
-        Jturn step3B1 = new Jturn();
+        autoTurn step3B1 = new autoTurn();
         step3B1.setAngle(64);
 
-        jdrive step3B2 = new jdrive();
+        autoDrive step3B2 = new autoDrive();
         step3B2.setAngle(64);
         step3B2.setDist(-2.2);
         step3B2.setSpeed(0.3);
 
-        Jturn step3B3 = new Jturn();
+        autoTurn step3B3 = new autoTurn();
         step3B3.setAngle(29);
 
-        jtimer timer3B1 = new jtimer();
+        timedStep timer3B1 = new timedStep();
         timer3B1.setDelay(7.5);
 
 
@@ -538,17 +484,17 @@ public class JSequenceTest {
     
     private static Sequence create3bCut()
     {
-        jshooter shoot = new jshooter();
-        jIndexer index = new jIndexer();
+        autoShooter shoot = new autoShooter();
+        autoIndexer index = new autoIndexer();
 
-        Jturn step3B1 = new Jturn();
+        autoTurn step3B1 = new autoTurn();
         step3B1.setAngle(-1.5);
-        jdrive step3B2 = new jdrive();
+        autoDrive step3B2 = new autoDrive();
         step3B2.setAngle(-1.5);
         step3B2.setDist(-1.5);
         step3B2.setSpeed(0.3);
 
-        jtimer timer3B1 = new jtimer();
+        timedStep timer3B1 = new timedStep();
         timer3B1.setDelay(7.5);
 
 
@@ -566,19 +512,19 @@ public class JSequenceTest {
 
     private static Sequence create4b()
     {
-        jshooter shoot = new jshooter();
-        jintake intake = new jintake();
-        jIndexer index = new jIndexer();
+        autoShooter shoot = new autoShooter();
+        autoBackIntake intake = new autoBackIntake();
+        autoIndexer index = new autoIndexer();
 
-        Jturn step4B1 = new Jturn();
+        autoTurn step4B1 = new autoTurn();
         step4B1.setAngle(36);
 
-        jdrive step4B2 = new jdrive();
+        autoDrive step4B2 = new autoDrive();
         step4B2.setAngle(36);
         step4B2.setDist(-1.5);
         step4B2.setSpeed(0.3);
 
-        jtimer timer4B1 = new jtimer();
+        timedStep timer4B1 = new timedStep();
         timer4B1.setDelay(5);
 
         step4B1.setNextTrans(step4B2);
@@ -593,19 +539,19 @@ public class JSequenceTest {
 
     private static Sequence create4bCut()
     {
-        jshooter shoot = new jshooter();
-        jintake intake = new jintake();
-        jIndexer index = new jIndexer();
+        autoShooter shoot = new autoShooter();
+        autoBackIntake intake = new autoBackIntake();
+        autoIndexer index = new autoIndexer();
 
-        Jturn step4B1 = new Jturn();
+        autoTurn step4B1 = new autoTurn();
         step4B1.setAngle(36);
 
-        jdrive step4B2 = new jdrive();
+        autoDrive step4B2 = new autoDrive();
         step4B2.setAngle(36);
         step4B2.setDist(-1.5);
         step4B2.setSpeed(0.3);
 
-        jtimer timer4B1 = new jtimer();
+        timedStep timer4B1 = new timedStep();
         timer4B1.setDelay(5);
 
         step4B1.setNextTrans(step4B2);
@@ -642,54 +588,54 @@ public class JSequenceTest {
     {
         // jtimer timer1 =new jtimer();
         // timer1.setDelay(3);
-        jdrive step1=new jdrive();
+        autoDrive step1=new autoDrive();
         step1.setDist(3);
-        jdrive timer1 = step1;
+        autoDrive timer1 = step1;
 
         // jtimer timer2 =new jtimer();
         // timer2.setDelay(3);
-        Jturn step2=new Jturn();
+        autoTurn step2=new autoTurn();
         step2.setAngle(90);
-        Jturn timer2 = step2;
+        autoTurn timer2 = step2;
 
         // jtimer timer3 =new jtimer();
         // timer3.setDelay(3);
-        jdrive step3=new jdrive();
+        autoDrive step3=new autoDrive();
         step3.setDist(3);
         step3.setAngle(90);
-        jdrive timer3 = step3;
+        autoDrive timer3 = step3;
 
         // jtimer timer4 =new jtimer();
         // timer4.setDelay(3);
-        Jturn step4=new Jturn();
+        autoTurn step4=new autoTurn();
         step4.setAngle(180);
-        Jturn timer4 = step4;
+        autoTurn timer4 = step4;
 
         // jtimer timer5 =new jtimer();
         // timer5.setDelay(3);
-        jdrive step5=new jdrive();
+        autoDrive step5=new autoDrive();
         step5.setDist(3);
         step5.setAngle(180);
-        jdrive timer5 = step5;
+        autoDrive timer5 = step5;
 
         // jtimer timer6 =new jtimer();
         // timer6.setDelay(3);
-        Jturn step6=new Jturn();
+        autoTurn step6=new autoTurn();
         step6.setAngle(270);
-        Jturn timer6 = step6;
+        autoTurn timer6 = step6;
 
         // jtimer timer7 =new jtimer();
         // timer7.setDelay(3);
-        jdrive step7=new jdrive();
+        autoDrive step7=new autoDrive();
         step7.setDist(3);
         step7.setAngle(270);
-        jdrive timer7 = step7;
+        autoDrive timer7 = step7;
 
         // jtimer timer8 =new jtimer();
         // timer8.setDelay(3);
-        Jturn step8=new Jturn();
+        autoTurn step8=new autoTurn();
         step8.setAngle(0);
-        Jturn timer8 = step8;
+        autoTurn timer8 = step8;
 
         timer1.setNextTrans(timer2);
         timer1.setNextSteps(step2);
@@ -717,21 +663,21 @@ public class JSequenceTest {
 
     private static Sequence createCurveShoot()
     {
-        jcurve stepc1 = new jcurve();
+        autoCurve stepc1 = new autoCurve();
         stepc1.setRadius(1);
         stepc1.setAngle(-90);
       
-        jcurve stepc2 = new jcurve();
+        autoCurve stepc2 = new autoCurve();
         stepc2.setRadius(1);
         stepc2.setAngle(-90);
         stepc2.setSpeed(-0.3);
-        jshooter stepc2a = new jshooter();
+        autoShooter stepc2a = new autoShooter();
     
-        jdrive stepc3 = new jdrive();
+        autoDrive stepc3 = new autoDrive();
         stepc3.setAngle(0);
         stepc3.setDist(-0.50);
         stepc3.setSpeed(0.3);
-        jIndexer stepc3a = new jIndexer();
+        autoIndexer stepc3a = new autoIndexer();
         
         stepc1.setNextTrans(stepc2);
         stepc1.setNextSteps(stepc2, stepc2a);
@@ -746,18 +692,18 @@ public class JSequenceTest {
 
 private static Sequence createFullShooter()
 {
-    jintake stepf1 = new jintake();
-    jshooter stepf2 = new jshooter();
-    jIndexer stepf3 = new jIndexer();
-    jUnindexer stepf4 = new jUnindexer(); 
+    autoBackIntake stepf1 = new autoBackIntake();
+    autoShooter stepf2 = new autoShooter();
+    autoIndexer stepf3 = new autoIndexer();
+    autoUnindexer stepf4 = new autoUnindexer(); 
 
-    jtimer timerf1 = new jtimer();
+    timedStep timerf1 = new timedStep();
     timerf1.setDelay(5);
-    jtimer timerf2 = new jtimer();
+    timedStep timerf2 = new timedStep();
     timerf2.setDelay(5);
-    jtimer timerf3 = new jtimer();
+    timedStep timerf3 = new timedStep();
     timerf3.setDelay(5);
-    jtimer timerf4 = new jtimer();
+    timedStep timerf4 = new timedStep();
     timerf4.setDelay(5);
 
     timerf1.setNextTrans(timerf2);
@@ -773,25 +719,25 @@ private static Sequence createFullShooter()
 }
 private static Sequence createshoot()
 {
-    jshooter shoot = new jshooter();
-    jIndexer index = new jIndexer();
-    jBallShooter ball = new jBallShooter();
+    autoShooter shoot = new autoShooter();
+    autoIndexer index = new autoIndexer();
+    autoBallShooter ball = new autoBallShooter();
     ball.setNumBalls(3);
-    jBallShooter ball2 = new jBallShooter();
+    autoBallShooter ball2 = new autoBallShooter();
     ball2.setNumBalls(2);
-    jUnindexer unindex = new jUnindexer();
-    jtimer t1 = new jtimer();
+    autoUnindexer unindex = new autoUnindexer();
+    timedStep t1 = new timedStep();
     t1.setDelay(2);
-    jtimer t2 = new jtimer();
+    timedStep t2 = new timedStep();
     t2.setDelay(5);
 
-    jtimer t3 = new jtimer();
+    timedStep t3 = new timedStep();
     t3.setDelay(3);
     
-    Jturn d2 = new Jturn();
+    autoTurn d2 = new autoTurn();
     d2.setAngle(90);
    
-    jdrive d1 = new jdrive();
+    autoDrive d1 = new autoDrive();
     d1.setAngle(0);
     d1.setDist(1);
     d1.setSpeed(0.3);

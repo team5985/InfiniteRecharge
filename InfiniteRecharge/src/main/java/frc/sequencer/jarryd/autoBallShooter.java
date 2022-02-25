@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
 import frc.sequencer.SequenceTransition;
 
-public class jBallShooter extends SequenceTransition{
+public class autoBallShooter extends SequenceTransition{
 
     @Override
     public void transStart() {

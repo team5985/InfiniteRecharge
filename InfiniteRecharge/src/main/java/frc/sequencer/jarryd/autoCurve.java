@@ -5,7 +5,7 @@ import frc.robot.subsystems.Drive;
 import frc.sequencer.SequenceStepIf;
 import frc.sequencer.SequenceTransition;
 
-public class jcurve extends SequenceTransition implements SequenceStepIf
+public class autoCurve extends SequenceTransition implements SequenceStepIf
 {
 
     @Override

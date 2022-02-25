@@ -3,7 +3,7 @@ package frc.sequencer.jarryd;
 import frc.robot.subsystems.Drive;
 import frc.sequencer.SequenceStepIf;
 
-public class jstop implements SequenceStepIf{
+public class autoStop implements SequenceStepIf{
 
     @Override
     public void stepStart() {

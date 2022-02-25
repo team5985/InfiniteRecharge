@@ -5,7 +5,7 @@ import frc.robot.subsystems.Shooter.ShooterState;
 import frc.sequencer.SequenceStepIf;
 import frc.sequencer.SequenceTransition;
 
-public class jshooter extends SequenceTransition implements SequenceStepIf {
+public class autoShooter extends SequenceTransition implements SequenceStepIf {
 
     @Override
     public void stepStart() {

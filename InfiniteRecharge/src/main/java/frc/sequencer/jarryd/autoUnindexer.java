@@ -4,25 +4,25 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.sequencer.SequenceStepIf;
 
-public class jIndexer implements SequenceStepIf{
+public class autoUnindexer implements SequenceStepIf{
 
     @Override
     public void stepStart() {
-        Indexer.getInstance().setDesiredState(IndexerState.INDEXING);
+        Indexer.getInstance().setDesiredState(IndexerState.UNINDEXING);   
     }
 
     @Override
     public void stepEnd() {
-        Indexer.getInstance().setDesiredState(IndexerState.IDLE);
+        Indexer.getInstance().setDesiredState(IndexerState.IDLE);        
     }
 
     @Override
-    public void stepUpdate() {       
+    public void stepUpdate() {
     }
 
     @Override
     public String stepName() {
-        return "Indexer";
+        return "Unindexer";
     }
     
 }

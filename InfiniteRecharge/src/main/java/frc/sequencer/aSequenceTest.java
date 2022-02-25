@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SequenceTest
+public class aSequenceTest
 {
     // This is a simple example of how to provide a number of
     // sequences to the SmartDashboard to be able to be chosen.

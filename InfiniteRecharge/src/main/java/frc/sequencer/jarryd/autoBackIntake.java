@@ -4,7 +4,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.sequencer.SequenceStepIf;
 
-public class jintake implements SequenceStepIf{
+public class autoBackIntake implements SequenceStepIf{
 
     @Override
     public void stepStart() {

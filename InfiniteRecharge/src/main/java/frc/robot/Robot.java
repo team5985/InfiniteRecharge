@@ -21,10 +21,10 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.Indexer.IndexerState;
 import frc.robot.subsystems.LED.DesiredColour;
 import frc.sequencer.Sequence;
-import frc.sequencer.SequenceTest;
+import frc.sequencer.aSequenceTest;
 import frc.sequencer.Sequencer;
-import frc.sequencer.jarryd.JSequenceTest;
-import frc.sequencer.jarryd.jCollisionDrive;
+import frc.sequencer.jarryd.SequenceTest;
+import frc.sequencer.jarryd.autoCollisionDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -56,8 +56,8 @@ public class Robot extends TimedRobot {
     // Note that the very first item in the list will become the
     // default selection.
     LinkedList<Sequence> seqList = new LinkedList<Sequence>();
+    seqList.addAll(aSequenceTest.getSequences());
     seqList.addAll(SequenceTest.getSequences());
-    seqList.addAll(JSequenceTest.getSequences());
     seqChooser = new SendableChooser<Sequence>();
     boolean first = true;
     for (Sequence s : seqList)
@@ -174,15 +174,16 @@ public class Robot extends TimedRobot {
  @Override
   public void teleopInit() {
     Drive.getInstance().setGameMode(Drive.gameMode.TELEOP);
+    Indexer.getInstance().setDesiredState(IndexerState.IDLE);
     RobotMap.getIndexer().setSelectedSensorPosition(9);
         comp.enableDigital();
     
     Climber.getInstance().zeroPosition();
-    jcd = new jCollisionDrive();
+    jcd = new autoCollisionDrive();
 
     jcdcount = 0;
   }
-  jCollisionDrive jcd;
+  autoCollisionDrive jcd;
   int jcdcount = 0;
 
   double maxAccel = 0;

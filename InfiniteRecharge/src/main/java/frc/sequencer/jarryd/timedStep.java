@@ -3,7 +3,7 @@ package frc.sequencer.jarryd;
 import edu.wpi.first.wpilibj.Timer;
 import frc.sequencer.SequenceTransition;
 
-public class jtimer extends SequenceTransition{
+public class timedStep extends SequenceTransition{
 
     @Override
     public void transStart() {

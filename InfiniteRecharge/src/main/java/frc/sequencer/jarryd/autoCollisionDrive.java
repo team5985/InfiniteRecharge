@@ -3,7 +3,7 @@ package frc.sequencer.jarryd;
 import frc.robot.subsystems.Drive;
 import frc.sequencer.SequenceTransition;
 
-public class jCollisionDrive extends SequenceTransition{
+public class autoCollisionDrive extends SequenceTransition{
 
     @Override
     public void transStart() {

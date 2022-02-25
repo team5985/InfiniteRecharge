@@ -4,7 +4,7 @@ import frc.robot.subsystems.Drive;
 import frc.sequencer.SequenceStepIf;
 import frc.sequencer.SequenceTransition;
 
-public class jdrive extends SequenceTransition implements SequenceStepIf{
+public class autoDrive extends SequenceTransition implements SequenceStepIf{
 
     @Override
     public void stepStart() {
